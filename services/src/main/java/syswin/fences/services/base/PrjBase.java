@@ -1,11 +1,17 @@
 package syswin.fences.services.base;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import syswin.fences.services.base.utilities.*;
+import syswin.fences.services.logging.LoggingUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
 
 public class PrjBase {
-    private final static Logger log = LogManager.getLogger(PrjBase.class.getName());
+    private final static Logger log = LoggerFactory.getLogger(PrjBase.class.getName());
 
     public static void main (String[] args) {
         init ();
@@ -31,19 +37,19 @@ public class PrjBase {
      */
     private static void init () {
         // The Logging Initialization
-        if (!LoggingUtils.init ()) {
+        if (!LoggingUtils.init()) {
             System.err.println ("Error while initializing the logging.");
             System.exit (SystemExitCodes.INIT_LOGGING.value ());
         }
 
         // The Server Initialization
-        if (!ServerUtils.init ()) {
+        if (!ServerUtils.init()) {
             System.err.println ("Error while initializing the server.");
             System.exit (SystemExitCodes.SERVER_INIT.value ());
         }
 
         // The DB Initialization
-        if (!DBUtils.init ()) {
+        if (!DBUtils.init()) {
             System.err.println ("Error while initializing the DB.");
             System.exit (SystemExitCodes.DB_INIT.value ());
         }
@@ -53,7 +59,7 @@ public class PrjBase {
      * Does the start up checks
      */
     private static void doCStartUpCheckUps () {
-        if (OpratingSystem.NONE.equals (Constants.OS)) {
+        if ( OpratingSystem.NONE.equals (Constants.OS)) {
             System.err.println ("Unknown Operating System. Closing application.");
             log.error ("Unknown Operating System. Closing application.");
             System.exit (SystemExitCodes.UNKNOWN_OS.value ());

@@ -27,11 +27,6 @@ public class LoggingUtils {
             return false;
         }
 
-        File srcFile = new File (STANDARD_LOG_CONFIG_FILE);
-        if (!srcFile.exists ()) {
-            return false;
-        }
-
         return true;
     }
 }

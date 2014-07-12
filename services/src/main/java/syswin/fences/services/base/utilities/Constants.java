@@ -10,7 +10,7 @@ public class Constants {
     public final static OpratingSystem OS                       = OpratingSystem.getOS ();
 
     public final static String         PROJECT_NAME             = "Fences Alarms";
-    public final static String         PROJECT_VERSION          = "1.0.0.3";
+    public final static String         PROJECT_VERSION          = "1.0.1.0";
     public final static String         PROJECT_HOME_FOLDER      = "project.system.home";
 
     public final static String         DEBUG_FOLDER_NAME        = "debug";

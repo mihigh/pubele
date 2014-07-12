@@ -13,3 +13,5 @@
 *.iml
 
 target
+debug
+logging
