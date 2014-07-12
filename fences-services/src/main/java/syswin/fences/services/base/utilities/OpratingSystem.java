@@ -8,6 +8,7 @@ package syswin.fences.services.base.utilities;
 public enum OpratingSystem {
     LINUX,
     WINDOWS,
+    MAC,
     NONE,
     ;
 
