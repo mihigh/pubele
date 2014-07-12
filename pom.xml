@@ -16,7 +16,8 @@
     <modules>
         <module>archetype-parent</module>
         <module>archetype-webapp</module>
-	</modules>
+        <module>services</module>
+    </modules>
 
     <!-- tomcat configurations -->
     <build>
