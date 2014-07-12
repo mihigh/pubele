@@ -48,8 +48,7 @@ public class GPRSSender {
                         continue;
                     }
 
-                    System.out.println ("Sender sending message: " + msg.getCommand());
-                    GPRSUtilities.sendCommandToGPRS(msg.getCommand());
+                    GPRSUtilities.sendCommandToGPRS(msg);
                 }
                 catch (InterruptedException e) {
                     e.printStackTrace ();

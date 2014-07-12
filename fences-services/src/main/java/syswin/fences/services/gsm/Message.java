@@ -21,7 +21,8 @@ class Message {
     private MessageDirection messageDirection = MessageDirection.NONE;
     private MessageType messageType = MessageType.NONE;
 
-    private String command = null;
+    private String message = null;
+    private String destination = null;
 
     public Message(MessageDirection messageDirection){
         if(messageDirection == null || MessageDirection.NONE.equals (messageDirection)){
@@ -60,11 +61,8 @@ class Message {
         this.messageType = MessageType.SEND_MESSAGE_TO;
         this.messageDirection = MessageDirection.OUTGOING;
 
-        this.command = GPRSCommands.SEND_MESSAGE.toString () + "\""+destination+"\"\n" + txtMsg + "\n" + GPRSCommands.CTRL_Z.toString ();
-    }
-
-    public String getCommand(){
-        return this.command;
+        this.message = txtMsg;
+        this.destination = destination;
     }
 
     public MessageDirection getDirection(){
@@ -73,6 +71,14 @@ class Message {
 
     public MessageType getType(){
         return this.messageType;
+    }
+
+    public String getDestination () {
+        return this.destination;
+    }
+
+    public String getTxtMessage () {
+        return this.message;
     }
 }
 

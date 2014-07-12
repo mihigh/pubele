@@ -190,16 +190,36 @@ public class GPRSUtilities extends Thread {
         return DEFAULT_PARITY;
     }
 
-    synchronized public static void sendCommandToGPRS(String command){
-        if(command == null || command.isEmpty ()){
-            log.error ("Invalid command.");
+    synchronized public static void sendCommandToGPRS(Message msg){
+        if(msg == null){
+            log.error ("Invalid message command.");
+        }
+
+        if(serialPort == null || !serialPort.isOpened ()){
+            log.error ("Invalid serial port.");
+            return;
         }
 
         try {
-            serialPort.writeBytes(command.getBytes ());
+            switch(msg.getType ()){
+                case SEND_MESSAGE_TO:
+                    serialPort.writeBytes((GPRSCommands.SEND_MESSAGE.toString() +"\"" +msg.getDestination()+ "\"\r\n").getBytes ());
+                    Thread.sleep (50);
+                    serialPort.writeBytes((msg.getTxtMessage ()+ "\r\n").getBytes ());
+                    Thread.sleep (50);
+                    serialPort.writeBytes(GPRSCommands.CTRL_Z.toString ().getBytes ());
+                    break;
+
+                default:
+                    break;
+            }
+
         }
         catch (SerialPortException e) {
             log.error ("Failed to send command to GPRS Modem.", e);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace ();
         }
     }
 
