@@ -10,19 +10,29 @@ class Message {
     public enum MessageDirection {
         NONE,
         OUTGOING,
-        INCOMING,;
+        INCOMING,
+        REFRESH,
+        ;
     }
 
     public enum MessageType{
         NONE,
         SEND_MESSAGE_TO,
+        INCOMING_MESSAGE,
+        SENT_NOTIFICATION,
+        READ_REQUEST,
+        ;
     }
 
     private MessageDirection messageDirection = MessageDirection.NONE;
     private MessageType messageType = MessageType.NONE;
 
+    // Used for sending a TXT message
     private String message = null;
     private String destination = null;
+
+    // Used for identifying incoming message
+    private int id = -1;
 
     public Message(MessageDirection messageDirection){
         if(messageDirection == null || MessageDirection.NONE.equals (messageDirection)){
@@ -31,6 +41,21 @@ class Message {
         }
 
         this.messageDirection = messageDirection;
+    }
+
+    public Message(MessageDirection messageDirection, MessageType messageType){
+        if(messageDirection == null || MessageDirection.NONE.equals (messageDirection)){
+            log.error ("Invalid message direction.");
+            return;
+        }
+
+        if(messageType == null || MessageDirection.NONE.equals (messageType)){
+            log.error ("Invalid message type.");
+            return;
+        }
+
+        this.messageDirection = messageDirection;
+        this.messageType = messageType;
     }
 
     /**
@@ -42,6 +67,18 @@ class Message {
         if(messageStr == null || messageStr.isEmpty () || messageDirection == null || MessageDirection.NONE.equals (messageDirection)){
             log.error ("Invalid message string or message direction.");
             return;
+        }
+
+        //System.out.println (messageStr);
+        //System.out.println (GPRSCommands.INCOMING_MESSAGE.toString ());
+        //System.out.println ();
+
+        if(messageStr.startsWith (GPRSCommands.SENT_NOTIFICATION.toString ())){
+            this.messageType = MessageType.SENT_NOTIFICATION;
+        }
+        else if(messageStr.startsWith (GPRSCommands.INCOMING_MESSAGE.toString ())){
+            this.messageType = MessageType.INCOMING_MESSAGE;
+            this.id = Integer.parseInt (messageStr.replace (GPRSCommands.INCOMING_MESSAGE.toString (), ""));
         }
 
         this.messageDirection = messageDirection;
@@ -77,8 +114,20 @@ class Message {
         return this.destination;
     }
 
-    public String getTxtMessage () {
+    public String getMessage () {
         return this.message;
+    }
+
+    public int getMessageID () {
+        return this.id;
+    }
+
+    public void setMessage(String message){
+        if(message == null || message.isEmpty ()){
+            return;
+        }
+
+        this.message = message;
     }
 }
 

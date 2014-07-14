@@ -1,11 +1,14 @@
 package syswin.fences.services.gsm;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import jssc.SerialPort;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import syswin.fences.services.base.utilities.Constants;
 
 import java.io.File;
@@ -44,6 +47,10 @@ public class GPRSUtilities extends Thread {
     // The actual RS232 Serial Port communicating with the GPRS Modem
     private static SerialPort serialPort = null;
     private static final Object SERIAL_PORT_LOCK = new Object();
+
+    // Listener lock, we don't listen to anythig if we are writing to the Serial COM
+    private static final Object SERIAL_LISTEN_LOCK = new Object();
+    private static String SERIAL_LISTEN_IGNORE = "";
 
     private final static int SECOND = 1000;
     private final static int INIT_SLEEP_TIME = 5 * SECOND;
@@ -92,6 +99,10 @@ public class GPRSUtilities extends Thread {
             return false;
         }
 
+        if(!GPRSRefresher.init ()){
+            return false;
+        }
+
         return true;
     }
 
@@ -107,10 +118,14 @@ public class GPRSUtilities extends Thread {
                 if( !openStatus){
                     return false;
                 }
-
                 Thread.sleep(INIT_SLEEP_TIME);
 
                 log.info ("Setting RS232 Port Rates executed [{}].", serialPort.setParams (baudRate, dataBits, stopBits, parity) ? "SUCCESS" : "FAIL");
+                Thread.sleep(INIT_SLEEP_TIME);
+
+                int mask = SerialPort.MASK_RXCHAR + SerialPort.MASK_CTS + SerialPort.MASK_DSR;
+                log.info ("Setting RS232 Port Rates executed [{}].", serialPort.setEventsMask (mask) ? "SUCCESS" : "FAIL");
+                //System.out.println ("Setting RS232 Port MASK executed " + (serialPort.setEventsMask (mask) ? "SUCCESS" : "FAIL"));
                 Thread.sleep(INIT_SLEEP_TIME);
 
                 serialPort.writeBytes((GPRSCommands.CHECK_ALL_OKEY.toString ()).getBytes());
@@ -130,8 +145,8 @@ public class GPRSUtilities extends Thread {
             }
         }
 
-        log.info ("The RS232 GPRS Moden initialized successfully.");
-        System.out.println ("The RS232 GPRS Moden initialized successfully.");
+        log.info ("The RS232 GPRS Modem initialized successfully.");
+        System.out.println ("The RS232 GPRS Modem initialized successfully.");
         return true;
     }
 
@@ -200,26 +215,68 @@ public class GPRSUtilities extends Thread {
             return;
         }
 
-        try {
-            switch(msg.getType ()){
-                case SEND_MESSAGE_TO:
-                    serialPort.writeBytes((GPRSCommands.SEND_MESSAGE.toString() +"\"" +msg.getDestination()+ "\"\r\n").getBytes ());
-                    Thread.sleep (50);
-                    serialPort.writeBytes((msg.getTxtMessage ()+ "\r\n").getBytes ());
-                    Thread.sleep (50);
-                    serialPort.writeBytes(GPRSCommands.CTRL_Z.toString ().getBytes ());
-                    break;
+        synchronized (SERIAL_LISTEN_LOCK) {
+            StringBuilder toBeIgnored = new StringBuilder ();
+            try {
+                switch (msg.getDirection ()) {
 
-                default:
-                    break;
+                    // OUTGOING MESSAGES
+                    case OUTGOING:
+                        switch (msg.getType ()) {
+                            case SEND_MESSAGE_TO:
+                                log.info ("Sending message \"{}\" to \"{}\"", msg.getMessage (), msg.getDestination ());
+
+                                // Send the phone number
+                                serialPort.writeBytes ((GPRSCommands.SEND_MESSAGE.toString () + "\"" + msg.getDestination () + "\"\r\n").getBytes ());
+                                toBeIgnored.append (GPRSCommands.SEND_MESSAGE.toString () + "\"" + msg.getDestination () + "\"\r\n");
+                                Thread.sleep (50);
+
+                                // Send the message
+                                serialPort.writeBytes ((msg.getMessage () + "\r\n").getBytes ());
+                                toBeIgnored.append (">" + msg.getMessage () + "\r\n");
+                                Thread.sleep (50);
+
+                                // Send the CTRL+Z to end the message
+                                serialPort.writeBytes (GPRSCommands.CTRL_Z.toString ().getBytes ());
+                                toBeIgnored.append (">");
+                                Thread.sleep (50);
+
+                                break;
+
+                            case READ_REQUEST:
+                                log.info ("Sending read message request to GPRS Modem: {}", msg.getMessage ());
+
+                                serialPort.writeBytes ((msg.getMessage () + "\r\n").getBytes ());
+                                toBeIgnored.append (msg.getMessage () + "\r\n");
+                                Thread.sleep (50);
+
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                        SERIAL_LISTEN_IGNORE = SERIAL_LISTEN_IGNORE + toBeIgnored.toString ().replaceAll ("\n", "").replaceAll ("\r", "").replaceAll (" ", "");
+                        break;
+                        // OUTGOING MESSAGES -- END
+
+                    // REFRESH MESSAGE
+                    case REFRESH:
+                        //System.out.println ("REFRESH: " + msg.getMessage ());
+                        break;
+                        // REFRESH MESSAGE -- END
+
+                    default:
+                        break;
+
+                }
             }
-
-        }
-        catch (SerialPortException e) {
-            log.error ("Failed to send command to GPRS Modem.", e);
-        }
-        catch (InterruptedException e) {
-            e.printStackTrace ();
+            catch (SerialPortException e) {
+                log.error ("Failed to send command to GPRS Modem.", e);
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace ();
+            }
         }
     }
 
@@ -233,22 +290,39 @@ public class GPRSUtilities extends Thread {
         }
 
         synchronized public void serialEvent(SerialPortEvent event) {
-            // System.out.println("Event !!!");
             if (event.isRXCHAR()) {
-                try {
-                    byte[] buffer = serialPort.readBytes(event.getEventValue());
-                    GPRSReceiver.processNewMessager (new String(buffer));
-                    //System.out.print(new String(buffer));
-                } catch (SerialPortException ex) {
-                    System.out.println(ex);
+
+                synchronized (SERIAL_LISTEN_LOCK) {
+
+                    try {
+                        Thread.sleep (50);
+                        byte[] buffer = serialPort.readBytes (event.getEventValue ());
+                        String orgMessage = new String (buffer);
+
+                        String message = orgMessage.replaceAll ("\n", "").replaceAll ("\r", "").replaceAll (" ", "");
+                        if(SERIAL_LISTEN_IGNORE.startsWith (message)){
+                            SERIAL_LISTEN_IGNORE = SERIAL_LISTEN_IGNORE.replace (message, "");
+                            return;
+                        }
+
+                        GPRSReceiver.processNewMessager (orgMessage);
+                    }
+                    catch (SerialPortException ex) {
+                        log.error ("A serial port exception occurred.", ex);
+                    }
+                    catch (InterruptedException e) {
+                        log.error ("A interruption occurred on Listener.", e);
+                    }
                 }
-            } else if (event.isCTS()) {// If CTS line has changed state
+            }
+            else if (event.isCTS()) {// If CTS line has changed state
                 if (event.getEventValue() == 1) {// If line is ON
                     System.out.println("CTS - ON");
                 } else {
                     System.out.println("CTS - OFF");
                 }
-            } else if (event.isDSR()) {// /If DSR line has changed state
+            }
+            else if (event.isDSR()) {// /If DSR line has changed state
                 if (event.getEventValue() == 1) {// If line is ON
                     System.out.println("DSR - ON");
                 } else {

@@ -35,23 +35,36 @@ public class GPRSSender {
         outgoingMessagesQueue.add (newTextMessage);
     }
 
+    /**
+     * This adds a Message class instance to the queue.
+     * @param message - Message
+     */
+    public static void addMessage(Message message){
+        outgoingMessagesQueue.add (message);
+    }
+
+    /**
+     * This thread class's scope is to consume the Messages produced in the queue.
+     */
     private final static class Sender extends Thread{
         public void run(){
-            System.out.println ("Sender started...");
+            log.info ("Sender Thread started.");
+
             while(true){
                 Message msg = null;
                 try {
                     msg = outgoingMessagesQueue.take ();
 
-                    if( !Message.MessageDirection.OUTGOING.equals (msg.getDirection ()) ||
-                         Message.MessageType.NONE.equals (msg.getType ())){
+                    // We only process OUTGOING and REFRESH messages
+                    if( !Message.MessageDirection.OUTGOING.equals (msg.getDirection ()) &&
+                        !Message.MessageDirection.REFRESH.equals (msg.getDirection ())){
                         continue;
                     }
 
                     GPRSUtilities.sendCommandToGPRS(msg);
                 }
                 catch (InterruptedException e) {
-                    e.printStackTrace ();
+                    log.error ("And error occurred in the Sender Thread while retrieving a message from the queue.");
                 }
             }
         }

@@ -36,7 +36,7 @@ public class PrjBase {
         saveStartUpLog ();
 
         try {
-            //GPRSSender.sendMessageTo ("Pune mana si munceste !", "0730432772");
+            //GPRSSender.sendMessageTo ("Server", "0722481227");
         }
         catch (Exception projectError) {
             System.err.println ("CRITICAL ERROR: " + projectError);
