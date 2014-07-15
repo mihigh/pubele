@@ -1,10 +1,7 @@
 package syswin.fences.services.gsm;
 
 import com.sun.org.apache.xpath.internal.SourceTree;
-import jssc.SerialPort;
-import jssc.SerialPortEvent;
-import jssc.SerialPortEventListener;
-import jssc.SerialPortException;
+import jssc.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +51,9 @@ public class GPRSUtilities extends Thread {
 
     private final static int SECOND = 1000;
     private final static int INIT_SLEEP_TIME = 5 * SECOND;
+
+    private final static int ECHO_WAIT_TIME = 2000;
+    private final static int RX_READ_TIMEOUT = 2000;
 
     synchronized public static boolean init (){
 
@@ -228,27 +228,29 @@ public class GPRSUtilities extends Thread {
 
                                 // Send the phone number
                                 serialPort.writeBytes ((GPRSCommands.SEND_MESSAGE.toString () + "\"" + msg.getDestination () + "\"\r\n").getBytes ());
-                                toBeIgnored.append (GPRSCommands.SEND_MESSAGE.toString () + "\"" + msg.getDestination () + "\"\r\n");
-                                Thread.sleep (50);
+                                serialPort.readString ((GPRSCommands.SEND_MESSAGE.toString () + "\"" + msg.getDestination () + "\"\r\n").getBytes ().length, ECHO_WAIT_TIME);
+                                //System.out.println ("1\'" + serialPort.readString ((GPRSCommands.SEND_MESSAGE.toString () + "\"" + msg.getDestination () + "\"\r\n").getBytes ().length, ECHO_WAIT_TIME) + "\'");
 
                                 // Send the message
                                 serialPort.writeBytes ((msg.getMessage () + "\r\n").getBytes ());
-                                toBeIgnored.append (">" + msg.getMessage () + "\r\n");
-                                Thread.sleep (50);
+                                serialPort.readString (("> " + msg.getMessage () + "\r\n").getBytes ().length, ECHO_WAIT_TIME);
+                                //System.out.println ("2\'" + serialPort.readString (("> " + msg.getMessage () + "\r\n").getBytes ().length, ECHO_WAIT_TIME) + "\'");
 
                                 // Send the CTRL+Z to end the message
                                 serialPort.writeBytes (GPRSCommands.CTRL_Z.toString ().getBytes ());
-                                toBeIgnored.append (">");
-                                Thread.sleep (50);
+                                serialPort.readString (("> \r\n").getBytes ().length, ECHO_WAIT_TIME);
+                                //System.out.println ("3\'" + serialPort.readString (("> \r\n").getBytes ().length, ECHO_WAIT_TIME) + "\'");
 
+                                serialPort.readString (("> \r\n").getBytes ().length);
+                                //System.out.println ("4\'" + serialPort.readString (("> \r\n").getBytes ().length) + "\'");
                                 break;
 
                             case READ_REQUEST:
                                 log.info ("Sending read message request to GPRS Modem: {}", msg.getMessage ());
 
                                 serialPort.writeBytes ((msg.getMessage () + "\r\n").getBytes ());
-                                toBeIgnored.append (msg.getMessage () + "\r\n");
-                                Thread.sleep (50);
+                                //toBeIgnored.append (msg.getMessage () + "\r\n");
+                                serialPort.readBytes ((msg.getMessage () + "\r\n").getBytes ().length, ECHO_WAIT_TIME);
 
                                 break;
 
@@ -274,9 +276,16 @@ public class GPRSUtilities extends Thread {
             catch (SerialPortException e) {
                 log.error ("Failed to send command to GPRS Modem.", e);
             }
-            catch (InterruptedException e) {
+            catch (SerialPortTimeoutException e) {
                 e.printStackTrace ();
             }
+        }
+
+        try {
+            Thread.sleep (2000);
+        }
+        catch (InterruptedException e) {
+            log.error ("Error occurred while waiting for message to be sent.");
         }
     }
 
@@ -296,22 +305,19 @@ public class GPRSUtilities extends Thread {
 
                     try {
                         Thread.sleep (50);
-                        byte[] buffer = serialPort.readBytes (event.getEventValue ());
-                        String orgMessage = new String (buffer);
+                        byte[] buffer = serialPort.readBytes (event.getEventValue (), RX_READ_TIMEOUT);
+                        String origMessage = new String (buffer);
 
-                        String message = orgMessage.replaceAll ("\n", "").replaceAll ("\r", "").replaceAll (" ", "");
-                        if(SERIAL_LISTEN_IGNORE.startsWith (message)){
-                            SERIAL_LISTEN_IGNORE = SERIAL_LISTEN_IGNORE.replace (message, "");
-                            return;
-                        }
-
-                        GPRSReceiver.processNewMessager (orgMessage);
+                        GPRSReceiver.processNewMessager (origMessage);
                     }
                     catch (SerialPortException ex) {
                         log.error ("A serial port exception occurred.", ex);
                     }
                     catch (InterruptedException e) {
                         log.error ("A interruption occurred on Listener.", e);
+                    }
+                    catch (SerialPortTimeoutException e) {
+                        e.printStackTrace ();
                     }
                 }
             }

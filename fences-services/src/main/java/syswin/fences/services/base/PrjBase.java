@@ -36,7 +36,10 @@ public class PrjBase {
         saveStartUpLog ();
 
         try {
-            //GPRSSender.sendMessageTo ("Server", "0722481227");
+            /*GPRSSender.sendMessageTo ("Server1", "0722481227");
+            GPRSSender.sendMessageTo ("Server2", "0722481227");
+            GPRSSender.sendMessageTo ("Server3", "0722481227");
+            GPRSSender.sendMessageTo ("Server4", "0722481227");*/
         }
         catch (Exception projectError) {
             System.err.println ("CRITICAL ERROR: " + projectError);

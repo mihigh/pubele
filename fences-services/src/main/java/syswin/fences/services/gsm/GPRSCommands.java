@@ -3,6 +3,9 @@ package syswin.fences.services.gsm;
 public enum GPRSCommands {
     ENTER ("\r\n"),
 
+    OK ("OK"),
+    ERROR ("ERROR"),
+
     AT ("AT"),
     CHECK_ALL_OKEY ("AT" + ENTER.toString ()),
 
@@ -13,6 +16,7 @@ public enum GPRSCommands {
     INCOMING_MESSAGE ("+CMTI:\"SM\","),
 
     READ_REQUEST ("AT+CMGR="),
+    READ_REQUEST_RESPONSE ("+CMGR:"),
 
     DELETE_SELECTED ("AT+CMGD="),
     DELETE_READ ("AT+CMGD=1,1"),

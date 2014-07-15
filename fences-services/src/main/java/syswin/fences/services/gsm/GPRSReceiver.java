@@ -36,12 +36,13 @@ public class GPRSReceiver {
         log.info ("The number of Receiver Workers that started SUCCESSFULLY is {}. Number of start fails equals {}.", (NUMBER_OF_WORKERS - failCounter), failCounter);
     }
 
+    private static String incompleteMessage = "";
     /**
      * Given a String containing the message received from the GPRS Modem,
      * it creates a Message class instance and adds it to the imcomingMessagesQueue.
      * @param message - String
      */
-    protected static void processNewMessager (String message){
+    synchronized protected static void processNewMessager (String message){
         if(message == null && message.isEmpty ()){
             log.error ("Can not process and invalid message: {}", message);
             return;
@@ -53,7 +54,11 @@ public class GPRSReceiver {
             return;
         }
 
-        Message newMessage = new Message (message, Message.MessageDirection.INCOMING);
+        String composedMessage = incompleteMessage + message;
+        System.out.println ("message: " + message);
+        System.out.println ("composedMessage: " + composedMessage);
+        System.out.println ();
+        Message newMessage = new Message (composedMessage, Message.MessageDirection.INCOMING);
 
         switch(newMessage.getType ()){
             case SENT_NOTIFICATION:
@@ -71,12 +76,27 @@ public class GPRSReceiver {
                 GPRSSender.addMessage (requestReadMsg);
                 break;
 
+            case INCOMPLETE:
+                incompleteMessage = incompleteMessage + message;
+                return;
+
+            case PARENT_MESSAGE:
+                System.out.println ("Got Parent message: " + newMessage.getMessage ());
+                //incomingMessagesQueue.add (newMessage);
+                System.out.println ("-----------------------------------------------");
+                System.out.println ();
+                break;
+
+            case GRANDPARENT_MESSAGE:
+                System.out.println ("Got Grand Parent message: " + newMessage.getMessage ());
+                //incomingMessagesQueue.add (newMessage);
+                break;
+
             default:
-                System.out.println ("Got message: " + message);
                 log.error ("Something not good...");
                 break;
         }
-        //incomingMessagesQueue.add (newMessage);
+        incompleteMessage = "";
     }
 }
 
