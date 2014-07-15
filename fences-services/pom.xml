@@ -18,6 +18,12 @@
 
 
     <dependencies>
+        <dependency>
+            <groupId>org.syswin.fences</groupId>
+            <artifactId>fences-repository</artifactId>
+            <version>v1.0-SNAPSHOT</version>
+        </dependency>
+
         <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>

@@ -17,7 +17,8 @@
         <module>fences-services</module>
         <module>fences-parent</module>
         <module>fences-webapp</module>
-	</modules>
+        <module>fences-repository</module>
+    </modules>
 
     <!-- tomcat configurations -->
     <build>
