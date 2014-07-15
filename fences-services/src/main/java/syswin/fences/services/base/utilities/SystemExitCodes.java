@@ -13,6 +13,7 @@ public enum SystemExitCodes {
     INIT_LOGGING (-200),
     SERVER_INIT (-210),
     DB_INIT (-220),
+    GPRS_INIT (-230),
     
     ;
 

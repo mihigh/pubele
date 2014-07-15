@@ -8,6 +8,8 @@ import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import syswin.fences.services.base.utilities.*;
+import syswin.fences.services.gsm.GPRSSender;
+import syswin.fences.services.gsm.GPRSUtilities;
 import syswin.fences.services.logging.LoggingUtils;
 
 import java.io.File;
@@ -34,7 +36,7 @@ public class PrjBase {
         saveStartUpLog ();
 
         try {
-
+            //GPRSSender.sendMessageTo ("Server", "0722481227");
         }
         catch (Exception projectError) {
             System.err.println ("CRITICAL ERROR: " + projectError);
@@ -64,6 +66,12 @@ public class PrjBase {
             System.err.println ("Error while initializing the DB.");
             System.exit (SystemExitCodes.DB_INIT.value ());
         }
+
+        // The GSM GPRS Initialization
+        if (!GPRSUtilities.init ()) {
+            System.err.println ("Error while initializing the GSM GPRS Modem.");
+            System.exit (SystemExitCodes.GPRS_INIT.value ());
+        }
     }
 
     /**
@@ -76,9 +84,9 @@ public class PrjBase {
             System.exit (SystemExitCodes.UNKNOWN_OS.value ());
         }
 
-        String projectHomeFolter = System.getProperty (Constants.PROJECT_HOME_FOLDER);
-        if (projectHomeFolter == null || projectHomeFolter.isEmpty ()) {
-            System.err.println ("Unknown Operating System. Closing application.");
+        String projectHomeFolder = System.getProperty (Constants.PROJECT_HOME_FOLDER);
+        if (projectHomeFolder == null || projectHomeFolder.isEmpty ()) {
+            System.err.println ("Unknown Project Path. Closing application.");
             log.error ("Unknown Project Path. Closing application.");
             System.exit (SystemExitCodes.UNKNOWN_PROJECT_PATH.value ());
         }
