@@ -1,0 +1,20 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+        >
+    <ui:style src="Login.css"/>
+    <g:HTMLPanel>
+        <div class="container">
+            <form class="{style.form-signin}" role="form">
+                <h2 class="{style.form-signin-heading}">Please sign in</h2>
+                <input type="email" ui:field="username" class="{style.form-control}" placeholder="Email address"/>
+                <input type="password" ui:field="password" class="{style.form-control}" placeholder="Password"/>
+                <div class="{style.checkbox}">
+                    <label>
+                        <input type="checkbox" value="remember-me"/>Remember me
+                    </label>
+                </div>
+                <g:Button addStyleNames="btn btn-lg btn-primary btn-block" ui:field="login">Sign in</g:Button>
+            </form>
+        </div>
+    </g:HTMLPanel>
+</ui:UiBinder>

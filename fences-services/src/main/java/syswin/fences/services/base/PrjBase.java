@@ -24,16 +24,17 @@ import syswin.fences.services.base.utilities.SystemExitCodes;
 import syswin.fences.services.logging.LoggingUtils;
 
 public class PrjBase {
+
     private final static Logger log = LoggerFactory.getLogger(PrjBase.class.getName());
 
-    public static void main (String[] args) {
-        init ();
+    public static void main(String[] args) {
+        init();
 
-        doCStartUpCheckUps ();
+        doCStartUpCheckUps();
 
-        printStartUp ();
+        printStartUp();
 
-        saveStartUpLog ();
+        saveStartUpLog();
 
         try {
             /*GPRSSender.sendMessageTo ("Server1", "0722481227");
@@ -51,23 +52,23 @@ public class PrjBase {
     /**
      * Initialize the server.
      */
-    private static void init () {
+    private static void init() {
         // The Logging Initialization
         if (!LoggingUtils.init()) {
-            System.err.println ("Error while initializing the logging.");
-            System.exit (SystemExitCodes.INIT_LOGGING.value ());
+            System.err.println("Error while initializing the logging.");
+            System.exit(SystemExitCodes.INIT_LOGGING.value());
         }
 
         // The Server Initialization
         if (!ServerUtils.init()) {
-            System.err.println ("Error while initializing the server.");
-            System.exit (SystemExitCodes.SERVER_INIT.value ());
+            System.err.println("Error while initializing the server.");
+            System.exit(SystemExitCodes.SERVER_INIT.value());
         }
 
         // The DB Initialization
         if (!DBUtils.init()) {
-            System.err.println ("Error while initializing the DB.");
-            System.exit (SystemExitCodes.DB_INIT.value ());
+            System.err.println("Error while initializing the DB.");
+            System.exit(SystemExitCodes.DB_INIT.value());
         }
 
         // The GSM GPRS Initialization
@@ -80,11 +81,11 @@ public class PrjBase {
     /**
      * Does the start up checks
      */
-    private static void doCStartUpCheckUps () {
-        if ( OpratingSystem.NONE.equals (Constants.OS)) {
-            System.err.println ("Unknown Operating System. Closing application.");
-            log.error ("Unknown Operating System. Closing application.");
-            System.exit (SystemExitCodes.UNKNOWN_OS.value ());
+    private static void doCStartUpCheckUps() {
+        if (OpratingSystem.NONE.equals(Constants.OS)) {
+            System.err.println("Unknown Operating System. Closing application.");
+            log.error("Unknown Operating System. Closing application.");
+            System.exit(SystemExitCodes.UNKNOWN_OS.value());
         }
 
         String projectHomeFolder = System.getProperty (Constants.PROJECT_HOME_FOLDER);
@@ -94,44 +95,43 @@ public class PrjBase {
             System.exit (SystemExitCodes.UNKNOWN_PROJECT_PATH.value ());
         }
 
-        String dbDir = System.getProperty (Constants.DB_SYSTEM_PROPERTY);
-        if (dbDir == null || dbDir.isEmpty ()) {
-            System.err.println ("Unknown DB Folder. Closing application.");
-            log.error ("Unknown DB Folder. Closing application.");
-            System.exit (SystemExitCodes.UNKNOWN_DB_FOLDER.value ());
+        String dbDir = System.getProperty(Constants.DB_SYSTEM_PROPERTY);
+        if (dbDir == null || dbDir.isEmpty()) {
+            System.err.println("Unknown DB Folder. Closing application.");
+            log.error("Unknown DB Folder. Closing application.");
+            System.exit(SystemExitCodes.UNKNOWN_DB_FOLDER.value());
         }
     }
 
     /**
      * Saves the System Properties of the current machine.
      */
-    private static void saveStartUpLog () {
+    private static void saveStartUpLog() {
         try {
             File startUpLogFolder = new File(Constants.DEBUG_FOLDER_NAME);
-            File startUpLogFile = new File (startUpLogFolder + "/" + Constants.DEBUG_FILE_NAME);
-            FileUtils.forceMkdir (startUpLogFolder);
-            PrintStream ps = new PrintStream (startUpLogFile);
+            File startUpLogFile = new File(startUpLogFolder + "/" + Constants.DEBUG_FILE_NAME);
+            FileUtils.forceMkdir(startUpLogFolder);
+            PrintStream ps = new PrintStream(startUpLogFile);
 
-            System.getProperties ().list (ps);
-        }
-        catch (IOException e) {
-            e.printStackTrace ();
+            System.getProperties().list(ps);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     /**
      * Prints the 1st steps of the start up.
      */
-    private static void printStartUp () {
-        System.out.println ("Starting...");
-        System.out.println ("Project: " + Constants.PROJECT_NAME);
-        System.out.println ("Project version: " + Constants.PROJECT_VERSION);
-        System.out.println ("Operating system: " + Constants.OS);
-        System.out.println ("Project Path: " + System.getProperty (Constants.PROJECT_HOME_FOLDER));
-        System.out.println ("Project DataBase Path: " + System.getProperty (Constants.DB_SYSTEM_PROPERTY));
+    private static void printStartUp() {
+        System.out.println("Starting...");
+        System.out.println("Project: " + Constants.PROJECT_NAME);
+        System.out.println("Project version: " + Constants.PROJECT_VERSION);
+        System.out.println("Operating system: " + Constants.OS);
+        System.out.println("Project Path: " + System.getProperty(Constants.PROJECT_HOME_FOLDER));
+        System.out.println("Project DataBase Path: " + System.getProperty(Constants.DB_SYSTEM_PROPERTY));
 
-        System.out.println ("\n-----------------------------------");
-        System.out.println ("|      STARTING APPLICATION       |");
-        System.out.println ("-----------------------------------\n");
+        System.out.println("\n-----------------------------------");
+        System.out.println("|      STARTING APPLICATION       |");
+        System.out.println("-----------------------------------\n");
     }
 }

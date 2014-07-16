@@ -14,9 +14,12 @@
     </properties>
 
     <modules>
-        <module>fences-services</module>
         <module>fences-parent</module>
+        <module>fences-core</module>
+        <module>fences-services</module>
+        <module>fences-client</module>
         <module>fences-webapp</module>
+
         <module>fences-repository</module>
     </modules>
 
