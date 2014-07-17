@@ -7,21 +7,16 @@ import java.io.PrintStream;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import syswin.fences.services.base.utilities.*;
 import syswin.fences.services.gsm.GPRSSender;
 import syswin.fences.services.gsm.GPRSUtilities;
 import syswin.fences.services.logging.LoggingUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
 
 import syswin.fences.services.base.utilities.Constants;
 import syswin.fences.services.base.utilities.DBUtils;
 import syswin.fences.services.base.utilities.OpratingSystem;
 import syswin.fences.services.base.utilities.ServerUtils;
 import syswin.fences.services.base.utilities.SystemExitCodes;
-import syswin.fences.services.logging.LoggingUtils;
 
 public class PrjBase {
 
@@ -72,10 +67,10 @@ public class PrjBase {
         }
 
         // The GSM GPRS Initialization
-        if (!GPRSUtilities.init ()) {
+        /*if (!GPRSUtilities.init ()) {
             System.err.println ("Error while initializing the GSM GPRS Modem.");
             System.exit (SystemExitCodes.GPRS_INIT.value ());
-        }
+        }*/
     }
 
     /**

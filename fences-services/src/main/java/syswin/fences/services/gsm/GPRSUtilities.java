@@ -254,6 +254,14 @@ public class GPRSUtilities extends Thread {
 
                                 break;
 
+                            case DELETE_SELECTED:
+                                serialPort.writeBytes ((msg.getMessage () + "\r\n").getBytes ());
+                                serialPort.readBytes ((msg.getMessage () + "\r\n").getBytes ().length, ECHO_WAIT_TIME);
+                                serialPort.readBytes ((GPRSCommands.AT.toString () + "\r\n").getBytes ().length, ECHO_WAIT_TIME);
+
+                                GPRSReceiver.unlockReadIncomingMessages ();
+                                break;
+
                             default:
                                 break;
                         }

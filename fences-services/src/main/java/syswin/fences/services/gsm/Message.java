@@ -23,6 +23,7 @@ class Message {
         INCOMING_MESSAGE,
         SENT_NOTIFICATION,
         READ_REQUEST,
+        DELETE_SELECTED,
         PARENT_MESSAGE,
         GRANDPARENT_MESSAGE,
         INCOMPLETE,
