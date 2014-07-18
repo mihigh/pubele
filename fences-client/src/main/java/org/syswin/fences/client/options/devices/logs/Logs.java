@@ -4,12 +4,11 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
-import org.syswin.fences.client.navigation.Page;
 
 /**
  * The LOGS web page tab.
  */
-public class Logs extends Page {
+public class Logs extends Composite {
 
     interface Binder extends UiBinder<Widget, Logs> {
     }

@@ -8,9 +8,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 import org.syswin.fences.client.login.Login;
-import org.syswin.fences.client.navigation.Page;
 
-public class User extends Page {
+public class User extends Composite {
 
     interface Binder extends UiBinder<Widget, User> {
     }
@@ -24,7 +23,6 @@ public class User extends Page {
 
     @UiField
     public Label username;
-
 
     @Override
     protected void onLoad() {

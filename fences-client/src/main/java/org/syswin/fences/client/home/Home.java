@@ -11,9 +11,8 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
 import org.syswin.fences.client.login.Login;
-import org.syswin.fences.client.navigation.Page;
 
-public class Home extends Page {
+public class Home extends Composite {
 
     interface Binder extends UiBinder<Widget, Home> {
 

@@ -4,13 +4,13 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import org.fusesource.restygwt.client.Defaults;
 import org.syswin.fences.client.home.Home;
 import org.syswin.fences.client.login.Login;
 import org.syswin.fences.client.navigation.Navigation;
-import org.syswin.fences.client.navigation.Page;
 import org.syswin.fences.client.session.Session;
 import org.syswin.fences.client.user.User;
 
@@ -48,7 +48,8 @@ public class App implements EntryPoint {
             return;
         }*/
 
-        Page page;
+        //rootPanel.add(Login.instance);
+        Composite page;
         if( (page = Navigation.getInstance(token)) == null){
             rootPanel.add(Login.instance);
         }

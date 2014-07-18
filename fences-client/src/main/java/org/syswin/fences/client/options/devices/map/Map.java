@@ -4,12 +4,11 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
-import org.syswin.fences.client.navigation.Page;
 
 /**
  * The MAP web page tab.
  */
-public class Map extends Page {
+public class Map extends Composite {
 
     interface Binder extends UiBinder<Widget, Map> {
     }
