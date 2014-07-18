@@ -1,42 +1,48 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.syswin.fences</groupId>
-        <artifactId>fences-services-parent</artifactId>
+        <artifactId>fences-parent</artifactId>
         <version>v1.0-SNAPSHOT</version>
         <relativePath>../fences-parent</relativePath>
     </parent>
 
-    <artifactId>fences-services-webapp</artifactId>
+    <artifactId>fences-webapp</artifactId>
     <packaging>war</packaging>
     <name>Fences Services :: Webapp Module</name>
 
 
 
+    <properties>
+        <gwt.version>2.5.0</gwt.version>
+        <slf4j.version>1.6.6</slf4j.version>
+        <jersey.version>1.13</jersey.version>
+        <asm.version>3.3.1</asm.version>
+        <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jersey.version>2.8</jersey.version>
+    </properties>
 
     <dependencies>
+        <!-- Project modules-->
         <dependency>
             <groupId>org.syswin.fences</groupId>
             <artifactId>fences-services</artifactId>
             <version>v1.0-SNAPSHOT</version>
         </dependency>
-
-
-        <!-- Spring -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fences-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fences-client</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
-        <!--Jersey-->
-        <dependency>
-            <groupId>org.glassfish.jersey.ext</groupId>
-            <artifactId>jersey-spring3</artifactId>
-        </dependency>
 
         <!-- Spring -->
         <dependency>
@@ -64,6 +70,7 @@
             <artifactId>spring-integration-http</artifactId>
             <version>${springIntegration.version}</version>
         </dependency>
+
 
         <!--Jersey-->
         <dependency>
@@ -131,50 +138,174 @@
             <version>3.1.0</version>
         </dependency>
 
-        <!-- Injection -->
+
         <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-            <version>1</version>
+            <groupId>asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>${asm.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+            <version>${gwt.version}</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.validation</groupId>
+                    <artifactId>validation-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+        <!-- AOP -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.8.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.8.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.google.gwt.inject</groupId>
+            <artifactId>gin</artifactId>
+            <version>2.1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.gwtbootstrap</groupId>
+            <artifactId>gwt-bootstrap</artifactId>
+            <version>2.3.2.0</version>
+        </dependency>
+
+
     </dependencies>
 
 
     <build>
+        <!-- Generate compiled stuff in the folder used for developing mode -->
+        <outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
 
         <resources>
             <resource>
-                <directory>src/main/webapp/WEB-INF</directory>
+                <directory>src/main/resources</directory>
             </resource>
         </resources>
 
         <plugins>
+            <!-- GWT Maven Plugin -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${surefire.version}</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <version>2.5.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>resources</goal>
+                            <goal>test</goal>
+                            <!-- activate this to generate i18n messages -->
+                            <!-- <goal>i18n</goal> -->
+                            <!-- activate this to generate async rpc services -->
+                            <!-- <goal>generateAsync</goal> -->
+                        </goals>
+                    </execution>
+                </executions>
+                <!-- Plugin configuration. There are many available options, see gwt-maven-plugin
+                        documentation at codehaus.org -->
                 <configuration>
-                    <skipTests>${skipTests}</skipTests>
-                    <properties>
-                        <landscape>dev</landscape>
-                    </properties>
+                    <generateDirectory>${basedir}/../fences-client/src/gen/java</generateDirectory>
+                    <rpcPattern>../rpc/{0}</rpcPattern>
+                    <runTarget>App.html</runTarget>
+                    <hostedWebapp>/</hostedWebapp>
                 </configuration>
             </plugin>
+
+            <!-- Copy static web files before executing gwt:run -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>exploded</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
-                    <archive>
-                        <manifestEntries>
-                            <Service-Build-Time>${maven.build.timestamp}</Service-Build-Time>
-                            <Service-Version>${project.version}</Service-Version>
-                            <Service-Hash>${buildNumber}</Service-Hash>
-                        </manifestEntries>
-                    </archive>
-                    <attachClasses>true</attachClasses>
+                    <webappDirectory>${webappDirectory}</webappDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <compilerArgument>-Xlint:all</compilerArgument>
+                    <encoding>UTF-8</encoding>
+                    <showDeprecation>true</showDeprecation>
+                    <showWarnings>true</showWarnings>
                 </configuration>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <!--This plugin's configuration is used to store Eclipse m2e settings
+                        only. It has no influence on the Maven build itself. -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>
+                                            org.codehaus.mojo
+                                        </groupId>
+                                        <artifactId>
+                                            gwt-maven-plugin
+                                        </artifactId>
+                                        <versionRange>
+                                            [2.4.0,)
+                                        </versionRange>
+                                        <goals>
+                                            <goal>generateAsync</goal>
+                                            <goal>i18n</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
+
 
 </project>

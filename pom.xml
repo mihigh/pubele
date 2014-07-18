@@ -7,16 +7,19 @@
     <artifactId>fences-services-super-pom</artifactId>
     <version>v1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Fences Services</name>
+    <name>Fences Services :: Project Module</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <modules>
-        <module>fences-services</module>
         <module>fences-parent</module>
+        <module>fences-core</module>
+        <module>fences-services</module>
+        <module>fences-client</module>
         <module>fences-webapp</module>
+
         <module>fences-repository</module>
     </modules>
 

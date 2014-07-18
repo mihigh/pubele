@@ -3,6 +3,8 @@ package syswin.fences.services.gsm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Date;
+
 class Message {
 
     private final static Logger log = LoggerFactory.getLogger (Message.class.getName ());
@@ -21,21 +23,30 @@ class Message {
         INCOMING_MESSAGE,
         SENT_NOTIFICATION,
         READ_REQUEST,
+        DELETE_SELECTED,
+        PARENT_MESSAGE,
+        GRANDPARENT_MESSAGE,
+        INCOMPLETE,
         ;
     }
 
     private MessageDirection messageDirection = MessageDirection.NONE;
-    private MessageType messageType = MessageType.NONE;
+    private MessageType      messageType      = MessageType.NONE;
 
     // Used for sending a TXT message
-    private String message = null;
+    private String message     = null;
     private String destination = null;
 
     // Used for identifying incoming message
     private int id = -1;
 
-    public Message(MessageDirection messageDirection){
-        if(messageDirection == null || MessageDirection.NONE.equals (messageDirection)){
+    // Used for messages that come from the Parents / Grandparents
+    Date gprsDate = null;
+    Date serverDate = null;
+    String sender = null;
+
+    public Message (MessageDirection messageDirection) {
+        if (messageDirection == null || MessageDirection.NONE.equals (messageDirection)) {
             log.error ("Invalid message direction.");
             return;
         }
@@ -43,8 +54,8 @@ class Message {
         this.messageDirection = messageDirection;
     }
 
-    public Message(MessageDirection messageDirection, MessageType messageType){
-        if(messageDirection == null || MessageDirection.NONE.equals (messageDirection)){
+    public Message (MessageDirection messageDirection, MessageType messageType) {
+        if (messageDirection == null || MessageDirection.NONE.equals (messageDirection)) {
             log.error ("Invalid message direction.");
             return;
         }
@@ -73,12 +84,38 @@ class Message {
         //System.out.println (GPRSCommands.INCOMING_MESSAGE.toString ());
         //System.out.println ();
 
-        if(messageStr.startsWith (GPRSCommands.SENT_NOTIFICATION.toString ())){
+        if(messageStr.startsWith (GPRSCommands.SENT_NOTIFICATION.toString ()) &&
+           messageStr.endsWith (GPRSCommands.OK.toString ())){
             this.messageType = MessageType.SENT_NOTIFICATION;
         }
-        else if(messageStr.startsWith (GPRSCommands.INCOMING_MESSAGE.toString ())){
+        else if(messageStr.startsWith (GPRSCommands.INCOMING_MESSAGE.toString ()) &&
+                (messageStr.length () > GPRSCommands.INCOMING_MESSAGE.toString ().length ())){
             this.messageType = MessageType.INCOMING_MESSAGE;
             this.id = Integer.parseInt (messageStr.replace (GPRSCommands.INCOMING_MESSAGE.toString (), ""));
+        }
+        else if(messageStr.startsWith (GPRSCommands.READ_REQUEST_RESPONSE.toString ()) &&
+                messageStr.endsWith (GPRSCommands.OK.toString ())){
+            String[] splitMsg = messageStr.replace (GPRSCommands.READ_REQUEST_RESPONSE.toString (), "").split (",");
+            String statusOfMsg = splitMsg[0];
+            String senderNumber = splitMsg[1];
+            String nickName = splitMsg[2];
+            String date = splitMsg[3];
+            String hour = splitMsg[4].split ("\"")[0];
+            String message = splitMsg[4].split ("\"")[1];
+            message = message.substring (0, message.length ()-2);
+
+            /*System.out.println ("Message Status: " + statusOfMsg);
+            System.out.println ("Sender Number: " + senderNumber);
+            System.out.println ("Nick Name: " +nickName);
+            System.out.println ("Date: " + date);
+            System.out.println ("Hour: " + hour);
+            System.out.println ("Message: "+message);*/
+
+            this.message = message;
+            this.messageType = MessageType.PARENT_MESSAGE;
+        }
+        else{
+            this.messageType = MessageType.INCOMPLETE;
         }
 
         this.messageDirection = messageDirection;

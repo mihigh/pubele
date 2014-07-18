@@ -10,7 +10,7 @@
         <relativePath>../</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>fences-services-parent</artifactId>
+    <artifactId>fences-parent</artifactId>
     <packaging>pom</packaging>
     <name>Fences Services :: Base Module</name>
 
@@ -27,8 +27,8 @@
         <surefire.version>2.16</surefire.version>
         <jersey.version>2.8</jersey.version>
         <jackson.version>2.3.3</jackson.version>
-        <log4j.version>1.2.17</log4j.version>
         <slf4j.version>1.7.7</slf4j.version>
+        <log4j.version>1.2.17</log4j.version>
 
         <!--build variables-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -36,17 +36,17 @@
 
 
     <dependencies>
-        <!-- AOP -->
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <version>1.8.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
-            <version>1.8.0</version>
-        </dependency>
+        <!--&lt;!&ndash; AOP &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.aspectj</groupId>-->
+            <!--<artifactId>aspectjrt</artifactId>-->
+            <!--<version>1.8.0</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.aspectj</groupId>-->
+            <!--<artifactId>aspectjweaver</artifactId>-->
+            <!--<version>1.8.0</version>-->
+        <!--</dependency>-->
     </dependencies>
 
 
