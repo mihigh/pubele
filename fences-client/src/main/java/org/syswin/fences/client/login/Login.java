@@ -13,11 +13,12 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
+import org.syswin.fences.client.navigation.Page;
 import org.syswin.fences.client.session.Session;
 import org.syswin.fences.client.session.SessionDetails;
 import org.syswin.fences.client.user.User;
 
-public class Login extends Composite {
+public class Login extends Page {
 
     interface Binder extends UiBinder<Widget, Login> {
 

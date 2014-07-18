@@ -1,4 +1,4 @@
-package org.syswin.fences.client;
+package org.syswin.fences.client.remote;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -14,7 +14,7 @@ import org.fusesource.restygwt.client.MethodCallback;
 import org.syswin.fences.client.remote.PersonResourceAsync;
 import org.syswin.fences.core.User;
 
-public class Table implements EntryPoint {
+public class RESTExample implements EntryPoint {
 
     public static final String TOKEN = "login";
     private FlexTable personsTable;

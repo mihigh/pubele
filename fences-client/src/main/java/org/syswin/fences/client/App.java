@@ -9,6 +9,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import org.fusesource.restygwt.client.Defaults;
 import org.syswin.fences.client.home.Home;
 import org.syswin.fences.client.login.Login;
+import org.syswin.fences.client.navigation.Navigation;
+import org.syswin.fences.client.navigation.Page;
 import org.syswin.fences.client.session.Session;
 import org.syswin.fences.client.user.User;
 
@@ -27,7 +29,7 @@ public class App implements EntryPoint {
                 navigate(event.getValue());
             } // onValueChange
         });
-        if (token == null || token.length() == 0) {
+        if (token == null || token.isEmpty()) {
             History.newItem(Login.TOKEN); // no token
         } else {
             navigate(token); // restore app state
@@ -40,24 +42,20 @@ public class App implements EntryPoint {
             rootPanel.clear(); // clear the page
         }
 
-        if (Session.instance.getSessionDetails() == null) {
+        /*if (Session.instance.getSessionDetails() == null) {
             History.newItem(Login.TOKEN);
             rootPanel.add(Login.instance);
             return;
-        }
+        }*/
 
-        if (Login.TOKEN.equals(token)) {
+        Page page;
+        if( (page = Navigation.getInstance(token)) == null){
             rootPanel.add(Login.instance);
-            return;
         }
-        if (User.TOKEN.equals(token)) {
-            rootPanel.add(User.instance);
-            return;
+        else{
+            rootPanel.add(page);
         }
 
-
-
-        rootPanel.add(Home.instance);
 //          page.setAuthenticated(true);
 //          page.setUsername(email);
 

@@ -8,10 +8,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 import org.syswin.fences.client.login.Login;
+import org.syswin.fences.client.navigation.Page;
 
-public class User extends Composite {
-
-    public static User instances = new User();
+public class User extends Page {
 
     interface Binder extends UiBinder<Widget, User> {
     }
