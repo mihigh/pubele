@@ -10,15 +10,21 @@ download derby
 export DERBY_INSTALL=/Users/baduna/personal/pubele/db/db-derby-10.10.2.0-bin
 export DERBY_HOME=/Users/baduna/personal/pubele/db/db-derby-10.10.2.0-bin
 export CLASSPATH=$DERBY_INSTALL/lib/derby.jar:$DERBY_INSTALL/lib/derbytools.jar:$DERBY_INSTALL/lib/derbyclient.jar:.
-./setEmbeddedCP
+
+/Users/baduna/personal/pubele/db/db-derby-10.10.2.0-bin/bin/setEmbeddedCP
 
 
 to start db server:
 java -jar $DERBY_HOME/lib/derbyrun.jar server start
 
 
-to connect to db:
+to connect to db (server):
 java org.apache.derby.tools.ij
 connect 'jdbc:derby://localhost:1527/pubele';
+show tables;
+
+to connect to db (embedded):
+java org.apache.derby.tools.ij
+connect 'jdbc:derby:pubele';
 show tables;
 
