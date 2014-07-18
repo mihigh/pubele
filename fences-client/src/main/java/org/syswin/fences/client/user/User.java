@@ -7,18 +7,20 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-import org.syswin.fences.client.login.Login;
+import org.syswin.fences.client.session.Session;
 
 public class User extends Composite {
 
     interface Binder extends UiBinder<Widget, User> {
+
     }
+
     public static final String TOKEN = "user";
     public static final User instance = new User();
 
     private User() {
         initWidget(GWT.<Binder>create(Binder.class).createAndBindUi(this));
-        this.username.setText(Login.instance.username.getValue());
+        this.username.setText(Session.instance.getSessionDetails().getUsername());
     }
 
     @UiField

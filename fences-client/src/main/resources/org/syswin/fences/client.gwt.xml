@@ -11,7 +11,8 @@
     <!-- Inheriting 'Debug' on the next line makes the features available. -->
     <inherits name='com.google.gwt.debug.Debug'/>
 
-
+    <!-- Serialize -->
+    <inherits name='com.kfuntak.gwt.json.serialization.GWTProJsonSerializer'/>
 
     <!--Bootstrap-->
     <inherits name ="com.github.gwtbootstrap.Bootstrap"/>

@@ -1,11 +1,13 @@
 package org.syswin.fences.client.session;
 
-public class SessionDetails {
+import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
+
+public class SessionDetails implements JsonSerializable {
 
     private  String username;
     private String password;
 
-    protected SessionDetails() {
+    public SessionDetails() {
     }
 
     public SessionDetails(String username, String password) {
