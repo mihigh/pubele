@@ -7,7 +7,7 @@
     <artifactId>fences-services-super-pom</artifactId>
     <version>v1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Fences Services</name>
+    <name>Fences Services :: Project Module</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

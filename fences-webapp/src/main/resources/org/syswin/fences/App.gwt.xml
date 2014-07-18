@@ -16,6 +16,4 @@
     <!-- Specify the app entry point class. -->
     <entry-point class='org.syswin.fences.client.App'/>
 
-
-
 </module>

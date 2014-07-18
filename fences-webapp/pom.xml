@@ -163,7 +163,17 @@
         </dependency>
 
 
-
+        <!-- AOP -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.8.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.8.0</version>
+        </dependency>
 
 
         <dependency>
@@ -202,6 +212,7 @@
                     <execution>
                         <goals>
                             <goal>compile</goal>
+                            <goal>resources</goal>
                             <goal>test</goal>
                             <!-- activate this to generate i18n messages -->
                             <!-- <goal>i18n</goal> -->
@@ -213,11 +224,10 @@
                 <!-- Plugin configuration. There are many available options, see gwt-maven-plugin
                         documentation at codehaus.org -->
                 <configuration>
-                    <generateDirectory>${basedir}/src/gen/java</generateDirectory>
+                    <generateDirectory>${basedir}/../fences-client/src/gen/java</generateDirectory>
                     <rpcPattern>../rpc/{0}</rpcPattern>
                     <runTarget>App.html</runTarget>
-                    <hostedWebapp>${webappDirectory}</hostedWebapp>
-                    <!-- <i18nMessagesBundle>com.foobar.gwt.client.Messages</i18nMessagesBundle> -->
+                    <hostedWebapp>/</hostedWebapp>
                 </configuration>
             </plugin>
 

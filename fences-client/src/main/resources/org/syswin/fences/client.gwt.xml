@@ -28,4 +28,16 @@
     <!-- Specify the paths for translatable code -->
     <source path="client"/>
 
+
+
+
+    <!--&lt;!&ndash; Specify the paths for translatable code &ndash;&gt;-->
+    <!--<source path='webapp'/>-->
+    <!--<source path='core'/>-->
+
+    <!--&lt;!&ndash; Specify the app entry point class. &ndash;&gt;-->
+    <!--<entry-point class='org.syswin.fences.client.App'/>-->
+
+
+
 </module>
