@@ -1,0 +1,10 @@
+node_modules
+dist
+.tmp
+.sass-cache
+.editorconfig
+.gitattributes
+.jshintrc
+.htaccess
+bower_components
+test/bower_components

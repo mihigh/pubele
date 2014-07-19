@@ -1,0 +1,13 @@
+{
+  "name": "web-client",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "~3.0.3",
+    "jquery": "~1.11.0"
+  },
+  "devDependencies": {
+      "grunt": "~0.4.5",
+      "grunt-contrib-less": "~0.11.0",
+      "grunt-contrib-watch": "~0.6.1"
+  }
+}
