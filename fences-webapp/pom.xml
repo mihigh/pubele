@@ -36,9 +36,9 @@
     <dependencies>
         <!-- Project modules-->
         <dependency>
-            <groupId>org.syswin.fences</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>fences-services</artifactId>
-            <version>v1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>

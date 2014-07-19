@@ -1,12 +1,11 @@
-package syswin.fences.services.gsm;
+package syswin.fences.gsm.gsm;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
 import jssc.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import syswin.fences.services.base.utilities.Constants;
+import syswin.fences.gsm.base.utilities.Constants;
 
 import java.io.File;
 import java.io.FileInputStream;

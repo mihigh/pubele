@@ -1,12 +1,22 @@
 package org.syswin.fences.models;
 
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 @Entity
 @Table(name = "users")
-public class User {
+public class UserRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +29,9 @@ public class User {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @Column(name = "username", nullable = false)
+    private String username;
+
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
@@ -28,12 +41,12 @@ public class User {
     @Column(name = "employee_id")
     private String employeeId;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
+    //    @ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "permission_group_id", referencedColumnName = "id")
     private PermissionGroup permissionGroup;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
+    //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
     private List<Objective> objectives;
 
@@ -49,12 +62,15 @@ public class User {
     @Column(name = "deleted_date")
     private Date deletedDate;
 
-    public User() {
+    public UserRecord() {
     }
 
-    public User(String firstName, String lastName, String phoneNumber, String email, String employeeId, PermissionGroup permissionGroup, List<Objective> objectives, boolean deleted, Date createdDate, Date updatedDate, Date deletedDate) {
+    public UserRecord(String firstName, String lastName, String username, String phoneNumber, String email,
+                      String employeeId, PermissionGroup permissionGroup, List<Objective> objectives, boolean deleted,
+                      Date createdDate, Date updatedDate, Date deletedDate) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.username = username;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.employeeId = employeeId;
@@ -160,5 +176,13 @@ public class User {
 
     public void setDeletedDate(Date deletedDate) {
         this.deletedDate = deletedDate;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.syswin.fences.models.Fence;
 import org.syswin.fences.models.Permission;
 import org.syswin.fences.models.PermissionGroup;
-import org.syswin.fences.models.User;
+import org.syswin.fences.models.UserRecord;
 import org.syswin.fences.models.enums.FenceStatus;
 import org.syswin.fences.models.enums.FenceType;
 import org.syswin.fences.models.enums.PermissionType;
@@ -18,7 +18,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -40,7 +39,7 @@ public class FenceRepositoryTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private PermissionGroupRepository permissionGroupRepository;
 
-    private User user;
+    private UserRecord userRecord;
     private Fence fence;
     private Permission permission;
     private PermissionGroup permissionGroup;
@@ -51,8 +50,8 @@ public class FenceRepositoryTest extends AbstractTestNGSpringContextTests {
 
     @Test(enabled = false)
     public void testWriteDb() {
-        user = new User("asd", "asd", "1234", "asd", "1234", null, null, false, new Date(System.currentTimeMillis()), null, null);
-        userRepository.save(user);
+        userRecord = new UserRecord("asd", "asd", "1234", "asd", "1234", null, null, false, new Date(System.currentTimeMillis()), null, null);
+        userRepository.save(userRecord);
 
         fence = new Fence(1234, FenceType.PARENT, FenceStatus.PRESENT, true, null, null, null, null, null, null, false, new Date(System.currentTimeMillis()), null, null);
         fenceRepository.save(fence);
@@ -62,7 +61,7 @@ public class FenceRepositoryTest extends AbstractTestNGSpringContextTests {
 
         Set<Permission> permissionSet = new HashSet<>();
         permissionSet.add(permission);
-        permissionGroup = new PermissionGroup("test group 1", user, permissionSet, false, new Date(System.currentTimeMillis()), null, null);
+        permissionGroup = new PermissionGroup("test group 1", userRecord, permissionSet, false, new Date(System.currentTimeMillis()), null, null);
         permissionGroupRepository.save(permissionGroup);
     }
 

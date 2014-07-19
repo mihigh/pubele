@@ -16,6 +16,7 @@
     <modules>
         <module>fences-parent</module>
         <module>fences-core</module>
+        <module>fences-gsm</module>
         <module>fences-services</module>
         <module>fences-webapp</module>
 

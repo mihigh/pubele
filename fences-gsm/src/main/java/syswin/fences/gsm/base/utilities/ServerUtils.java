@@ -1,4 +1,4 @@
-package syswin.fences.services.base.utilities;
+package syswin.fences.gsm.base.utilities;
 
 import java.io.File;
 

@@ -19,7 +19,7 @@ public class PermissionGroup {
 //    @ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
-    private User owner;
+    private UserRecord owner;
 
 //    @ManyToMany(fetch = FetchType.LAZY)
     @ManyToMany(fetch = FetchType.EAGER)
@@ -43,7 +43,7 @@ public class PermissionGroup {
     public PermissionGroup() {
     }
 
-    public PermissionGroup(String name, User owner, Set<Permission> permissions, boolean deleted, Date createdDate, Date updatedDate, Date deletedDate) {
+    public PermissionGroup(String name, UserRecord owner, Set<Permission> permissions, boolean deleted, Date createdDate, Date updatedDate, Date deletedDate) {
         this.name = name;
         this.owner = owner;
         this.permissions = permissions;
@@ -69,11 +69,11 @@ public class PermissionGroup {
         this.name = name;
     }
 
-    public User getOwner() {
+    public UserRecord getOwner() {
         return owner;
     }
 
-    public void setOwner(User owner) {
+    public void setOwner(UserRecord owner) {
         this.owner = owner;
     }
 

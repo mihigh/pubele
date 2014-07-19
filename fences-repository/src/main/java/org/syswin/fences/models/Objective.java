@@ -22,7 +22,7 @@ public class Objective {
 //    @ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
-    private User owner;
+    private UserRecord owner;
 
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "objective")
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "objective")
@@ -50,7 +50,7 @@ public class Objective {
     public Objective() {
     }
 
-    public Objective(ObjectiveStatus status, User owner, List<Fence> fenceList, Set<Alert> alerts, boolean deleted, Date createdDate, Date updatedDate, Date deletedDate) {
+    public Objective(ObjectiveStatus status, UserRecord owner, List<Fence> fenceList, Set<Alert> alerts, boolean deleted, Date createdDate, Date updatedDate, Date deletedDate) {
         this.status = status;
         this.owner = owner;
         this.fenceList = fenceList;
@@ -77,11 +77,11 @@ public class Objective {
         this.status = status;
     }
 
-    public User getOwner() {
+    public UserRecord getOwner() {
         return owner;
     }
 
-    public void setOwner(User owner) {
+    public void setOwner(UserRecord owner) {
         this.owner = owner;
     }
 

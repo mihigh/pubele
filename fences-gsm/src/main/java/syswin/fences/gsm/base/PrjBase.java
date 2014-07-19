@@ -1,4 +1,4 @@
-package syswin.fences.services.base;
+package syswin.fences.gsm.base;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,16 +7,15 @@ import java.io.PrintStream;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import syswin.fences.services.gsm.GPRSSender;
-import syswin.fences.services.gsm.GPRSUtilities;
-import syswin.fences.services.logging.LoggingUtils;
+
+import syswin.fences.gsm.logging.LoggingUtils;
 
 
-import syswin.fences.services.base.utilities.Constants;
-import syswin.fences.services.base.utilities.DBUtils;
-import syswin.fences.services.base.utilities.OpratingSystem;
-import syswin.fences.services.base.utilities.ServerUtils;
-import syswin.fences.services.base.utilities.SystemExitCodes;
+import syswin.fences.gsm.base.utilities.Constants;
+import syswin.fences.gsm.base.utilities.DBUtils;
+import syswin.fences.gsm.base.utilities.OpratingSystem;
+import syswin.fences.gsm.base.utilities.ServerUtils;
+import syswin.fences.gsm.base.utilities.SystemExitCodes;
 
 public class PrjBase {
 

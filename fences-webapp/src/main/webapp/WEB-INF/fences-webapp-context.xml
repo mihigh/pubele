@@ -11,7 +11,7 @@
             http://www.springframework.org/schema/context
             http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <import resource="classpath:repository-context.xml"/>
+    <import resource="classpath:fences-services-context.xml"/>
 
     <!-- Enable AOP -->
     <aop:aspectj-autoproxy/>

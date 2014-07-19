@@ -1,4 +1,4 @@
-package syswin.fences.services.gsm;
+package syswin.fences.gsm.gsm;
 
 public enum GPRSCommands {
     ENTER ("\r\n"),

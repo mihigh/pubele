@@ -11,21 +11,16 @@
         <relativePath>../fences-parent</relativePath>
     </parent>
 
-    <artifactId>fences-services</artifactId>
+    <artifactId>fences-gsm</artifactId>
     <packaging>jar</packaging>
-    <name>Fences Services :: Services Module</name>
+    <name>Fences Services :: GSM Module</name>
 
 
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fences-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>org.syswin.fences</groupId>
             <artifactId>fences-repository</artifactId>
-            <version>${project.version}</version>
+            <version>v1.0-SNAPSHOT</version>
         </dependency>
 
         <!-- Logging -->
@@ -66,13 +61,6 @@
             <groupId>org.scream3r</groupId>
             <artifactId>jssc</artifactId>
             <version>2.8.0</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.modelmapper</groupId>
-            <artifactId>modelmapper</artifactId>
-            <version>0.7.2</version>
         </dependency>
     </dependencies>
 
