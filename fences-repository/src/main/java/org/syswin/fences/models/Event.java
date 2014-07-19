@@ -11,6 +11,8 @@ import java.util.Date;
 @Table(name = "events")
 public class Event {
 
+    // TODO: To clean-up the database when it gets filled too much
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

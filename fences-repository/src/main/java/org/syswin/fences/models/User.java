@@ -31,7 +31,7 @@ public class User {
 //    @ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "permission_group_id", referencedColumnName = "id")
-    private PermissionGroup permissionGroup;
+    private Permission permission;
 
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
@@ -52,13 +52,17 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String phoneNumber, String email, String employeeId, PermissionGroup permissionGroup, List<Objective> objectives, boolean deleted, Date createdDate, Date updatedDate, Date deletedDate) {
+    public User(String firstName, String lastName, String phoneNumber, String email, String employeeId, Permission permission) {
+        this(firstName, lastName, phoneNumber, email, employeeId, permission, null, false, new Date(), null, null);
+    }
+
+    public User(String firstName, String lastName, String phoneNumber, String email, String employeeId, Permission permission, List<Objective> objectives, boolean deleted, Date createdDate, Date updatedDate, Date deletedDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.employeeId = employeeId;
-        this.permissionGroup = permissionGroup;
+        this.permission = permission;
         this.objectives = objectives;
         this.deleted = deleted;
         this.createdDate = createdDate;
@@ -112,14 +116,6 @@ public class User {
 
     public void setEmployeeId(String employeeId) {
         this.employeeId = employeeId;
-    }
-
-    public PermissionGroup getPermissionGroup() {
-        return permissionGroup;
-    }
-
-    public void setPermissionGroup(PermissionGroup permissionGroup) {
-        this.permissionGroup = permissionGroup;
     }
 
     public List<Objective> getObjectives() {

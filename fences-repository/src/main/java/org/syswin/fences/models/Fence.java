@@ -65,6 +65,10 @@ public class Fence {
     public Fence() {
     }
 
+    public Fence(long code, FenceType type, FenceStatus status, boolean gpsEnabled, String latitude, String longitude) {
+        this(code, type, status, gpsEnabled, latitude, longitude, null, null, null, null, false, new Date(), null, null);
+    }
+
     public Fence(long code, FenceType type, FenceStatus status, boolean gpsEnabled, String latitude, String longitude, Date lastCoordinatesDate, List<FenceCoordinatesHistory> coordinatesHistoryList, Objective objective, Date addedToObjectiveDate, boolean deleted, Date createdDate, Date updatedDate, Date deletedDate) {
         this.code = code;
         this.type = type;
