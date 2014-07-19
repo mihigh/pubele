@@ -18,7 +18,8 @@ public class Permission {
     @Column(name = "permission", nullable = false)
     private PermissionType permission;
 
-    @ManyToMany(mappedBy = "permissions", fetch = FetchType.LAZY)
+//    @ManyToMany(mappedBy = "permissions", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "permissions", fetch = FetchType.EAGER)
     private Set<PermissionGroup> groups;
 
     @Column(name = "deleted", nullable = false)

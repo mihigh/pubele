@@ -18,6 +18,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -53,7 +54,7 @@ public class FenceRepositoryTest extends AbstractTestNGSpringContextTests {
         user = new User("asd", "asd", "1234", "asd", "1234", null, null, false, new Date(System.currentTimeMillis()), null, null);
         userRepository.save(user);
 
-        fence = new Fence(1234, FenceType.PARENT, FenceStatus.PRESENT, true, null, null, null, null, null, null, null, false, new Date(System.currentTimeMillis()), null, null);
+        fence = new Fence(1234, FenceType.PARENT, FenceStatus.PRESENT, true, null, null, null, null, null, null, false, new Date(System.currentTimeMillis()), null, null);
         fenceRepository.save(fence);
 
         permission = new Permission(PermissionType.MANAGE_FENCES, null, false, new Date(System.currentTimeMillis()), null, null);
@@ -80,7 +81,8 @@ public class FenceRepositoryTest extends AbstractTestNGSpringContextTests {
 
         assertEquals(permissionGroupRepository.findAll().size(), 1);
         System.out.println(permissionGroupRepository.findAll().get(0).getId());
-//        System.out.println(permissionGroup.getPermissions().size());
+        PermissionGroup permGroup = permissionGroupRepository.findAll().get(0);
+        System.out.println(permGroup.getPermissions().size());
     }
 
     @AfterMethod

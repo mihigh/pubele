@@ -17,14 +17,23 @@ public class Alert {
     @Column(name = "type", nullable = false)
     private AlertType type;
 
-    @ManyToMany(mappedBy = "alerts", fetch = FetchType.LAZY)
+    @Column(name = "phone")
+    private String phone;
+
+    @Column(name = "email")
+    private String email;
+
+//    @ManyToMany(mappedBy = "alerts", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "alerts", fetch = FetchType.EAGER)
     private Set<Objective> objectives;
 
     public Alert() {
     }
 
-    public Alert(AlertType type, Set<Objective> objectives) {
+    public Alert(AlertType type, String phone, String email, Set<Objective> objectives) {
         this.type = type;
+        this.phone = phone;
+        this.email = email;
         this.objectives = objectives;
     }
 
@@ -42,6 +51,22 @@ public class Alert {
 
     public void setType(AlertType type) {
         this.type = type;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Set<Objective> getObjectives() {

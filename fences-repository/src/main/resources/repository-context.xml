@@ -5,15 +5,15 @@
 	   					   http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver"/>
-        <property name="url" value="jdbc:derby:pubele;create=true"/>
-        <property name="username" value="APP" />
-        <property name="password" value="APP" />
-    </bean>
+    <!--connection to Derby embedded -->
+    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+    <!--<property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver"/>-->
+    <!--<property name="url" value="jdbc:derby:pubele;create=true"/>-->
+    <!--<property name="username" value="APP" />-->
+    <!--<property name="password" value="APP" />-->
+    <!--</bean>-->
 
-
-    <!--connection to -->
+    <!--connection to Derby server -->
     <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
     <!--<property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver"/>-->
     <!--<property name="url" value="jdbc:derby://localhost:1527/pubele;create=true;"/>-->
@@ -21,22 +21,35 @@
     <!--<property name="password" value="APP"/>-->
     <!--</bean>-->
 
+    <!--connection to Mysql server -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/pubele"/>
+        <property name="username" value="test_user" />
+        <property name="password" value="test_pass" />
+    </bean>
+
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-                <!--<property name="databasePlatform" value="org.hibernate.dialect.DerbyTenFiveDialect"/>-->
-                <property name="databasePlatform" value="org.hibernate.dialect.DerbyTenSevenDialect"/>
+                <!--<property name="databasePlatform" value="org.hibernate.dialect.DerbyTenSevenDialect"/>-->
+
+                <property name="showSql" value="true"/>
+                <property name="databasePlatform" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+
+
                 <property name="generateDdl" value="true"/>
+
             </bean>
         </property>
-        <!--<property name="jpaProperties">-->
-        <!--<props>-->
-        <!--<prop key="hibernate.hbm2ddl.auto">update</prop>-->
-        <!--<prop key="hibernate.show_sql">true</prop>-->
-        <!--<prop key="hbm2ddl.auto">update</prop>-->
-        <!--</props>-->
-        <!--</property>-->
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hbm2ddl.auto">update</prop>
+            </props>
+        </property>
         <property name="packagesToScan" value="org.syswin.fences"/>
     </bean>
 

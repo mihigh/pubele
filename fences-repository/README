@@ -14,17 +14,29 @@ export CLASSPATH=$DERBY_INSTALL/lib/derby.jar:$DERBY_INSTALL/lib/derbytools.jar:
 /Users/baduna/personal/pubele/db/db-derby-10.10.2.0-bin/bin/setEmbeddedCP
 
 
-to start db server:
+to start derby db server:
 java -jar $DERBY_HOME/lib/derbyrun.jar server start
 
 
-to connect to db (server):
+to connect to derby db (server):
 java org.apache.derby.tools.ij
 connect 'jdbc:derby://localhost:1527/pubele';
 show tables;
 
-to connect to db (embedded):
+to connect to derby db (embedded):
 java org.apache.derby.tools.ij
 connect 'jdbc:derby:pubele';
 show tables;
 
+
+
+start mysql server:
+(you can add the 3 lines to ~/.bash_profile)
+export MYSQL_HOME=/usr/local/mysql
+alias start_mysql='sudo $MYSQL_HOME/bin/mysqld_safe &'
+alias stop_mysql='sudo $MYSQL_HOME/bin/mysqladmin shutdown'
+
+start_mysql
+mysql -u root
+CREATE USER 'test_user'@'localhost' IDENTIFIED BY 'test_pass';
+GRANT ALL ON pubele.* TO 'test_user'@'localhost';

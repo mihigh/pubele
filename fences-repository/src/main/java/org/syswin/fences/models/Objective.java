@@ -19,18 +19,17 @@ public class Objective {
     @Column(name = "status", nullable = false)
     private ObjectiveStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+//    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private User owner;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "objective")
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "objective")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "objective")
     private List<Fence> fenceList;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "objective")
-    @OrderBy("date desc")
-    private List<ObjectiveFencesHistory> fencesHistoryList;
-
-    @ManyToMany(fetch = FetchType.LAZY)
+//    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "objective_alerts",
             joinColumns = @JoinColumn(name="objective_id", referencedColumnName="id"),
             inverseJoinColumns = @JoinColumn(name="alert_id", referencedColumnName="id"))
@@ -51,11 +50,10 @@ public class Objective {
     public Objective() {
     }
 
-    public Objective(ObjectiveStatus status, User owner, List<Fence> fenceList, List<ObjectiveFencesHistory> fencesHistoryList, Set<Alert> alerts, boolean deleted, Date createdDate, Date updatedDate, Date deletedDate) {
+    public Objective(ObjectiveStatus status, User owner, List<Fence> fenceList, Set<Alert> alerts, boolean deleted, Date createdDate, Date updatedDate, Date deletedDate) {
         this.status = status;
         this.owner = owner;
         this.fenceList = fenceList;
-        this.fencesHistoryList = fencesHistoryList;
         this.alerts = alerts;
         this.deleted = deleted;
         this.createdDate = createdDate;
@@ -93,14 +91,6 @@ public class Objective {
 
     public void setFenceList(List<Fence> fenceList) {
         this.fenceList = fenceList;
-    }
-
-    public List<ObjectiveFencesHistory> getFencesHistoryList() {
-        return fencesHistoryList;
-    }
-
-    public void setFencesHistoryList(List<ObjectiveFencesHistory> fencesHistoryList) {
-        this.fencesHistoryList = fencesHistoryList;
     }
 
     public Set<Alert> getAlerts() {

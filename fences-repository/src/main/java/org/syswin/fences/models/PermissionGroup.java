@@ -16,11 +16,13 @@ public class PermissionGroup {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+//    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private User owner;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+//    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "permissions_to_groups",
             joinColumns = @JoinColumn(name="permission_group_id", referencedColumnName="id"),
             inverseJoinColumns = @JoinColumn(name="permission_id", referencedColumnName="id"))

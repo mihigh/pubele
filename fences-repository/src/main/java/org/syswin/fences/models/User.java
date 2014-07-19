@@ -28,11 +28,13 @@ public class User {
     @Column(name = "employee_id")
     private String employeeId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+//    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "permission_group_id", referencedColumnName = "id")
     private PermissionGroup permissionGroup;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
     private List<Objective> objectives;
 
     @Column(name = "deleted", nullable = false)

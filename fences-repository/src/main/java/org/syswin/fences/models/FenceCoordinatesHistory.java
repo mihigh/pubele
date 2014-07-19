@@ -12,7 +12,8 @@ public class FenceCoordinatesHistory {
     @Column(name = "id", nullable = false)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+//    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fence_id", referencedColumnName = "id")
     private Fence fence;
 
