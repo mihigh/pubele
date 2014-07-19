@@ -3,7 +3,10 @@
         PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
         "http://java.sun.com/dtd/web-app_2_3.dtd">
 
-<web-app>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
 
 
     <display-name>Structure Web Application</display-name>
@@ -38,5 +41,28 @@
         <servlet-name>webapp</servlet-name>
         <url-pattern>/api/v1/*</url-pattern>
     </servlet-mapping>
+
+
+    <!-- Security / Session filters -->
+    <filter>
+        <filter-name>session</filter-name>
+        <filter-class>net.sourceforge.statelessfilter.filter.StatelessFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>session</filter-name>
+        <url-pattern>/api/v1/*</url-pattern>
+    </filter-mapping>
+
+
+    <!-- Auth filter-->
+    <filter>
+        <filter-name>authFilter</filter-name>
+        <filter-class>org.syswin.fences.webapp.filter.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>authFilter</filter-name>
+        <url-pattern>/api/v1/*</url-pattern>
+    </filter-mapping>
+
 
 </web-app>

@@ -2,6 +2,7 @@ package org.syswin.fences.core;
 
 public class User {
 
+    public static final String ID = "USER_ID";
     private String name;
     private String password;
 
