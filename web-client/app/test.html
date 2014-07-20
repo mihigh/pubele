@@ -4,39 +4,46 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <title>Simple icons</title>
-    <style>
-        html, body, #map-canvas {
-            height: 100%;
-            margin: 0px;
-            padding: 0px
-        }
-    </style>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-    <script>
-        // This example adds a marker to indicate the position
-        // of Bondi Beach in Sydney, Australia
-        function initialize() {
-            var mapOptions = {
-                zoom: 4,
-                center: new google.maps.LatLng(-33, 151)
-            }
-            var map = new google.maps.Map(document.getElementById('map-canvas'),
-                    mapOptions);
-
-            var image = 'common/mousePointer.png';
-            var myLatLng = new google.maps.LatLng(-33.890542, 151.274856);
-            var beachMarker = new google.maps.Marker({
-                position: myLatLng,
-                map: map,
-                icon: image
-            });
-        }
-
-        google.maps.event.addDomListener(window, 'load', initialize);
-
-    </script>
-</head>
+    <link rel="stylesheet" type="text/css" href="test.css">
+    <link href="http://demo.bootstraptor.com/contact_bs3/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://bootsnipp.com/css/ladda-themeless.min.css">
+    <link rel="stylesheet" href="http://bootsnipp.com/css/bootsnipp.css?ver=3dad078c6953f3a8a72bbfccae6365ae">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    </head>
 <body>
-<div id="map-canvas"></div>
+<div class="container">
+    <div class="row">
+        <h2>Multi level dropdown menu in Bootstrap 3</h2>
+        <hr>
+        <div class="dropdown">
+            <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary" data-target="#" href="/page.html">
+                Dropdown <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                <li><a href="#">Some action</a></li>
+                <li><a href="#">Some other action</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-submenu">
+                    <a tabindex="-1" href="#">Hover me for more options</a>
+                    <ul class="dropdown-menu">
+                        <li><a tabindex="-1" href="#">Second level</a></li>
+                        <li class="dropdown-submenu">
+                            <a href="#">Even More..</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">3rd level</a></li>
+                                <li><a href="#">3rd level</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Second level</a></li>
+                        <li><a href="#">Second level</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 </body>
 </html>
