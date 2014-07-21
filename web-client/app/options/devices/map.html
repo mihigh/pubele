@@ -9,6 +9,67 @@
     <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.css" />
     <link href="http://demo.bootstraptor.com/contact_bs3/assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+
+    <style>
+        html, body, #map-canvas {
+            width: 100%;
+            height: 700px;
+            margin: 0px;
+            padding: 0px
+        }
+    </style>
+
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+
+    <script>
+        function initialize() {
+            var mapOptions = {
+                zoom: 10,
+                center: new google.maps.LatLng(44.491597, 26.091384)
+            }
+            var map = new google.maps.Map(document.getElementById('map-canvas'),
+                    mapOptions);
+
+            var image = 'common/syswinPinPoint.png';
+            var myLatLng = new google.maps.LatLng(44.491597, 26.091384);
+            var beachMarker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                icon: image
+            });
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+
+    <style type="text/css">
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+
+        header .jumbotron small{
+            color:#fff;
+        }
+        .main-color {
+            color:#358cce;
+        }
+
+        label.checkbox input[type="checkbox"] {display:none;}
+        label.checkbox span {
+            display: inline-block !important;
+            padding: 0px;
+            border:2px solid #BBB;
+            border-radius:10px;
+            width:25px;
+            height:25px;
+            background:#eeeeee;
+        }
+        label.checkbox :checked + span {
+            background:#00b3ee;
+        }
+    </style>
+
 </head>
 <body>
 <header>
@@ -46,8 +107,41 @@
             </div><!-- /.container-fluid -->
         </nav>
     </div>
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 </header>
+
+    <div class="container">
+        <!-- Example row of columns -->
+        <div class="row">
+            <div class="col-sm-12 col-lg-12">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h3>
+                            <i style="color: #00b3ee" class="icon-location-arrow main-color"></i> Objectives Map
+                            <div style="float: right;  padding: 0px;">
+                                <i style="color: #00b3ee; padding-right: 5px" class="icon-filter main-color"></i><font style="padding-right: 20px;">Filters</font>
+
+                                <form style="display:inline; margin:0px; padding:0px;" name="input" action="" method="get">
+                                    <label class="checkbox" style="display: inline-block !important;"><input type="checkbox" name="filter" value="Stable"><span></span>
+                                        <font style="color: #3e8f3e; padding-left: 5px; padding-right: 5px">Stable</font></label>
+
+                                    <label class="checkbox" style="display: inline-block !important;"><input type="checkbox" name="filter" value="Alarms"><span></span>
+                                        <font style="color: #d58512; padding-left: 5px; padding-right: 5px">Alarms</font></label>
+
+                                    <input type="submit" value="Set">
+                                </form>
+                            </div>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <div id="map-canvas"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
