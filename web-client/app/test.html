@@ -1,49 +1,108 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <title>Simple icons</title>
-    <link rel="stylesheet" type="text/css" href="test.css">
-    <link href="http://demo.bootstraptor.com/contact_bs3/assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="http://bootsnipp.com/css/ladda-themeless.min.css">
-    <link rel="stylesheet" href="http://bootsnipp.com/css/bootsnipp.css?ver=3dad078c6953f3a8a72bbfccae6365ae">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    </head>
+    <title>Remove Markers</title>
+    <style>
+        html, body, #map-canvas {
+            height: 100%;
+            margin: 0px;
+            padding: 0px
+        }
+        #panel {
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            margin-left: -180px;
+            z-index: 5;
+            background-color: #fff;
+            padding: 5px;
+            border: 1px solid #999;
+        }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script>
+        // In the following example, markers appear when the user clicks on the map.
+        // The markers are stored in an array.
+        // The user can then click an option to hide, show or delete the markers.
+        var map;
+        var markers = [];
+
+        function initialize() {
+            var haightAshbury = new google.maps.LatLng(37.7699298, -122.4469157);
+            var mapOptions = {
+                zoom: 12,
+                center: haightAshbury,
+                mapTypeId: google.maps.MapTypeId.TERRAIN
+            };
+            map = new google.maps.Map(document.getElementById('map-canvas'),
+                    mapOptions);
+
+            // This event listener will call addMarker() when the map is clicked.
+            google.maps.event.addListener(map, 'click', function(event) {
+                addMarker(event.latLng);
+            });
+
+            // Adds a marker at the center of the map.
+            addMarker(haightAshbury);
+        }
+
+        // Add a marker to the map and push to the array.
+        function addMarker(location) {
+            var marker = new google.maps.Marker({
+                position: location,
+                map: map,
+                icon: '../../common/pinPoint-Vehicle.png'
+            });
+            markers.push(marker);
+        }
+
+        // Sets the map on all markers in the array.
+        function setAllMap(map, type) {
+            for (var i = 0; i < markers.length; i++) {
+                if(type == true) {
+                    markers[i].setMap(map);
+                } else {
+                    markers[i].setMap(null);
+                }
+            }
+        }
+
+        function checkBoxMarker(element) {
+            if(element.checked == true){
+                setAllMap(map, true);
+            }else {
+                setAllMap(null, false);
+            }
+        }
+
+        // Removes the markers from the map, but keeps them in the array.
+        function clearMarkers() {
+            setAllMap(null, false);
+        }
+
+        // Shows any markers currently in the array.
+        function showMarkers() {
+            setAllMap(map, true);
+        }
+
+        // Deletes all markers in the array by removing references to them.
+        function deleteMarkers() {
+            clearMarkers();
+            markers = [];
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+</head>
 <body>
-<div class="container">
-    <div class="row">
-        <h2>Multi level dropdown menu in Bootstrap 3</h2>
-        <hr>
-        <div class="dropdown">
-            <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary" data-target="#" href="/page.html">
-                Dropdown <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-                <li><a href="#">Some action</a></li>
-                <li><a href="#">Some other action</a></li>
-                <li class="divider"></li>
-                <li class="dropdown-submenu">
-                    <a tabindex="-1" href="#">Hover me for more options</a>
-                    <ul class="dropdown-menu">
-                        <li><a tabindex="-1" href="#">Second level</a></li>
-                        <li class="dropdown-submenu">
-                            <a href="#">Even More..</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">3rd level</a></li>
-                                <li><a href="#">3rd level</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Second level</a></li>
-                        <li><a href="#">Second level</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
+<div id="panel">
+    <input onclick="checkBoxMarker(this);" type=checkbox checked>
+    <input onclick="clearMarkers();" type=button value="Hide Markers">
+    <input onclick="showMarkers();" type=button value="Show All Markers">
+    <input onclick="deleteMarkers();" type=button value="Delete Markers">
 </div>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<div id="map-canvas"></div>
+<p>Click on the map to add markers.</p>
 </body>
 </html>
