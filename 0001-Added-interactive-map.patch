@@ -1,0 +1,646 @@
+From f6f5abe8d22bbafdd96ea1988e7b43896004beb8 Mon Sep 17 00:00:00 2001
+From: Alexandru Cozma <alecsandru.cozma@gmail.com>
+Date: Mon, 21 Jul 2014 14:22:12 -0700
+Subject: [PATCH] Added interactive map
+
+---
+ web-client/app/common/pinPoint-Alarm.png   | Bin 0 -> 2431 bytes
+ web-client/app/common/pinPoint-Stable.png  | Bin 0 -> 3138 bytes
+ web-client/app/common/pinPoint-Vehicle.png | Bin 0 -> 2137 bytes
+ web-client/app/common/small-checked.png    | Bin 0 -> 2091 bytes
+ web-client/app/common/small-unchecked.png  | Bin 0 -> 2566 bytes
+ web-client/app/options/devices/map.html    | 140 ++++++++++++++++++++++------
+ web-client/app/test.html                   | 143 ++++++++++++++++++++---------
+ 7 files changed, 215 insertions(+), 68 deletions(-)
+ create mode 100755 web-client/app/common/pinPoint-Alarm.png
+ create mode 100755 web-client/app/common/pinPoint-Stable.png
+ create mode 100755 web-client/app/common/pinPoint-Vehicle.png
+ create mode 100755 web-client/app/common/small-checked.png
+ create mode 100755 web-client/app/common/small-unchecked.png
+
+diff --git a/web-client/app/common/pinPoint-Alarm.png b/web-client/app/common/pinPoint-Alarm.png
+new file mode 100755
+index 0000000000000000000000000000000000000000..ddb9982725420dd904c5ac8eb84b288a2b2f9eb0
+GIT binary patch
+literal 2431
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/web-client/app/common/pinPoint-Stable.png b/web-client/app/common/pinPoint-Stable.png
+new file mode 100755
+index 0000000000000000000000000000000000000000..dcffb0ca926c2feca6c82cc00348c872306b55d7
+GIT binary patch
+literal 3138
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/web-client/app/common/pinPoint-Vehicle.png b/web-client/app/common/pinPoint-Vehicle.png
+new file mode 100755
+index 0000000000000000000000000000000000000000..b3378a30d72d986a83b6eaab436759e41928772f
+GIT binary patch
+literal 2137
+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
+P00000NkvXXu0mjfzG@2n
+
+literal 0
+HcmV?d00001
+
+diff --git a/web-client/app/common/small-checked.png b/web-client/app/common/small-checked.png
+new file mode 100755
+index 0000000000000000000000000000000000000000..0854b237eb4f848ad1dfdf8619397842d4ae936f
+GIT binary patch
+literal 2091
+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
+Vy`DH&rxO4G002ovPDHLkV1j_I25SHS
+
+literal 0
+HcmV?d00001
+
+diff --git a/web-client/app/common/small-unchecked.png b/web-client/app/common/small-unchecked.png
+new file mode 100755
+index 0000000000000000000000000000000000000000..580eda3b784a16034cd534369e97d2e055a3a7c5
+GIT binary patch
+literal 2566
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/web-client/app/options/devices/map.html b/web-client/app/options/devices/map.html
+index 9e8102b..0796a58 100644
+--- a/web-client/app/options/devices/map.html
++++ b/web-client/app/options/devices/map.html
+@@ -22,24 +22,109 @@
+     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+ 
+     <script>
++        var map;
++
++        var stableLocations = [new google.maps.LatLng(44.434278, 26.034482), new google.maps.LatLng(44.467140, 26.078481), new google.maps.LatLng(44.464506, 26.126246)];
++        var alertsLocations = [new google.maps.LatLng(44.426350, 26.091400), new google.maps.LatLng(44.433808, 25.998765)];
++        var vehiclesLocations = [new google.maps.LatLng(44.442421, 26.165643), new google.maps.LatLng(44.405542, 26.062686), new google.maps.LatLng(44.457440, 26.060730), new google.maps.LatLng(44.382212, 26.149736)];
++
++        var stableMarkers = [];
++        var alertsMarkers = [];
++        var vehiclesMarkers = [];
++
++        var displayStable = true;
++        var displayAlarms = true;
++        var displayVehicles = true;
++
++        var pinPointStable = "../../common/pinPoint-Stable.png";
++        var pinPointAlerts = "../../common/pinPoint-Alarm.png";
++        var pinPointVehicle = "../../common/pinPoint-Vehicle.png";
++
+         function initialize() {
+             var mapOptions = {
+-                zoom: 10,
+-                center: new google.maps.LatLng(44.491597, 26.091384)
+-            }
+-            var map = new google.maps.Map(document.getElementById('map-canvas'),
++                zoom: 12,
++                center: new google.maps.LatLng(44.434912, 26.103115)
++            };
++            map = new google.maps.Map(document.getElementById('map-canvas'),
+                     mapOptions);
+ 
+-            var image = 'common/syswinPinPoint.png';
+-            var myLatLng = new google.maps.LatLng(44.491597, 26.091384);
+-            var beachMarker = new google.maps.Marker({
+-                position: myLatLng,
++            for (var i = 0; i < stableLocations.length; i++) {
++                addMarker(stableLocations[i], "stable");
++            }
++
++            for (var i = 0; i < alertsLocations.length; i++) {
++                addMarker(alertsLocations[i], "alarms");
++            }
++
++            for (var i = 0; i < vehiclesLocations.length; i++) {
++                addMarker(vehiclesLocations[i], "vehicles");
++            }
++        }
++
++        google.maps.event.addDomListener(window, 'load', initialize);
++
++        function addMarker(location, type) {
++            var image;
++
++            if( type == "stable"){
++                image = pinPointStable;
++            }
++            if( type == "alarms"){
++                image = pinPointAlerts;
++            }
++            if( type == "vehicles"){
++                image = pinPointVehicle;
++            }
++
++            var marker = new google.maps.Marker({
++                position: location,
+                 map: map,
+                 icon: image
+             });
++
++            if( type == "stable"){
++                stableMarkers.push(marker);
++            }
++            if( type == "alarms"){
++                alertsMarkers.push(marker);
++            }
++            if( type == "vehicles"){
++                vehiclesMarkers.push(marker);
++            }
+         }
+ 
+-        google.maps.event.addDomListener(window, 'load', initialize);
++        function stableCheckbox(element){
++            displayStable = element.checked;
++            for (var i = 0; i < stableMarkers.length; i++) {
++                if (displayStable == true) {
++                    stableMarkers[i].setMap(map);
++                } else {
++                    stableMarkers[i].setMap(null);
++                }
++            }
++        }
++
++        function alarmsCheckbox(element){
++            displayAlarms = element.checked;
++            for (var i = 0; i < alertsMarkers.length; i++) {
++                if (displayAlarms == true) {
++                    alertsMarkers[i].setMap(map);
++                } else {
++                    alertsMarkers[i].setMap(null);
++                }
++            }
++        }
++
++        function vehicleCheckbox(element){
++            displayVehicles = element.checked;
++            for (var i = 0; i < vehiclesMarkers.length; i++) {
++                if (displayVehicles == true) {
++                    vehiclesMarkers[i].setMap(map);
++                } else {
++                    vehiclesMarkers[i].setMap(null);
++                }
++            }
++        }
+     </script>
+ 
+     <style type="text/css">
+@@ -55,18 +140,20 @@
+             color:#358cce;
+         }
+ 
+-        label.checkbox input[type="checkbox"] {display:none;}
+-        label.checkbox span {
+-            display: inline-block !important;
+-            padding: 0px;
+-            border:2px solid #BBB;
+-            border-radius:10px;
+-            width:25px;
+-            height:25px;
+-            background:#eeeeee;
++        input[type="checkbox"] {
++            display:none;
++        }
++        input[type="checkbox"] + label span {
++            display:inline-block;
++            width:30px;
++            height:30px;
++            margin:-1px 4px 0 0;
++            vertical-align:middle;
++            background:url(../../common/small-unchecked.png) top no-repeat;
++            cursor:pointer;
+         }
+-        label.checkbox :checked + span {
+-            background:#00b3ee;
++        input[type="checkbox"]:checked + label span {
++            background:url(../../common/small-checked.png) top no-repeat;
+         }
+     </style>
+ 
+@@ -119,18 +206,19 @@
+                 <div class="panel">
+                     <div class="panel-heading">
+                         <h3>
+-                            <i style="color: #00b3ee" class="icon-location-arrow main-color"></i> Objectives Map
++                            <i style="color: #00b3ee" class="icon-location-arrow main-color"></i> Assets Map
+                             <div style="float: right;  padding: 0px;">
+                                 <i style="color: #00b3ee; padding-right: 5px" class="icon-filter main-color"></i><font style="padding-right: 20px;">Filters</font>
+ 
+                                 <form style="display:inline; margin:0px; padding:0px;" name="input" action="" method="get">
+-                                    <label class="checkbox" style="display: inline-block !important;"><input type="checkbox" name="filter" value="Stable"><span></span>
+-                                        <font style="color: #3e8f3e; padding-left: 5px; padding-right: 5px">Stable</font></label>
++                                    <input onchange="stableCheckbox(this)" type="checkbox" name="stableFilter" id="stable1" checked/>
++                                    <label for="stable1" style="color: #3e8f3e; padding-left: 5px; padding-right: 10px"><span></span>Stable</label>
+ 
+-                                    <label class="checkbox" style="display: inline-block !important;"><input type="checkbox" name="filter" value="Alarms"><span></span>
+-                                        <font style="color: #d58512; padding-left: 5px; padding-right: 5px">Alarms</font></label>
++                                    <input onchange="alarmsCheckbox(this)" type="checkbox" name="alarmFilter" id="alarms1" checked/>
++                                    <label for="alarms1" style="color: #d58512; padding-left: 5px; padding-right: 10px"><span></span>Alarms</label>
+ 
+-                                    <input type="submit" value="Set">
++                                    <input onchange="vehicleCheckbox(this)" type="checkbox" name="vehicleFilter" id="vehicles1" checked/>
++                                    <label for="vehicles1" style="color: #5C5CD6; padding-left: 5px; padding-right: 10px"><span></span>Vehicles</label>
+                                 </form>
+                             </div>
+                         </h3>
+diff --git a/web-client/app/test.html b/web-client/app/test.html
+index 720b5c2..7d72816 100644
+--- a/web-client/app/test.html
++++ b/web-client/app/test.html
+@@ -1,49 +1,108 @@
+ <!DOCTYPE html>
+ <html>
+ <head>
+-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+-    <meta charset="utf-8">
+-    <title>Simple icons</title>
+-    <link rel="stylesheet" type="text/css" href="test.css">
+-    <link href="http://demo.bootstraptor.com/contact_bs3/assets/css/bootstrap.min.css" rel="stylesheet">
+-    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+-    <link rel="stylesheet" href="http://bootsnipp.com/css/ladda-themeless.min.css">
+-    <link rel="stylesheet" href="http://bootsnipp.com/css/bootsnipp.css?ver=3dad078c6953f3a8a72bbfccae6365ae">
+-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+-    </head>
++    <title>Remove Markers</title>
++    <style>
++        html, body, #map-canvas {
++            height: 100%;
++            margin: 0px;
++            padding: 0px
++        }
++        #panel {
++            position: absolute;
++            top: 5px;
++            left: 50%;
++            margin-left: -180px;
++            z-index: 5;
++            background-color: #fff;
++            padding: 5px;
++            border: 1px solid #999;
++        }
++    </style>
++    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
++    <script>
++        // In the following example, markers appear when the user clicks on the map.
++        // The markers are stored in an array.
++        // The user can then click an option to hide, show or delete the markers.
++        var map;
++        var markers = [];
++
++        function initialize() {
++            var haightAshbury = new google.maps.LatLng(37.7699298, -122.4469157);
++            var mapOptions = {
++                zoom: 12,
++                center: haightAshbury,
++                mapTypeId: google.maps.MapTypeId.TERRAIN
++            };
++            map = new google.maps.Map(document.getElementById('map-canvas'),
++                    mapOptions);
++
++            // This event listener will call addMarker() when the map is clicked.
++            google.maps.event.addListener(map, 'click', function(event) {
++                addMarker(event.latLng);
++            });
++
++            // Adds a marker at the center of the map.
++            addMarker(haightAshbury);
++        }
++
++        // Add a marker to the map and push to the array.
++        function addMarker(location) {
++            var marker = new google.maps.Marker({
++                position: location,
++                map: map,
++                icon: '../../common/pinPoint-Vehicle.png'
++            });
++            markers.push(marker);
++        }
++
++        // Sets the map on all markers in the array.
++        function setAllMap(map, type) {
++            for (var i = 0; i < markers.length; i++) {
++                if(type == true) {
++                    markers[i].setMap(map);
++                } else {
++                    markers[i].setMap(null);
++                }
++            }
++        }
++
++        function checkBoxMarker(element) {
++            if(element.checked == true){
++                setAllMap(map, true);
++            }else {
++                setAllMap(null, false);
++            }
++        }
++
++        // Removes the markers from the map, but keeps them in the array.
++        function clearMarkers() {
++            setAllMap(null, false);
++        }
++
++        // Shows any markers currently in the array.
++        function showMarkers() {
++            setAllMap(map, true);
++        }
++
++        // Deletes all markers in the array by removing references to them.
++        function deleteMarkers() {
++            clearMarkers();
++            markers = [];
++        }
++
++        google.maps.event.addDomListener(window, 'load', initialize);
++
++    </script>
++</head>
+ <body>
+-<div class="container">
+-    <div class="row">
+-        <h2>Multi level dropdown menu in Bootstrap 3</h2>
+-        <hr>
+-        <div class="dropdown">
+-            <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary" data-target="#" href="/page.html">
+-                Dropdown <span class="caret"></span>
+-            </a>
+-            <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+-                <li><a href="#">Some action</a></li>
+-                <li><a href="#">Some other action</a></li>
+-                <li class="divider"></li>
+-                <li class="dropdown-submenu">
+-                    <a tabindex="-1" href="#">Hover me for more options</a>
+-                    <ul class="dropdown-menu">
+-                        <li><a tabindex="-1" href="#">Second level</a></li>
+-                        <li class="dropdown-submenu">
+-                            <a href="#">Even More..</a>
+-                            <ul class="dropdown-menu">
+-                                <li><a href="#">3rd level</a></li>
+-                                <li><a href="#">3rd level</a></li>
+-                            </ul>
+-                        </li>
+-                        <li><a href="#">Second level</a></li>
+-                        <li><a href="#">Second level</a></li>
+-                    </ul>
+-                </li>
+-            </ul>
+-        </div>
+-    </div>
++<div id="panel">
++    <input onclick="checkBoxMarker(this);" type=checkbox checked>
++    <input onclick="clearMarkers();" type=button value="Hide Markers">
++    <input onclick="showMarkers();" type=button value="Show All Markers">
++    <input onclick="deleteMarkers();" type=button value="Delete Markers">
+ </div>
+-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
++<div id="map-canvas"></div>
++<p>Click on the map to add markers.</p>
+ </body>
+ </html>
+\ No newline at end of file
+-- 
+1.9.1
+
