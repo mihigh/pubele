@@ -1,7 +1,16 @@
 package org.syswin.fences.models;
 
-import javax.persistence.*;
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "permissions")
@@ -17,7 +26,7 @@ public class Permission {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
-    private User owner;
+    private UserRecord owner;
 
     @Column(name = "deleted", nullable = false)
     private boolean deleted;
@@ -65,7 +74,8 @@ public class Permission {
     public Permission() {
     }
 
-    public Permission (String name, User owner, boolean deleted, Date createdDate, Date updatedDate, Date deletedDate, boolean fencesRead, boolean fencesReadWrite, boolean objectivesRead, boolean objectivesReadWrite, boolean usersRead, boolean usersReadUpdate, boolean usersReadCreate, boolean alertRead, boolean alertReadWrite, boolean logsRead, boolean logsReadWrite, boolean statisticsRead) {
+    public Permission (String name, UserRecord owner, boolean deleted, Date createdDate, Date updatedDate,
+                       Date deletedDate, boolean fencesRead, boolean fencesReadWrite, boolean objectivesRead, boolean objectivesReadWrite, boolean usersRead, boolean usersReadUpdate, boolean usersReadCreate, boolean alertRead, boolean alertReadWrite, boolean logsRead, boolean logsReadWrite, boolean statisticsRead) {
         this.name = name;
         this.owner = owner;
         this.deleted = deleted;
@@ -118,11 +128,11 @@ public class Permission {
         this.name = name;
     }
 
-    public User getOwner () {
+    public UserRecord getOwner () {
         return owner;
     }
 
-    public void setOwner (User owner) {
+    public void setOwner (UserRecord owner) {
         this.owner = owner;
     }
 
