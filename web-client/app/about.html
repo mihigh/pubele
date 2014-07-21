@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Smart TRK - About</title>
+    <link rel="shortcut icon" href="common/favicon.png">
+    <link rel="stylesheet" type="text/css" href="css/about.css">
+    <img src="common/syswinBackground.png" class="bg" />
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link href="http://demo.bootstraptor.com/contact_bs3/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+<header>
+    <div class="container">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a class="navbar-brand" href="http://dev.threepress.es/syswin/"><strong>Smart <font color="#33ADFF">TRK</font></strong></a></li>
+                        <li><a href="home.html"><strong><font size="4">Home</font></strong></a></li>
+                        <li class="active"><a href="#"><strong><font size="4">About</font></strong></a></li>
+                        <li><a href="contact.html"><strong><font size="4">Contact</font></strong></a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><strong><font size="4">Options</font></strong><span class="caret"></span></a>
+                            <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                                <li><a href="options/users.html"><strong><font size="3.8">Users</font></strong></a></li>
+                                <li class="divider"></li>
+                                <li class="dropdown-submenu">
+                                    <a tabindex="-1" href="#"><strong><font size="3.8">Devices</font></strong></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="options/devices/logs.html"><strong><font size="3">Logs</font></strong></a></li><br>
+                                        <li><a href="options/devices/statistics.html"><strong><font size="3">Statistics</font></strong></a></li><br>
+                                        <li><a href="options/devices/map.html"><strong><font size="3">Map</font></strong></a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        </li><li><p style="float: right" class="navbar-text"><font size="3"><b>USER:</b></font> adminUser</p></li>
+                        <li><a style="float: right" href="login.html"><font size="3"><i>[logout]</i></font></a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+</header>
+
+    <div class="container">
+        <!-- Example row of columns -->
+        <div class="row">
+            <div class="col-sm-12 col-lg-12">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h3><i style="color: #00b3ee" class="icon-info-sign main-color"></i> About</h3>
+                    </div>
+                    <div class="panel-body">
+                        <img style="-webkit-transform: scaleX(-1); float: right" src="common/mapWithPins.png">
+                        <br>
+                        <p style="text-indent: 4em; text-align: justify; font-size: large">The <b>Smart Tracker <i style="color: #00b3ee">(TRK)</i></b> is an alarm and localization system that
+                        may be used for tracking your company material goods. The system uses two main types of components in order to keep an eye on your
+                        goods. The main devices that are doing the monitoring are called <i><b>parents</b></i> and <i><b>children</b></i>. The main
+                        difference between the two of them is the fact that a <i>parent</i> contains a <i><b>GSM</b></i> and a <i><b>GPS</b></i> module
+                        that allow him to report it's position. The children's scope is to communicate to the parent when in the filed and to trigger
+                        an alarm when it is stolen.</p><br>
+                        <p style="text-indent: 4em; text-align: justify; font-size: large">The entire system has a <i><b>server</i></b> to which it communicates. The server's scope is to offer ways of managing
+                        the parents and children on the filed, like: creating objectives, editing objectives, tracking lost children, etc. Also the server's
+                        scope is to offer ways to manage the users, monitor and manage the objectives and see detailed data about the entire system (logs, statiscics).</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-lg-12">
+                <div class="panel">
+                    <div class="accordion" id="helpAccordion">
+                        <div class="accordion-group">
+                            <div class="accordion-heading">
+                                <a class="helpAccordionClass" data-toggle="collapse" data-parent="#helpAccordion" href="#collapseOne">
+                                    <div class="panel-heading">
+                                        <h3><i style="color: #00b3ee" class="icon-question-sign main-color"></i> Help
+                                            <i style="color: #00b3ee; float: right" class="icon-zoom-in main-color"></i>
+                                        </h3>
+                                    </div>
+                                </a>
+                            </div>
+                            <div id="collapseOne" class="accordion-body collapse out">
+                                <div style="padding: 15px" class="accordion-inner">
+                                    <p style="text-indent: 4em; text-align: justify; font-size: large; color: #4cae4c">
+                                        <b>TODO:</b> To add the help when the entire system is done
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

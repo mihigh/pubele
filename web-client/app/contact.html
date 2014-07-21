@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://demo.bootstraptor.com/contact_bs3/contact.htm -->
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+
+    <link rel="shortcut icon" href="common/favicon.png">
+    <link rel="stylesheet" type="text/css" href="css/contact.css">
+    <img src="common/syswinBackground.png" class="bg" />
+
+    <title>Smart TRK - Contact</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+
+    <style>
+        html, body, #map-canvas {
+            width: 100%;
+            height: 400px;
+            margin: 0px;
+            padding: 0px
+        }
+    </style>
+
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+
+    <script>
+        function initialize() {
+            var mapOptions = {
+                zoom: 17,
+                center: new google.maps.LatLng(44.491597, 26.091384)
+            }
+            var map = new google.maps.Map(document.getElementById('map-canvas'),
+                    mapOptions);
+
+            var image = 'common/syswinPinPoint.png';
+            var myLatLng = new google.maps.LatLng(44.491597, 26.091384);
+            var beachMarker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                icon: image
+            });
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+
+    <link href="http://demo.bootstraptor.com/contact_bs3/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+
+    <style type="text/css">
+        body {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        header .jumbotron small{
+            color:#fff;
+        }
+        .main-color {
+            color:#358cce;
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <div class="container">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a class="navbar-brand" href="http://dev.threepress.es/syswin/"><strong>Smart <font color="#33ADFF">TRK</font></strong></a></li>
+                        <li><a href="home.html"><strong><font size="4">Home</font></strong></a></li>
+                        <li><a href="about.html"><strong><font size="4">About</font></strong></a></li>
+                        <li class="active"><a href="#"><strong><font size="4">Contact</font></strong></a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><strong><font size="4">Options</font></strong><span class="caret"></span></a>
+                            <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                                <li><a href="options/users.html"><strong><font size="3.8">Users</font></strong></a></li>
+                                <li class="divider"></li>
+                                <li class="dropdown-submenu">
+                                    <a tabindex="-1" href="#"><strong><font size="3.8">Devices</font></strong></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="options/devices/logs.html"><strong><font size="3">Logs</font></strong></a></li><br>
+                                        <li><a href="options/devices/statistics.html"><strong><font size="3">Statistics</font></strong></a></li><br>
+                                        <li><a href="options/devices/map.html"><strong><font size="3">Map</font></strong></a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        </li><li><p style="float: right" class="navbar-text"><font size="3"><b>USER:</b></font> adminUser</p></li>
+                        <li><a style="float: right" href="login.html"><font size="3"><i>[logout]</i></font></a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+</header>
+
+    <div class="container">
+        <!-- Example row of columns -->
+        <div class="row">
+            <div class="col-sm-12 col-lg-12">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h3><i class="icon-map-marker main-color"></i> Location</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div id="map-canvas"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-lg-5 col-md-5 col-sm-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3><i class="icon-pushpin main-color"></i> Our office</h3>
+                    </div>
+                    <div class="panel-body">
+                        <address>
+                            <strong>SYSWIN Solutions </strong><br>
+                            Street Pechea, no. 22, Sector 1<br>
+                            Bucharest, Romania, 013982<br>
+                            <img style="width: 25px" src="common/phone_icon.png"> (+4) 0722 366 390<br>
+                            <img style="width: 25px" src="common/email_icon.png"> info@syswinsolutions.com
+                        </address>
+                    </div>
+                </div>
+            </div>
+
+            <div style="float: right" class="col-lg-5 col-md-5 col-sm-5">
+                <div class="panel panel-default">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h3><i class="icon-time main-color"></i> Business hours</h3>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Time</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="success">
+                                    <td>Monday</td>
+                                    <td>9:00 to 18:00</td>
+                                </tr>
+                                <tr class="success">
+                                    <td>Tuesday</td>
+                                    <td>9:00 to 18:00</td>
+                                </tr>
+                                <tr class="success">
+
+                                    <td>Wednesday</td>
+                                    <td>9:00 to 18:00</td>
+                                </tr>
+                                <tr class="success">
+
+                                    <td>Thursday</td>
+                                    <td>9:00 to 18:00</td>
+                                </tr>
+                                <tr class="success">
+
+                                    <td>Friday</td>
+                                    <td>9:00 to 18:00</td>
+                                </tr>
+                                <tr class="danger">
+
+                                    <td>Saturday</td>
+                                    <td>Day off</td>
+                                </tr>
+                                <tr class="danger">
+
+                                    <td>Sunday</td>
+                                    <td>Day off</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

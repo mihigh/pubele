@@ -44,7 +44,7 @@ public class UserRecord {
     //    @ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "permission_group_id", referencedColumnName = "id")
-    private PermissionGroup permissionGroup;
+    private Permission permission;
 
     //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
@@ -65,16 +65,18 @@ public class UserRecord {
     public UserRecord() {
     }
 
-    public UserRecord(String firstName, String lastName, String username, String phoneNumber, String email,
-                      String employeeId, PermissionGroup permissionGroup, List<Objective> objectives, boolean deleted,
-                      Date createdDate, Date updatedDate, Date deletedDate) {
+    public UserRecord(String firstName, String lastName, String username,String phoneNumber, String email, String employeeId, Permission permission) {
+        this(firstName, lastName, username,phoneNumber, email, employeeId, permission, null, false, new Date(), null, null);
+    }
+
+    public UserRecord(String firstName, String lastName, String username,String phoneNumber, String email, String employeeId, Permission permission, List<Objective> objectives, boolean deleted, Date createdDate, Date updatedDate, Date deletedDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.employeeId = employeeId;
-        this.permissionGroup = permissionGroup;
+        this.permission = permission;
         this.objectives = objectives;
         this.deleted = deleted;
         this.createdDate = createdDate;
@@ -128,14 +130,6 @@ public class UserRecord {
 
     public void setEmployeeId(String employeeId) {
         this.employeeId = employeeId;
-    }
-
-    public PermissionGroup getPermissionGroup() {
-        return permissionGroup;
-    }
-
-    public void setPermissionGroup(PermissionGroup permissionGroup) {
-        this.permissionGroup = permissionGroup;
     }
 
     public List<Objective> getObjectives() {
