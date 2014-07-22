@@ -8,11 +8,13 @@
     <link rel="stylesheet" type="text/css" href="css/login.css">
     <img src="common/syswinBackground.png" class="bg" />
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="scripts/login.js"></script>
 </head>
 
 <body>
     <div class="wrapper">
-        <form class="form-signin" method="post">
+        <form class="form-signin" onsubmit="return login(this);" >
             <img src="common/syswinSmartTRK.png" style="width: 100%">
             <h2 class="form-signin-heading">Please login</h2>
 

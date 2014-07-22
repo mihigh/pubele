@@ -47,7 +47,7 @@ public class LoginController {
         HttpSession session = request.getSession(true);
         Utils.setUser(session, userDetails);
 
-        return Response.status(Response.Status.ACCEPTED).build();
+        return Response.status(Response.Status.OK).build();
     }
 
 }

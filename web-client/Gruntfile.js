@@ -7,10 +7,19 @@
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
+var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
+
+
+var mountFolder = function (connect, dir) {
+    return connect.static(require('path').resolve(dir));
+};
+
 module.exports = function (grunt) {
 
     // Load grunt tasks automatically
     require('load-grunt-tasks')(grunt);
+
+    grunt.loadNpmTasks('grunt-connect-proxy');
 
     // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
@@ -72,13 +81,26 @@ module.exports = function (grunt) {
                 // Change this to '0.0.0.0' to access the server from outside
                 hostname: '0.0.0.0'
             },
+            proxies: [
+                {
+                    context: '/api', // the context of the data service
+                    host: 'localhost', // wherever the data service is running
+                    port: 8080 // the port that the data service is running on
+                }
+            ],
             livereload: {
                 options: {
-                    middleware: function(connect) {
+                    open: {
+                        target: 'http://localhost:9000'
+                    },
+                    middleware: function (connect) {
                         return [
                             connect.static('.tmp'),
                             connect().use('/bower_components', connect.static('./bower_components')),
-                            connect.static(config.app)
+                            connect.static(config.app),
+
+
+                            proxySnippet
                         ];
                     }
                 }
@@ -329,6 +351,7 @@ module.exports = function (grunt) {
             'clean:server',
             'concurrent:server',
             'autoprefixer',
+            'configureProxies:server', // added just before connect
             'connect:livereload',
             'watch'
         ]);
