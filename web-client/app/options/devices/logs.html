@@ -9,6 +9,41 @@
     <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.css" />
     <link href="http://demo.bootstraptor.com/contact_bs3/assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+
+    <script src="../../../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../../scripts/logs.js"></script>
+
+
+    <style type="text/css">
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+
+        header .jumbotron small{
+            color:#fff;
+        }
+        .main-color {
+            color:#358cce;
+        }
+
+        input[type="checkbox"] {
+            display:none;
+        }
+        input[type="checkbox"] + label span {
+            display:inline-block;
+            width:30px;
+            height:30px;
+            margin:-1px 4px 0 0;
+            vertical-align:middle;
+            background:url(../../common/small-unchecked.png) top no-repeat;
+            cursor:pointer;
+        }
+        input[type="checkbox"]:checked + label span {
+            background:url(../../common/small-checked.png) top no-repeat;
+        }
+    </style>
+
 </head>
 <body>
 <header>
@@ -56,7 +91,23 @@
         <div class="col-sm-12 col-lg-12">
             <div class="panel">
                 <div class="panel-heading">
-                    <h3><i style="color: #00b3ee" class="glyphicon glyphicon-book main-color"></i> Logs</h3>
+                    <h3>
+                        <i style="color: #00b3ee" class="glyphicon glyphicon-book main-color"></i> Logs
+                        <div style="float: right;  padding: 0px;">
+                            <i style="color: #00b3ee; padding-right: 5px" class="icon-filter main-color"></i><font style="padding-right: 20px;">Filters</font>
+
+                            <form style="display:inline; margin:0px; padding:0px;/" name="input" action="" method="get">
+                                <input onchange="infoCheckbox(this)" type="checkbox" name="stableFilter" id="stable1" checked/>
+                                <label for="stable1" style="-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; color: #4cae4c; padding-left: 5px; padding-right: 10px"><span></span>Info</label>
+
+                                <input onchange="warningCheckbox(this)" type="checkbox" name="alarmFilter" id="alarms1" checked/>
+                                <label for="alarms1" style="-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; color: #FFA319; padding-left: 5px; padding-right: 10px"><span></span>Warning</label>
+
+                                <input onchange="dangerCheckbox(this)" type="checkbox" name="vehicleFilter" id="vehicles1" checked/>
+                                <label for="vehicles1" style="-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; color: #FF1919; padding-left: 5px; padding-right: 10px"><span></span>Danger</label>
+                            </form>
+                        </div>
+                    </h3>
                 </div>
                 <div class="panel-body">
                     <table class="table">
@@ -94,6 +145,8 @@
         </div>
         </div>
     </div>
-
+    <script>
+        logsGET(10,1);
+    </script>
 </body>
 </html>

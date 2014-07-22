@@ -6,7 +6,7 @@ function login(form) {
 
     $.ajax({
                type: "POST",
-               url: "/api/v1/login",
+               url: "/login",
                data: JSON.stringify(user),
                success: okLogin,
                error: errorLogin,
