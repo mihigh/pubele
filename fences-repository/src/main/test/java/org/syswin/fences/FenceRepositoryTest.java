@@ -43,7 +43,7 @@ public class FenceRepositoryTest extends AbstractTestNGSpringContextTests {
     public void setup () {
     }
 
-    @Test(enabled = true)
+    @Test(enabled = false)
     public void populateDBWithDummy () {
         /*Adding Permissions*/
         Permission adminPermission = Permission.createAdminGroup ();

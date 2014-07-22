@@ -16,7 +16,7 @@ function login(form) {
 }
 
 function okLogin(data) {
-    window.location.href = '/Home.html';
+    window.location.href = '/home.html';
 }
 
 function errorLogin(data) {

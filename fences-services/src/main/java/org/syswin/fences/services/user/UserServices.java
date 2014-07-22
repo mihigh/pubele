@@ -8,13 +8,13 @@ import org.syswin.fences.repositories.UserRepository;
 public class UserServices {
 
     private UserRepository userRepository;
-    private ModelMapper modelMapper = new ModelMapper();
+    private ModelMapper modelMapper = new ModelMapper ();
 
-    public UserServices(UserRepository userRepository) {
+    public UserServices (UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public User getUserByUsername(String username) {
+    public User getUserByUsername (String username) {
         UserRecord userRecord = userRepository.findByUsername(username);
         return modelMapper.map(userRecord, User.class);
     }

