@@ -2,7 +2,7 @@
   "name": "web-client",
   "private": true,
   "dependencies": {
-    "bootstrap": "~3.0.3","bootstrap-select":"1.5.4"
+    "bootstrap": "~3.0.3",
     "jquery": "~1.11.0"
   },
   "devDependencies": {

@@ -8,6 +8,33 @@ html{
     cursor: url("../common/mousePointer.png"), auto;
 }
 
+header .jumbotron small{
+    color:#fff;
+}
+.main-color {
+    color:#358cce;
+}
+
+input[type="checkbox"] {
+    display:none;
+}
+input[type="checkbox"] + label span {
+    display:inline-block;
+    width:30px;
+    height:30px;
+    margin:-1px 4px 0 0;
+    vertical-align:middle;
+    background:url(../../common/small-unchecked.png) top no-repeat;
+    cursor:pointer;
+}
+input[type="checkbox"]:checked + label span {
+    background:url(../../common/small-checked.png) top no-repeat;
+}
+
+.btn-group>.btn:first-child{
+    width: 35% !important;
+}
+
 img.bg{
     width: 50;
     height: 100%;

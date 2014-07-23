@@ -6,43 +6,16 @@
     <link rel="shortcut icon" href="../../common/favicon.png">
     <link rel="stylesheet" type="text/css" href="../../css/logs.css">
     <img src="../../common/syswinBackground.png" class="bg" />
+
     <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.css" />
-    <link href="http://demo.bootstraptor.com/contact_bs3/assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../bower_components/bootstrap-select/bootstrap-select.css" />
 
     <script src="../../../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../../bower_components/bootstrap-select/bootstrap-select.js"></script>
+    <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
     <script src="../../scripts/logs.js"></script>
-
-
-    <style type="text/css">
-        body {
-            padding-top: 40px;
-            padding-bottom: 40px;
-        }
-
-        header .jumbotron small{
-            color:#fff;
-        }
-        .main-color {
-            color:#358cce;
-        }
-
-        input[type="checkbox"] {
-            display:none;
-        }
-        input[type="checkbox"] + label span {
-            display:inline-block;
-            width:30px;
-            height:30px;
-            margin:-1px 4px 0 0;
-            vertical-align:middle;
-            background:url(../../common/small-unchecked.png) top no-repeat;
-            cursor:pointer;
-        }
-        input[type="checkbox"]:checked + label span {
-            background:url(../../common/small-checked.png) top no-repeat;
-        }
-    </style>
 
 </head>
 <body>
@@ -77,76 +50,66 @@
                         </li><li><p style="float: right" class="navbar-text"><font size="3"><b>USER:</b></font> adminUser</p></li>
                         <li><a style="float: right" href="../../login.html"><font size="3"><i>[logout]</i></font></a></li>
                     </ul>
-                </div><!-- /.navbar-collapse -->
-            </div><!-- /.container-fluid -->
+                </div>
+            </div>
         </nav>
     </div>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
 </header>
 
 <div class="container">
-    <!-- Example row of columns -->
+
     <div class="row">
         <div class="col-sm-12 col-lg-12">
-            <div class="panel">
+            <div class="panel" style = "background-color: #eee">
                 <div class="panel-heading">
-                    <h3>
-                        <i style="color: #00b3ee" class="glyphicon glyphicon-book main-color"></i> Logs
-                        <div style="float: right;  padding: 0px;">
-                            <i style="color: #00b3ee; padding-right: 5px" class="icon-filter main-color"></i><font style="padding-right: 20px;">Filters</font>
-
-                            <form style="display:inline; margin:0px; padding:0px;/" name="input" action="" method="get">
-                                <input onchange="infoCheckbox(this)" type="checkbox" name="stableFilter" id="stable1" checked/>
-                                <label for="stable1" style="-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; color: #4cae4c; padding-left: 5px; padding-right: 10px"><span></span>Info</label>
-
-                                <input onchange="warningCheckbox(this)" type="checkbox" name="alarmFilter" id="alarms1" checked/>
-                                <label for="alarms1" style="-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; color: #FFA319; padding-left: 5px; padding-right: 10px"><span></span>Warning</label>
-
-                                <input onchange="dangerCheckbox(this)" type="checkbox" name="vehicleFilter" id="vehicles1" checked/>
-                                <label for="vehicles1" style="-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; color: #FF1919; padding-left: 5px; padding-right: 10px"><span></span>Danger</label>
-                            </form>
-                        </div>
-                    </h3>
+                        <h1><i style="color: #00b3ee" class="glyphicon glyphicon-book main-color"></i> Logs</h1>
                 </div>
+                <div class="well well-lg" style="margin-left: 20px; margin-right: 20px; border-radius: 40px;">
+                    <div style="padding: 0px; margin-bottom: 10px">
+                        <i style="color: #00b3ee; padding-right: 20px" class="glyphicon glyphicon-filter main-color"></i><font style="padding-right: 20px; font-size: large">Filters</font>
+
+                        <form style="display:inline; margin:0px; padding:0px;/" name="input" action="" method="get">
+                            <input onchange="infoCheckbox(this)" type="checkbox" name="stableFilter" id="stable1" checked/>
+                            <label for="stable1" style="-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; color: #4cae4c; padding-left: 5px; padding-right: 10px; font-size: large"><span></span>Info</label>
+
+                            <input onchange="warningCheckbox(this)" type="checkbox" name="alarmFilter" id="alarms1" checked/>
+                            <label for="alarms1" style="-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; color: #FFA319; padding-left: 5px; padding-right: 10px; font-size: large"><span></span>Warning</label>
+
+                            <input onchange="dangerCheckbox(this)" type="checkbox" name="vehicleFilter" id="vehicles1" checked/>
+                            <label for="vehicles1" style="-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; color: #FF1919; padding-left: 5px; padding-right: 10px; font-size: large"><span></span>Danger</label>
+                        </form>
+                    </div>
+                    <div style="padding: 0px;">
+                        <i style="color: #00b3ee; padding-right: 20px" class="glyphicon glyphicon-th-list main-color"></i><font style="padding-right: 20px; font-size: large">Number of logs</font>
+
+                        <select id="logSelect" class="selectpicker" title='Number of logs' data-style="btn-success" onchange="noElementsChanged(this.value)">
+                        </select>
+                    </div>
+                </div>
+
+                <ul id="pagination1" class="pagination" style="padding-left: 30px; margin: 0px; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none;">
+                </ul>
+
                 <div class="panel-body">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>Row</th>
-                            <th>Log</th>
-                            <th>Date</th>
-                            <th>Severity</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="success">
-                            <td>1</td>
-                            <td>User Ionel has created a new objective at location 44.434278, 26.034482 formed of 4 assets.</td>
-                            <td>04/07/2014</td>
-                            <td>Informational</td>
-                        </tr>
-                        <tr class="warning">
-                            <td>2</td>
-                            <td>Objective at location 44.434278, 26.034482 entered in alarm state.</td>
-                            <td>05/07/2014</td>
-                            <td>Warning</td>
-                        </tr>
-                        <tr class="danger">
-                            <td>3</td>
-                            <td>Parent asset is moving.</td>
-                            <td>06/07/2014</td>
-                            <td>Danger</td>
-                        </tr>
-                        </tbody>
+                    <table id="logTable" class="table">
                     </table>
                 </div>
+
+                <ul id="pagination2" class="pagination" style="padding-left: 30px; margin: 0px; margin-bottom: 10px; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none;">
+                </ul>
+
             </div>
         </div>
         </div>
     </div>
+
     <script>
-        logsGET(10,1);
+        createSelect();
+        createPages();
+        constructTable();
+        $('select').selectpicker();
     </script>
+
 </body>
 </html>
