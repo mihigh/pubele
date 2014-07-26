@@ -83,7 +83,7 @@ module.exports = function (grunt) {
             },
             proxies: [
                 {
-                    context: ['/login', '/logs', '/map'], // the context of the data service
+                    context: ['/users', '/login', '/logs', '/map'], // the context of the data service
                     host: '0.0.0.0', // wherever the data service is running
                     port: 8080 // the port that the data service is running on
                 }

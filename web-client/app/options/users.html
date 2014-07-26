@@ -8,9 +8,15 @@
     <link rel="stylesheet" type="text/css" href="../css/users.css">
 
     <img src="../common/syswinBackground.png" class="bg" />
-    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
-    <link href="http://demo.bootstraptor.com/contact_bs3/assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../bower_components/bootstrap-select/bootstrap-select.css" />
+
+    <script src="../../../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../../bower_components/bootstrap-select/bootstrap-select.js"></script>
+    <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <script src="../scripts/users.js"></script>
 </head>
 
 <body>
@@ -52,5 +58,113 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 </header>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-sm-12 col-lg-12">
+            <div class="panel" style="background-color: #eee" style="padding-bottom: 0px !important;">
+                <div class="accordion" id="helpAccordion">
+                    <div class="accordion-group">
+                        <div class="accordion-heading">
+                            <a class="helpAccordionClass" data-toggle="collapse" data-parent="#helpAccordion" href="#collapseOne">
+                                <div class="panel-heading">
+                                    <h3><i style="color: #00b3ee" class="glyphicon glyphicon-wrench main-color"></i> Permissions
+                                        <i style="color: #00b3ee; float: right" class="glyphicon glyphicon-zoom-in main-color"></i>
+                                    </h3>
+                                </div>
+                            </a>
+                        </div>
+                        <div id="collapseOne" class="accordion-body collapse out">
+                            <div style="padding-right: 20px; padding-left: 20px; font-size: 25px">
+                                <i id="addPermission" style="color: #4cae4c" class="glyphicon glyphicon-plus main-color" onclick="popUpPermissionCreation()"></i>
+                                <i id="editPermission" style="color: #00b3ee" class="glyphicon glyphicon-pencil main-color"></i>
+                                <i id= "deletePrmission" style="color: #d58512" class="glyphicon glyphicon-trash main-color"></i>
+                            </div>
+                            <div style="padding-left: 15px; padding-right: 15px;" class="accordion-inner">
+                                <p style="text-indent: 4em; text-align: justify; font-size: large; color: #4cae4c">
+
+                                <table id="permissionsTable" class="table table-hover">
+
+                                </table>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-lg-12">
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3><i style="color: #00b3ee" class="glyphicon glyphicon-user main-color"></i> Users</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover">
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #28a4c9; color: #ffffff">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Create new permission.</h4>
+            </div>
+            <form id="createPermissionForm" action="" method="get" style="font-size: 20px">
+                <div class="modal-body">
+
+                    <input type="text" class="form-control" name="pName" placeholder="Name" required="" autofocus="" />
+
+                    <table style="width: 100%; margin: 10px">
+                        <tr>
+                            <td><input type="checkbox" id="pAssetsR" name="pAssetsR" value="pAssetsR" onchange="permissionFormChanged(this)"> Assets read</td>
+                            <td><input type="checkbox" id="pAssetsRw" name="pAssetsRw" value="pAssetsRW" onchange="permissionFormChanged(this)"> Assets write</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="pObjectivesR" name="pObjectivesR" value="pObjectivesR" onchange="permissionFormChanged(name)"> Objectives read</td>
+                            <td><input type="checkbox" id="pObjectivesRW" name="pObjectivesRW" value="pObjectivesRW" onchange="permissionFormChanged(name)"> Objectives write</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="pUsersR" name="pUsersR" value="pUsersR" onchange="permissionFormChanged(name)"> Users read</td>
+                            <td><input type="checkbox" id="pUsersRE" name="pUsersRE" value="pUsersRE" onchange="permissionFormChanged(name)"> Users edit</td>
+                            <td><input type="checkbox" id="pUsersREW" name="pUsersREW" value="pUsersREW" onchange="permissionFormChanged(name)"> Users create</td>
+
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="pAlertsR" name="pAlertsR" value="pAlertsR" onchange="permissionFormChanged(name)"> Alerts read</td>
+                            <td><input type="checkbox" id="pAlertsRW" name="pAlertsRW" value="pAlertsRW" onchange="permissionFormChanged(name)"> Alerts write</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="pLogsR" name="pLogsR" value="pLogsR" onchange="permissionFormChanged(name)"> Logs read</td>
+                            <td><input type="checkbox" id="pLogsRW" name="pLogsRW" value="pLogsRW" onchange="permissionFormChanged(name)"> Logs write</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="pStatisticsR" name="pStatisticsR" value="pStatisticsR" onchange="permissionFormChanged(name)"> Statistics read</td>
+                        </tr>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Save permission">
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+    createPermissionsTable();
+</script>
+
 </body>
 </html>
