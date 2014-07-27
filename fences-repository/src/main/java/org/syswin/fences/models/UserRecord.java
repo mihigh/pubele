@@ -44,11 +44,11 @@ public class UserRecord {
     //    @ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "permission_group_id", referencedColumnName = "id")
-    private Permission permission;
+    private PermissionRecord permissionRecord;
 
     //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
-    private List<Objective> objectives;
+    private List<ObjectiveRecord> objectiveRecords;
 
     @Column(name = "deleted", nullable = false)
     private boolean deleted;
@@ -65,19 +65,19 @@ public class UserRecord {
     public UserRecord() {
     }
 
-    public UserRecord(String firstName, String lastName, String username,String phoneNumber, String email, String employeeId, Permission permission) {
-        this(firstName, lastName, username,phoneNumber, email, employeeId, permission, null, false, new Date(), null, null);
+    public UserRecord(String firstName, String lastName, String username,String phoneNumber, String email, String employeeId, PermissionRecord permissionRecord) {
+        this(firstName, lastName, username,phoneNumber, email, employeeId, permissionRecord, null, false, new Date(), null, null);
     }
 
-    public UserRecord(String firstName, String lastName, String username,String phoneNumber, String email, String employeeId, Permission permission, List<Objective> objectives, boolean deleted, Date createdDate, Date updatedDate, Date deletedDate) {
+    public UserRecord(String firstName, String lastName, String username,String phoneNumber, String email, String employeeId, PermissionRecord permissionRecord, List<ObjectiveRecord> objectiveRecords, boolean deleted, Date createdDate, Date updatedDate, Date deletedDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.employeeId = employeeId;
-        this.permission = permission;
-        this.objectives = objectives;
+        this.permissionRecord = permissionRecord;
+        this.objectiveRecords = objectiveRecords;
         this.deleted = deleted;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
@@ -132,12 +132,12 @@ public class UserRecord {
         this.employeeId = employeeId;
     }
 
-    public List<Objective> getObjectives() {
-        return objectives;
+    public List<ObjectiveRecord> getObjectiveRecords() {
+        return objectiveRecords;
     }
 
-    public void setObjectives(List<Objective> objectives) {
-        this.objectives = objectives;
+    public void setObjectiveRecords(List<ObjectiveRecord> objectiveRecords) {
+        this.objectiveRecords = objectiveRecords;
     }
 
     public boolean isDeleted() {

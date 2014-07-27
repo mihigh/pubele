@@ -14,14 +14,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "permissions")
-public class Permission {
+public class PermissionRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -71,11 +71,11 @@ public class Permission {
     @Column(name = "statistics_R")
     private boolean statisticsRead;
 
-    public Permission() {
+    public PermissionRecord() {
     }
 
-    public Permission (String name, UserRecord owner, boolean deleted, Date createdDate, Date updatedDate,
-                       Date deletedDate, boolean fencesRead, boolean fencesReadWrite, boolean objectivesRead, boolean objectivesReadWrite, boolean usersRead, boolean usersReadUpdate, boolean usersReadCreate, boolean alertRead, boolean alertReadWrite, boolean logsRead, boolean logsReadWrite, boolean statisticsRead) {
+    public PermissionRecord(String name, UserRecord owner, boolean deleted, Date createdDate, Date updatedDate,
+                            Date deletedDate, boolean fencesRead, boolean fencesReadWrite, boolean objectivesRead, boolean objectivesReadWrite, boolean usersRead, boolean usersReadUpdate, boolean usersReadCreate, boolean alertRead, boolean alertReadWrite, boolean logsRead, boolean logsReadWrite, boolean statisticsRead) {
         this.name = name;
         this.owner = owner;
         this.deleted = deleted;
@@ -100,8 +100,8 @@ public class Permission {
      * Creates an Permission with all the rights.
      * @return Permission
      */
-    public static Permission createAdminGroup(){
-        return new Permission("admin", null, false, new Date(), new Date(), null, true, true, true, true, true, true, true, true, true, true, true, true);
+    public static PermissionRecord createAdminGroup(){
+        return new PermissionRecord("admin", null, false, new Date(), new Date(), null, true, true, true, true, true, true, true, true, true, true, true, true);
     }
 
     public boolean isUsersRead () {

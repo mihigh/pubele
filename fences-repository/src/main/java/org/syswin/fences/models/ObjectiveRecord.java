@@ -1,32 +1,39 @@
 package org.syswin.fences.models;
 
+import org.syswin.fences.models.enums.ObjectiveStatus;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "permission_groups")
-public class PermissionGroup {
+@Table(name = "objectives")
+public class ObjectiveRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "status", nullable = false)
+    private ObjectiveStatus status;
 
 //    @ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private UserRecord owner;
 
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "objective")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "objective")
+    private List<FenceRecord> fenceRecordList;
+
 //    @ManyToMany(fetch = FetchType.LAZY)
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "permissions_to_groups",
-            joinColumns = @JoinColumn(name="permission_group_id", referencedColumnName="id"),
-            inverseJoinColumns = @JoinColumn(name="permission_id", referencedColumnName="id"))
-    private Set<Permission> permissions;
+    @JoinTable(name = "objective_alerts",
+            joinColumns = @JoinColumn(name="objective_id", referencedColumnName="id"),
+            inverseJoinColumns = @JoinColumn(name="alert_id", referencedColumnName="id"))
+    private Set<AlertRecord> alertRecords;
 
     @Column(name = "deleted", nullable = false)
     private boolean deleted;
@@ -40,13 +47,14 @@ public class PermissionGroup {
     @Column(name = "deleted_date")
     private Date deletedDate;
 
-    public PermissionGroup() {
+    public ObjectiveRecord() {
     }
 
-    public PermissionGroup(String name, UserRecord owner, Set<Permission> permissions, boolean deleted, Date createdDate, Date updatedDate, Date deletedDate) {
-        this.name = name;
+    public ObjectiveRecord(ObjectiveStatus status, UserRecord owner, List<FenceRecord> fenceRecordList, Set<AlertRecord> alertRecords, boolean deleted, Date createdDate, Date updatedDate, Date deletedDate) {
+        this.status = status;
         this.owner = owner;
-        this.permissions = permissions;
+        this.fenceRecordList = fenceRecordList;
+        this.alertRecords = alertRecords;
         this.deleted = deleted;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
@@ -61,12 +69,12 @@ public class PermissionGroup {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public ObjectiveStatus getStatus() {
+        return status;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStatus(ObjectiveStatus status) {
+        this.status = status;
     }
 
     public UserRecord getOwner() {
@@ -77,12 +85,20 @@ public class PermissionGroup {
         this.owner = owner;
     }
 
-    public Set<Permission> getPermissions() {
-        return permissions;
+    public List<FenceRecord> getFenceRecordList() {
+        return fenceRecordList;
     }
 
-    public void setPermissions(Set<Permission> permissions) {
-        this.permissions = permissions;
+    public void setFenceRecordList(List<FenceRecord> fenceRecordList) {
+        this.fenceRecordList = fenceRecordList;
+    }
+
+    public Set<AlertRecord> getAlertRecords() {
+        return alertRecords;
+    }
+
+    public void setAlertRecords(Set<AlertRecord> alertRecords) {
+        this.alertRecords = alertRecords;
     }
 
     public boolean isDeleted() {

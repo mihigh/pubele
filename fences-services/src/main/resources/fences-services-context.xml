@@ -11,4 +11,8 @@
         <constructor-arg ref="userRepository"/>
     </bean>
 
+    <bean id="permissionService" class="org.syswin.fences.services.user.PermissionServices">
+        <constructor-arg ref="permissionRepository"/>
+    </bean>
+
 </beans>

@@ -5,7 +5,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "fence_coordinates_history")
-public class FenceCoordinatesHistory {
+public class FenceCoordinatesHistoryRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,7 +15,7 @@ public class FenceCoordinatesHistory {
 //    @ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fence_id", referencedColumnName = "id")
-    private Fence fence;
+    private FenceRecord fenceRecord;
 
     @Column(name = "latitude", nullable = false)
     private String latitude;
@@ -26,11 +26,11 @@ public class FenceCoordinatesHistory {
     @Column(name = "date", nullable = false)
     private Date date;
 
-    public FenceCoordinatesHistory() {
+    public FenceCoordinatesHistoryRecord() {
     }
 
-    public FenceCoordinatesHistory(Fence fence, String latitude, String longitude, Date date) {
-        this.fence = fence;
+    public FenceCoordinatesHistoryRecord(FenceRecord fenceRecord, String latitude, String longitude, Date date) {
+        this.fenceRecord = fenceRecord;
         this.latitude = latitude;
         this.longitude = longitude;
         this.date = date;
@@ -44,12 +44,12 @@ public class FenceCoordinatesHistory {
         this.id = id;
     }
 
-    public Fence getFence() {
-        return fence;
+    public FenceRecord getFenceRecord() {
+        return fenceRecord;
     }
 
-    public void setFence(Fence fence) {
-        this.fence = fence;
+    public void setFenceRecord(FenceRecord fenceRecord) {
+        this.fenceRecord = fenceRecord;
     }
 
     public String getLatitude() {

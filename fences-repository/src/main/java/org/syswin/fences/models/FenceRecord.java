@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "fences")
-public class Fence {
+public class FenceRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,12 +40,12 @@ public class Fence {
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "fence")
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "fence")
     @OrderBy("date desc")
-    private List<FenceCoordinatesHistory> coordinatesHistoryList;
+    private List<FenceCoordinatesHistoryRecord> coordinatesHistoryList;
 
 //    @ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "objective_id", referencedColumnName = "id")
-    private Objective objective;
+    private ObjectiveRecord objectiveRecord;
 
     @Column(name = "added_to_objective_date")
     private Date addedToObjectiveDate;
@@ -62,14 +62,14 @@ public class Fence {
     @Column(name = "deleted_date")
     private Date deletedDate;
 
-    public Fence() {
+    public FenceRecord() {
     }
 
-    public Fence(long code, FenceType type, FenceStatus status, boolean gpsEnabled, String latitude, String longitude) {
+    public FenceRecord(long code, FenceType type, FenceStatus status, boolean gpsEnabled, String latitude, String longitude) {
         this(code, type, status, gpsEnabled, latitude, longitude, null, null, null, null, false, new Date(), null, null);
     }
 
-    public Fence(long code, FenceType type, FenceStatus status, boolean gpsEnabled, String latitude, String longitude, Date lastCoordinatesDate, List<FenceCoordinatesHistory> coordinatesHistoryList, Objective objective, Date addedToObjectiveDate, boolean deleted, Date createdDate, Date updatedDate, Date deletedDate) {
+    public FenceRecord(long code, FenceType type, FenceStatus status, boolean gpsEnabled, String latitude, String longitude, Date lastCoordinatesDate, List<FenceCoordinatesHistoryRecord> coordinatesHistoryList, ObjectiveRecord objectiveRecord, Date addedToObjectiveDate, boolean deleted, Date createdDate, Date updatedDate, Date deletedDate) {
         this.code = code;
         this.type = type;
         this.status = status;
@@ -78,7 +78,7 @@ public class Fence {
         this.longitude = longitude;
         this.lastCoordinatesDate = lastCoordinatesDate;
         this.coordinatesHistoryList = coordinatesHistoryList;
-        this.objective = objective;
+        this.objectiveRecord = objectiveRecord;
         this.addedToObjectiveDate = addedToObjectiveDate;
         this.deleted = deleted;
         this.createdDate = createdDate;
@@ -150,20 +150,20 @@ public class Fence {
         this.lastCoordinatesDate = lastCoordinatesDate;
     }
 
-    public List<FenceCoordinatesHistory> getCoordinatesHistoryList() {
+    public List<FenceCoordinatesHistoryRecord> getCoordinatesHistoryList() {
         return coordinatesHistoryList;
     }
 
-    public void setCoordinatesHistoryList(List<FenceCoordinatesHistory> coordinatesHistoryList) {
+    public void setCoordinatesHistoryList(List<FenceCoordinatesHistoryRecord> coordinatesHistoryList) {
         this.coordinatesHistoryList = coordinatesHistoryList;
     }
 
-    public Objective getObjective() {
-        return objective;
+    public ObjectiveRecord getObjectiveRecord() {
+        return objectiveRecord;
     }
 
-    public void setObjective(Objective objective) {
-        this.objective = objective;
+    public void setObjectiveRecord(ObjectiveRecord objectiveRecord) {
+        this.objectiveRecord = objectiveRecord;
     }
 
     public Date getAddedToObjectiveDate() {

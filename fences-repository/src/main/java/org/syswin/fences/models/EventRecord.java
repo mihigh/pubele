@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "events")
-public class Event {
+public class EventRecord {
 
     // TODO: To clean-up the database when it gets filled too much
 
@@ -30,10 +30,10 @@ public class Event {
     @Column(name = "arguments", nullable = false)
     private String arguments;
 
-    public Event() {
+    public EventRecord() {
     }
 
-    public Event(Date date, EventSeverity severity, EventType type, String arguments) {
+    public EventRecord(Date date, EventSeverity severity, EventType type, String arguments) {
         this.date = date;
         this.severity = severity;
         this.type = type;

@@ -7,7 +7,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "alerts")
-public class Alert {
+public class AlertRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,16 +25,16 @@ public class Alert {
 
 //    @ManyToMany(mappedBy = "alerts", fetch = FetchType.LAZY)
     @ManyToMany(mappedBy = "alerts", fetch = FetchType.EAGER)
-    private Set<Objective> objectives;
+    private Set<ObjectiveRecord> objectiveRecords;
 
-    public Alert() {
+    public AlertRecord() {
     }
 
-    public Alert(AlertType type, String phone, String email, Set<Objective> objectives) {
+    public AlertRecord(AlertType type, String phone, String email, Set<ObjectiveRecord> objectiveRecords) {
         this.type = type;
         this.phone = phone;
         this.email = email;
-        this.objectives = objectives;
+        this.objectiveRecords = objectiveRecords;
     }
 
     public long getId() {
@@ -69,11 +69,11 @@ public class Alert {
         this.email = email;
     }
 
-    public Set<Objective> getObjectives() {
-        return objectives;
+    public Set<ObjectiveRecord> getObjectiveRecords() {
+        return objectiveRecords;
     }
 
-    public void setObjectives(Set<Objective> objectives) {
-        this.objectives = objectives;
+    public void setObjectiveRecords(Set<ObjectiveRecord> objectiveRecords) {
+        this.objectiveRecords = objectiveRecords;
     }
 }
