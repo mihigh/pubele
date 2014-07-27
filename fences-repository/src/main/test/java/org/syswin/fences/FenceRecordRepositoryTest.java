@@ -20,7 +20,7 @@ import java.util.*;
 
 import static org.testng.AssertJUnit.assertEquals;
 
-@ContextConfiguration(locations = {"classpath:repository-context-test.xml"})
+@ContextConfiguration(locations = {"classpath:fences-repository-context-test.xml"})
 public class FenceRecordRepositoryTest extends AbstractTestNGSpringContextTests {
 
     @Autowired

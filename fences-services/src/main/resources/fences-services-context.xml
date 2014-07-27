@@ -5,7 +5,7 @@
                "http://www.springframework.org/schema/beans
             http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <import resource="classpath:repository-context.xml"/>
+    <import resource="classpath:fences-repository-context.xml"/>
 
     <bean id="userService" class="org.syswin.fences.services.user.UserServices">
         <constructor-arg ref="userRepository"/>
