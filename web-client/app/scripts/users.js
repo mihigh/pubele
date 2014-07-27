@@ -52,7 +52,7 @@ function createPermissionsTable() {
 
         var tableEntry = '<tr style="background-color: ' + bgColor + '" onclick="selectPermissionRow(this)">' +
                          '<td>' + (i + 1) + '</td>' +
-                         '<td>' + obj.name + '</td>' +
+                         '<td class="permissionName">' + obj.name + '</td>' +
                          '<td>' + obj.owner + '</td>' +
                          '<td>' + new Date(obj.createdDate).toDateString() + '</td>' +
                          '<td>' + obj.fencesRead + '</td>' +
@@ -76,6 +76,7 @@ function createPermissionsTable() {
 }
 
 var lastPermissionRowSelected;
+
 function selectPermissionRow(row) {
     //remove the old row selected
     if (lastPermissionRowSelected != undefined) {
@@ -94,23 +95,50 @@ function selectPermissionRow(row) {
         lastPermissionRowSelected = undefined;
     }
 
-    function updateMenuButtons() {
-        var addClass = "enabled";
-        var removeClass = "disabled";
-
-        if (lastPermissionRowSelected == undefined) {
-            addClass = "disabled";
-            removeClass = "enabled";
-        }
-
-        $("#editPermission").addClass(addClass + "-edit");
-        $("#editPermission").removeClass(removeClass + "-edit");
-        $("#deletePermission").addClass(addClass + "-delete");
-        $("#deletePermission").removeClass(removeClass + "-delete");
-    }
-
     updateMenuButtons();
 
+}
+
+function updateMenuButtons() {
+    var addClass = "enabled";
+    var removeClass = "disabled";
+
+    if (lastPermissionRowSelected == undefined) {
+        addClass = "disabled";
+        removeClass = "enabled";
+    }
+
+    $("#editPermission").addClass(addClass + "-edit");
+    $("#editPermission").removeClass(removeClass + "-edit");
+    $("#deletePermission").addClass(addClass + "-delete");
+    $("#deletePermission").removeClass(removeClass + "-delete");
+}
+
+function deletePermission() {
+    if (lastPermissionRowSelected == undefined) {
+        return;
+    }
+
+    var permisionName = $(lastPermissionRowSelected).find(".permissionName").html();
+
+    $.ajax({
+               async: false,
+               type: "DELETE",
+               url: "/users/permissions",
+               success: okDeletePermissions,
+               error: failDeletePermissions,
+               contentType: "application/json"
+           });
+
+    function okDeletePermissions(data) {
+        $(lastPermissionRowSelected).remove();
+        lastPermissionRowSelected = undefined;
+        updateMenuButtons();
+    }
+
+    function failDeletePermissions(data) {
+        alert("An error has occurred");
+    }
 }
 
 function getPermissions() {
