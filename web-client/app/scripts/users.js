@@ -19,6 +19,7 @@ function createPermissionsTable() {
     var tableHead = '<thead>' +
                     '<tr>' +
                     '<th><acronym title="The number in the table.">No</acronym></th>' +
+                    '<th style="display: none;">id</th>' +
                     '<th><acronym title="The name of the permission.">Name</th>' +
                     '<th><acronym title="The user that created this permission.">Creator</th>' +
                     '<th><acronym title="The date when the permission was created.">Creation Date</th>' +
@@ -52,6 +53,7 @@ function createPermissionsTable() {
 
         var tableEntry = '<tr style="background-color: ' + bgColor + '" onclick="selectPermissionRow(this)">' +
                          '<td>' + (i + 1) + '</td>' +
+                         '<td style="display: none">' + obj.id + '</td>' +
                          '<td class="permissionName">' + obj.name + '</td>' +
                          '<td>' + obj.owner + '</td>' +
                          '<td>' + new Date(obj.createdDate).toDateString() + '</td>' +
@@ -114,6 +116,41 @@ function updateMenuButtons() {
     $("#deletePermission").removeClass(removeClass + "-delete");
 }
 
+function editPermission() {
+    if (lastPermissionRowSelected == undefined) {
+        return;
+    }
+
+    var permissionName = $(lastPermissionRowSelected).find(".permissionName").html();
+
+    var permissionOptions;
+    $.each(permissions, function (index, value) {
+        if (value.name == permissionName) {
+            permissionOptions = value;
+        }
+    });
+
+    var form = $("#createPermissionForm")[0];
+
+    form.permissionId.value = permissionOptions.id;
+    form.pName.value = permissionOptions.name;
+    form.pAssetsR.checked = permissionOptions.fencesRead;
+    form.pAssetsRW.checked = permissionOptions.fencesReadWrite;
+    form.pObjectivesR.checked = permissionOptions.objectivesRead;
+    form.pObjectivesRW.checked = permissionOptions.objectivesReadWrite;
+    form.pUsersR.checked = permissionOptions.usersRead;
+    form.pUsersRE.checked = permissionOptions.usersReadUpdate;
+    form.pUsersREW.checked = permissionOptions.usersReadCreate;
+    form.pAlertsR.checked = permissionOptions.alertRead;
+    form.pAlertsRW.checked = permissionOptions.alertReadWrite;
+    form.pLogsR.checked = permissionOptions.logsRead;
+    form.pLogsRW.checked = permissionOptions.logsReadWrite;
+    form.pStatisticsR.checked = permissionOptions.statisticsRead;
+
+    $("#myModal").modal('show');
+
+}
+
 function deletePermission() {
     if (lastPermissionRowSelected == undefined) {
         return;
@@ -165,6 +202,23 @@ function failGetPermissions() {
 }
 
 function popUpPermissionCreation() {
+
+    var form = $("#createPermissionForm")[0];
+    form.permissionId.value = "";
+    form.pName.value = "";
+    form.pAssetsR.checked = false;
+    form.pAssetsRW.checked = false;
+    form.pObjectivesR.checked = false;
+    form.pObjectivesRW.checked = false;
+    form.pUsersR.checked = false;
+    form.pUsersRE.checked = false;
+    form.pUsersREW.checked = false;
+    form.pAlertsR.checked = false;
+    form.pAlertsRW.checked = false;
+    form.pLogsR.checked = false;
+    form.pLogsRW.checked = false;
+    form.pStatisticsR.checked = false;
+
     $("#myModal").modal('show');
 }
 
@@ -191,10 +245,14 @@ function createPermission(form) {
         "statisticsRead": form.pStatisticsR.checked
     };
 
-    console.log("permission: " + JSON.stringify(permission));
+    var type = "POST";
+    if ( form.permissionId.value != ""){
+        type = "PUT";
+        permission.id = form.permissionId.value;
+    }
 
     $.ajax({
-               type: "POST",
+               type: type,
                url: "/users/permissions",
                data: JSON.stringify(permission),
                success: okCreatePermission,

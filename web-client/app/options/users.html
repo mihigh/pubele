@@ -77,7 +77,9 @@
                         <div id="collapseOne" class="accordion-body collapse out">
                             <div style="padding-right: 20px; padding-left: 20px; font-size: 25px">
                                 <i id="addPermission" style="color: #4cae4c" class="glyphicon glyphicon-plus main-color" onclick="popUpPermissionCreation()"></i>
-                                <i id="editPermission" class="glyphicon glyphicon-pencil main-color disabled-edit"></i>
+                                <i id="editPermission"
+                                   class="glyphicon glyphicon-pencil main-color disabled-edit"
+                                   onclick="editPermission()"></i>
                                 <i id="deletePermission"
                                    class="glyphicon glyphicon-trash main-color disabled-delete"
                                    onclick="deletePermission()"></i>
@@ -145,6 +147,10 @@
                     <input type="text" class="form-control" name="pName" placeholder="Name" required="" autofocus="" />
 
                     <table style="width: 100%; margin: 10px">
+
+                        <tr style="display: none;">
+                            <td><input type="checkbox" id="permissionId" name="pStatisticsR" value="pStatisticsR"></td>
+                        </tr>
                         <tr>
                             <td><input type="checkbox" id="pAssetsR" name="pAssetsR" value="pAssetsR" onchange="permissionFormChanged(this)"> Assets read</td>
                             <td><input type="checkbox" id="pAssetsRW" name="pAssetsRW" value="pAssetsRW" onchange="permissionFormChanged(this)"> Assets write</td>
