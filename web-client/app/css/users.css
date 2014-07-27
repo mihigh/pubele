@@ -89,3 +89,26 @@ img.bg{
     -moz-border-radius: 6px 0 6px 6px;
     border-radius: 6px 0 6px 6px;
 }
+
+
+.selected {
+    background-color: #00b3ee !important;
+}
+
+
+
+.enabled-edit {
+    color: #00b3ee;
+}
+
+.disabled-edit {
+    color: #D9D9D9;
+}
+
+.enabled-delete {
+    color: #d58512;
+}
+
+.disabled-delete {
+    color: #D9D9D9;
+}
