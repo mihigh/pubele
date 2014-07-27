@@ -264,78 +264,81 @@ function createPermission(form) {
     return false;
 }
 
-function okCreatePermission(data) {
+function okCreatePermission(data){
     console.log("Creating the Permission ended SUCCESSFULLY.");
 }
 
-function errorCreatePermission(data) {
+function errorCreatePermission(data){
     console.log("Creating the Permission ended BAD.");
 }
 
-function permissionFormChanged(element) {
-    if (element.id == "pAssetsR") {
-        if (element.checked == false) {
+function permissionFormChanged(element){
+    if(element.id == "pAssetsR"){
+        if(element.checked == false){
             document.getElementById("pAssetsRW").checked = false;
         }
     }
-    else if (element.id == "pAssetsRW") {
-        if (element.checked == true) {
+    else if(element.id == "pAssetsRW"){
+        if(element.checked == true){
             document.getElementById("pAssetsR").checked = true;
         }
     }
 
-    else if (element.id == "pObjectivesR") {
-        if (element.checked == false) {
+
+    else if(element.id == "pObjectivesR"){
+        if(element.checked == false){
             document.getElementById("pObjectivesRW").checked = false;
         }
     }
-    else if (element.id == "pObjectivesRW") {
-        if (element.checked == true) {
+    else if(element.id == "pObjectivesRW"){
+        if(element.checked == true){
             document.getElementById("pObjectivesR").checked = true;
         }
     }
 
-    else if (element.id == "pUsersR") {
-        if (element.checked == false) {
+
+    else if(element.id == "pUsersR"){
+        if(element.checked == false){
             document.getElementById("pUsersRE").checked = false;
             document.getElementById("pUsersREW").checked = false;
         }
     }
-    else if (element.id == "pUsersRE") {
-        if (element.checked == true) {
+    else if(element.id == "pUsersRE"){
+        if(element.checked == true){
             document.getElementById("pUsersR").checked = true;
         }
     }
-    else if (element.id == "pUsersRE") {
-        if (element.checked == false) {
+    else if(element.id == "pUsersRE"){
+        if(element.checked == false){
             document.getElementById("pUsersREW").checked = false;
         }
     }
-    else if (element.id == "pUsersREW") {
-        if (element.checked == true) {
+    else if(element.id == "pUsersREW"){
+        if(element.checked == true){
             document.getElementById("pUsersR").checked = true;
             document.getElementById("pUsersRE").checked = true;
         }
     }
 
-    else if (element.id == "pAlertsR") {
-        if (element.checked == false) {
+
+    else if(element.id == "pAlertsR"){
+        if(element.checked == false){
             document.getElementById("pAlertsRW").checked = false;
         }
     }
-    else if (element.id == "pAlertsRW") {
-        if (element.checked == true) {
+    else if(element.id == "pAlertsRW"){
+        if(element.checked == true){
             document.getElementById("pAlertsR").checked = true;
         }
     }
 
-    else if (element.id == "pLogsR") {
-        if (element.checked == false) {
+    else if(element.id == "pLogsR"){
+        if(element.checked == false){
             document.getElementById("pLogsRW").checked = false;
         }
     }
-    else if (element.id == "pLogsRW") {
-        if (element.checked == true) {
+    else if(element.id == "pLogsRW"){
+        if(element.checked == true){
             document.getElementById("pLogsR").checked = true;
         }
     }
@@ -485,8 +488,9 @@ function createUsersPermissionSelect(){
 
     var option = document.createElement('option');
 
-    option.value = "None";
+    option.value = "";
     option.text = "None";
+    option.disabled = true;
 
     select.appendChild(option);
 
@@ -499,4 +503,42 @@ function createUsersPermissionSelect(){
 
         select.appendChild(option);
     }
+}
+
+function createUser(form){
+    console.log(form);
+
+    var user = {
+        "firstName": form.firstName.value,
+        "lastName": form.lastName.value,
+        "username": form.username.value,
+        "phoneNumber": form.phone.value,
+        "email": form.email.value,
+        "employeeId": form.employeeId.value,
+        "permissionName": form.permission.value,
+        "password": form.userPassword.value
+    };
+
+    console.log("user: " + JSON.stringify(user));
+
+    $.ajax({
+        type: "POST",
+        url: "/users",
+        data: JSON.stringify(user),
+        success: okCreateUser,
+        error: errorCreateUser,
+        contentType: "application/json"
+    });
+
+    $("#myModal2").modal('hide');
+
+    return false;
+}
+
+function okCreateUser(data){
+    console.log("Creating the User ended SUCCESSFULLY.");
+}
+
+function errorCreateUser(data){
+    console.log("Creating the User ended BAD.");
 }

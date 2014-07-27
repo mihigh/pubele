@@ -79,4 +79,17 @@ public class UserInfo {
     public void setCreatedDate (Date createdDate) {
         this.createdDate = createdDate;
     }
+
+    @Override public String toString () {
+        return "UserInfo{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", username='" + username + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", employeeId='" + employeeId + '\'' +
+                ", permission=" + permission +
+                ", createdDate=" + createdDate +
+                '}';
+    }
 }

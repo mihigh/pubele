@@ -226,7 +226,7 @@
                     <div class="control-group">
                         <label class="control-label">Password<sup> (*)</sup></label>
                         <div class="controls">
-                            <input type="password" class="form-control" name="password" placeholder="Password" autofocus="" required />
+                            <input type="password" class="form-control" name="userPassword" placeholder="Password" autofocus="" required />
                             <p class="help-block"></p>
                         </div>
                     </div>
@@ -234,7 +234,7 @@
                     <div class="control-group">
                         <label class="control-label">Confirm password<sup> (*)</sup></label>
                         <div class="controls">
-                            <input type="password" class="form-control" name="confirm_password" data-validation-match-match="password" placeholder="Confirm Password" autofocus="" required />
+                            <input type="password" class="form-control" name="confirm_password" data-validation-match-match="userPassword" placeholder="Confirm Password" autofocus="" required />
                             <p class="help-block"></p>
                         </div>
                     </div>
@@ -266,7 +266,7 @@
                     <div class="control-group">
                         <label class="control-label">Permission<sup> (*)</sup></label>
                         <div class="controls" style="display: inline-block">
-                            <select id="usersPermissionSelect" name="permission" class="selectpicker">
+                            <select size="2" id="usersPermissionSelect" name="permission" class="selectpicker" required>
                             </select>
                             <p class="help-block"></p>
                         </div>
@@ -277,7 +277,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <input type="submit" class="btn btn-primary" value="Save permission">
+                    <input type="submit" class="btn btn-primary" value="Create User">
                 </div>
             </form>
             <script>
