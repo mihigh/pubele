@@ -23,8 +23,8 @@ public class AlertRecord {
     @Column(name = "email")
     private String email;
 
-//    @ManyToMany(mappedBy = "alerts", fetch = FetchType.LAZY)
-    @ManyToMany(mappedBy = "alerts", fetch = FetchType.EAGER)
+//    @ManyToMany(mappedBy = "alertRecords", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "alertRecords", fetch = FetchType.EAGER)
     private Set<ObjectiveRecord> objectiveRecords;
 
     public AlertRecord() {

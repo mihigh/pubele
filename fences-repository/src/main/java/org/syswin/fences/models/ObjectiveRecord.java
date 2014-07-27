@@ -24,8 +24,8 @@ public class ObjectiveRecord {
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private UserRecord owner;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "objective")
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "objective")
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "objectiveRecord")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "objectiveRecord")
     private List<FenceRecord> fenceRecordList;
 
 //    @ManyToMany(fetch = FetchType.LAZY)

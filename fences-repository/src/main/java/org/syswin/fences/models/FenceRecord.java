@@ -37,8 +37,8 @@ public class FenceRecord {
     @Column(name = "last_coordinates_date")
     private Date lastCoordinatesDate;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "fence")
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "fence")
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "fenceRecord")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "fenceRecord")
     @OrderBy("date desc")
     private List<FenceCoordinatesHistoryRecord> coordinatesHistoryList;
 
