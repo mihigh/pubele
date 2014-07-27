@@ -19,6 +19,19 @@ img.bg{
     z-index: -1;
 }
 
+.controls{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.form-horizontal .control-label {
+    font-size: medium;
+}
+
+.btn-group>.btn:first-child{
+    width: 35% !important;
+}
+
 .dropdown-menu{
     background-color: #f5f5f5 !important;
 }
@@ -75,4 +88,27 @@ img.bg{
     -webkit-border-radius: 6px 0 6px 6px;
     -moz-border-radius: 6px 0 6px 6px;
     border-radius: 6px 0 6px 6px;
+}
+
+
+.selected {
+    background-color: #00b3ee !important;
+}
+
+
+
+.enabled-edit {
+    color: #00b3ee;
+}
+
+.disabled-edit {
+    color: #D9D9D9;
+}
+
+.enabled-delete {
+    color: #d58512;
+}
+
+.disabled-delete {
+    color: #D9D9D9;
 }
