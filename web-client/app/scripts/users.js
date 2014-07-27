@@ -1,5 +1,15 @@
 var permissions;
 
+var selectArray = [10, 25, 50, 75, 100];
+
+var DEFAULT_NO_ELEMENTS = selectArray[1];
+var DEFAULT_PAGE = 1;
+
+var users;
+var page = DEFAULT_PAGE;
+var noOfUsersPages = 1;
+var noElementsOnPage = DEFAULT_NO_ELEMENTS;
+
 function createPermissionsTable(){
 
     getPermissions();
@@ -88,6 +98,10 @@ function failGetPermissions(){
 
 function popUpPermissionCreation(){
     $("#myModal").modal('show');
+}
+
+function popUpUserCreation(){
+    $("#myModal2").modal('show');
 }
 
 function createPermission(form){
@@ -201,5 +215,165 @@ function permissionFormChanged(element){
         if(element.checked == true){
             document.getElementById("pLogsR").checked = true;
         }
+    }
+}
+
+function getUsers(){
+    var urlRequest = "/users" + '?noElements=' + noElementsOnPage + '&page=' + page;
+
+    $.ajax({
+        async: false,
+        type: "GET",
+        url: urlRequest,
+        success: okGetUsers,
+        error: failGetUsers,
+        contentType: "application/json"
+    });
+
+    return false;
+}
+
+function okGetUsers(data){
+    console.log("Creating the Permission ended SUCCESSFULLY.");
+    users = data;
+    console.log("Users: " + users);
+}
+
+function failGetUsers(data){
+    console.log("Creating the Permission ended BAD.");
+}
+
+function createUsersTable(){
+    getUsers();
+
+    var table = $('#usersTable');
+
+    document.getElementById("usersTable").innerHTML = "";
+
+    var tableHead = '<thead>' +
+        '<tr>' +
+        '<th><acronym title="The number in the table.">No</acronym></th>' +
+        '<th><acronym title="The First Name of the user.">First Name</th>' +
+        '<th><acronym title="The Last Name of the user.">Last Name</th>' +
+        '<th><acronym title="The Username of the user.">Username</th>' +
+        '<th><acronym title="The phone number of the user.">Phone</th>' +
+        '<th><acronym title="The email address of the user.">E-Mail</th>' +
+        '<th><acronym title="The employee id of the user.">Employee ID</th>' +
+        '<th><acronym title="The permission level of the user.">Permission</th>' +
+        '<th><acronym title="The date when the user was created.">Created Date</th>' +
+        '</tr>' +
+        '</thead>';
+
+    table.append(tableHead);
+
+    var counter = (noElementsOnPage * (page-1)) + 1;
+
+    for(var i = 0; i < users.length; i++) {
+        var obj = users[i];
+
+        var bgColor = '#eee';
+
+        if(i % 2 == 0 ){
+            bgColor = '#FFFFFF';
+        }
+
+        var tableEntry = '<tr style="background-color: '+bgColor+'">' +
+            '<td>'+(counter)+'</td>' +
+            '<td>'+obj.firstName+'</td>' +
+            '<td>'+obj.lastName+'</td>' +
+            '<td>'+obj.username+'</td>' +
+            '<td>'+obj.phoneNumber+'</td>' +
+            '<td>'+obj.email+'</td>' +
+            '<td>'+obj.employeeId+'</td>' +
+            '<td>'+obj.permission.name+'</td>' +
+            '<td>'+new Date(obj.createdDate).toDateString()+'</td>' +
+
+            '</tr>';
+
+        table.append(tableEntry);
+
+        counter = counter + 1;
+    }
+}
+
+function createSelect(){
+    var select = document.getElementById("usersSelect");
+
+    for(var i=0 ; i<selectArray.length ; i++) {
+        var option = document.createElement('option');
+        option.value = selectArray[i];
+        option.text = selectArray[i];
+        if(selectArray[i] == DEFAULT_NO_ELEMENTS){
+            option.selected = true;
+        }
+        select.appendChild(option);
+    }
+}
+
+function createPages(){
+    var pagination1 = $('#pagination1');
+    var pagination2 = $('#pagination2');
+
+    document.getElementById("pagination1").innerHTML = "";
+    document.getElementById("pagination2").innerHTML = "";
+
+    if(noOfUsersPages < page){
+        page = noOfUsersPages;
+    }
+
+    if(page == 1) {
+        pagination1.append('<li class="disabled"><a>Prev</a>');
+        pagination2.append('<li class="disabled"><a>Prev</a>');
+    }else{
+        pagination1.append('<li class="enable" onclick="goToPage(page-1)"><a>Prev</a>');
+        pagination2.append('<li class="enable" onclick="goToPage(page-1)"><a>Prev</a>');
+    }
+
+    if(page == noOfUsersPages) {
+        pagination1.append('<li class="disabled"><a>Next</a>');
+        pagination2.append('<li class="disabled"><a>Next</a>');
+    }else{
+        pagination1.append('<li class="enable" onclick="goToPage(page+1)"><a>Next</a>');
+        pagination2.append('<li class="enable" onclick="goToPage(page+1)"><a>Next</a>');
+    }
+}
+
+function noElementsChanged(_noElements){
+    console.log("Changed no. elements on page from " + noElementsOnPage + " to " + _noElements);
+
+    noElementsOnPage = _noElements;
+    page = 1;
+
+    createUsersTable();
+}
+
+function goToPage(pageNo){
+    console.log("Changing from page " + page + " to page " + pageNo);
+
+    page = pageNo;
+
+    createUsersTable();
+}
+
+function createUsersPermissionSelect(){
+    getPermissions();
+
+    var select = document.getElementById("usersPermissionSelect");
+
+    var option = document.createElement('option');
+
+    option.value = "None";
+    option.text = "None";
+
+    select.appendChild(option);
+
+    for(var i=0 ; i<permissions.length ; i++) {
+        var obj = permissions[i];
+        option = document.createElement('option');
+
+        option.value = obj.name;
+        option.text = obj.name;
+
+        select.appendChild(option);
     }
 }

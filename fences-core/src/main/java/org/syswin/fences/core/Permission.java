@@ -62,6 +62,10 @@ public class Permission {
         this.statisticsRead = statisticsRead;
     }
 
+    public static Permission createAdminGroup(){
+        return new Permission(1, "admin", null, false, new Date(), new Date(), null, true, true, true, true, true, true, true, true, true, true, true, true);
+    }
+
     public long getId() {
         return id;
     }

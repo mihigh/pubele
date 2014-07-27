@@ -13,9 +13,10 @@
     <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../../bower_components/bootstrap-select/bootstrap-select.css" />
 
-    <script src="../../../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../../bower_components/bootstrap-select/bootstrap-select.js"></script>
     <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../../bower_components/jqBootstrapValidation/src/jqBootstrapValidation.js"></script>
 
     <script src="../scripts/users.js"></script>
 </head>
@@ -96,9 +97,29 @@
                     <h3><i style="color: #00b3ee" class="glyphicon glyphicon-user main-color"></i> Users</h3>
                 </div>
                 <div class="panel-body">
-                    <table class="table table-hover">
+                    <div style="padding-right: 20px; padding-left: 20px; font-size: 25px">
+                        <i id="addUser" style="color: #4cae4c" class="glyphicon glyphicon-plus main-color" onclick="popUpUserCreation()"></i>
+                        <i id="editUser" style="color: #00b3ee" class="glyphicon glyphicon-pencil main-color"></i>
+                        <i id= "deleteUser" style="color: #d58512" class="glyphicon glyphicon-trash main-color"></i>
+
+                        <br>
+                        <i style="color: #00b3ee;" class="glyphicon glyphicon-th-list main-color"></i>
+                            <font style="padding-left: 10px; padding-right: 20px;">Number of users
+                            </font>
+                        <select id="usersSelect" class="selectpicker" title='Number of users' data-style="btn-success" onchange="noElementsChanged(this.value)">
+                        </select>
+                    </div>
+
+                    <ul id="pagination1" class="pagination" style="padding-left: 30px; margin: 0px; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none;">
+                    </ul>
+
+
+                    <table id="usersTable" class="table table-hover">
 
                     </table>
+
+                    <ul id="pagination2" class="pagination" style="padding-left: 30px; margin: 0px; margin-bottom: 10px; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none;">
+                    </ul>
                 </div>
             </div>
         </div>
@@ -158,8 +179,113 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div id="myModal2" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header" style="background-color: #28a4c9; color: #ffffff">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Create new user.</h4>
+            </div>
+
+            <form id="createUserForm" method="post" class="form-horizontal" style="font-size: 20px" onsubmit="return createUser(this)" method="post">
+                <div class="modal-body">
+
+                    <div class="control-group">
+                        <label class="control-label">First name<sup> (*)</sup></label>
+                        <div class="controls">
+                            <input type="text" class="form-control" name="firstName" placeholder="First Name" autofocus="" required />
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Last name<sup> (*)</sup></label>
+                        <div class="controls">
+                            <input type="text" class="form-control" name="lastName" placeholder="Last Name" autofocus="" required />
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Username<sup> (*)</sup></label>
+                        <div class="controls">
+                            <input type="text" class="form-control" name="username" placeholder="User Name" autofocus="" required />
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Password<sup> (*)</sup></label>
+                        <div class="controls">
+                            <input type="password" class="form-control" name="password" placeholder="Password" autofocus="" required />
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Confirm password<sup> (*)</sup></label>
+                        <div class="controls">
+                            <input type="password" class="form-control" name="confirm_password" data-validation-match-match="password" placeholder="Confirm Password" autofocus="" required />
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Telephone</label>
+                        <div class="controls">
+                            <input type="text" class="form-control" name="phone" placeholder="Telephone" autofocus=""/>
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Email address</label>
+                        <div class="controls">
+                            <input type="email" class="form-control" name="email" placeholder="E-Mail" autofocus=""/>
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Employee ID</label>
+                        <div class="controls">
+                            <input type="text" class="form-control" name="employeeId" placeholder="Emplyee ID" autofocus=""/>
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Permission<sup> (*)</sup></label>
+                        <div class="controls" style="display: inline-block">
+                            <select id="usersPermissionSelect" name="permission" class="selectpicker">
+                            </select>
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Save permission">
+                </div>
+            </form>
+            <script>
+                createUsersPermissionSelect();
+                $(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); } );
+            </script>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
 <script>
     createPermissionsTable();
+    createSelect();
+    createPages();
+    createUsersTable();
+    $('select').selectpicker();
 </script>
 
 </body>
