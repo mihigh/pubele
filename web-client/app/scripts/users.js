@@ -90,25 +90,116 @@ function popUpPermissionCreation(){
     $("#myModal").modal('show');
 }
 
-function createPermission(){
-    var createPermissionForm = $('#createPermissionForm');
+function createPermission(form){
+    console.log(form);
 
-    console.log(createPermissionForm);
+    var permission = {
+        "name": form.pName.value,
+        "fencesRead": form.pAssetsR.checked,
+        "fencesReadWrite": form.pAssetsRW.checked,
+        "objectivesRead": form.pObjectivesR.checked,
+        "objectivesReadWrite": form.pObjectivesRW.checked,
+        "usersRead": form.pUsersR.checked,
+        "usersReadUpdate": form.pUsersRE.checked,
+        "usersReadCreate": form.pUsersREW.checked,
+        "alertRead": form.pAlertsR.checked,
+        "alertReadWrite": form.pAlertsRW.checked,
+        "logsRead": form.pLogsR.checked,
+        "logsReadWrite": form.pLogsRW.checked,
+        "statisticsRead": form.pStatisticsR.checked
+    };
+
+    console.log("permission: " + JSON.stringify(permission));
+
+    $.ajax({
+        type: "POST",
+        url: "/users/permissions",
+        data: JSON.stringify(permission),
+        success: okCreatePermission,
+        error: errorCreatePermission,
+        contentType: "application/json"
+    });
+
+    $("#myModal").modal('hide');
+    return false;
+}
+
+function okCreatePermission(data){
+    console.log("Creating the Permission ended SUCCESSFULLY.");
+}
+
+function errorCreatePermission(data){
+    console.log("Creating the Permission ended BAD.");
 }
 
 function permissionFormChanged(element){
-    console.log(element);
-
     if(element.id == "pAssetsR"){
-        console.log("bang!");
-
-        console.log(element.checked);
-
         if(element.checked == false){
-            console.log("element.checked: " + element.checked);
-            var pAssetsRW = $('#pAssetsRW');
-            pAssetsRW.checked = "false";
-            document.getElementById("pAssetsRw").checked = false;
+            document.getElementById("pAssetsRW").checked = false;
+        }
+    }
+    else if(element.id == "pAssetsRW"){
+        if(element.checked == true){
+            document.getElementById("pAssetsR").checked = true;
+        }
+    }
+
+
+    else if(element.id == "pObjectivesR"){
+        if(element.checked == false){
+            document.getElementById("pObjectivesRW").checked = false;
+        }
+    }
+    else if(element.id == "pObjectivesRW"){
+        if(element.checked == true){
+            document.getElementById("pObjectivesR").checked = true;
+        }
+    }
+
+
+    else if(element.id == "pUsersR"){
+        if(element.checked == false){
+            document.getElementById("pUsersRE").checked = false;
+            document.getElementById("pUsersREW").checked = false;
+        }
+    }
+    else if(element.id == "pUsersRE"){
+        if(element.checked == true){
+            document.getElementById("pUsersR").checked = true;
+        }
+    }
+    else if(element.id == "pUsersRE"){
+        if(element.checked == false){
+            document.getElementById("pUsersREW").checked = false;
+        }
+    }
+    else if(element.id == "pUsersREW"){
+        if(element.checked == true){
+            document.getElementById("pUsersR").checked = true;
+            document.getElementById("pUsersRE").checked = true;
+        }
+    }
+
+
+    else if(element.id == "pAlertsR"){
+        if(element.checked == false){
+            document.getElementById("pAlertsRW").checked = false;
+        }
+    }
+    else if(element.id == "pAlertsRW"){
+        if(element.checked == true){
+            document.getElementById("pAlertsR").checked = true;
+        }
+    }
+
+    else if(element.id == "pLogsR"){
+        if(element.checked == false){
+            document.getElementById("pLogsRW").checked = false;
+        }
+    }
+    else if(element.id == "pLogsRW"){
+        if(element.checked == true){
+            document.getElementById("pLogsR").checked = true;
         }
     }
 }
