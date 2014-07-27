@@ -255,4 +255,28 @@ public class PermissionRecord {
     public void setStatisticsRead (boolean statisticsRead) {
         this.statisticsRead = statisticsRead;
     }
+
+    @Override public String toString () {
+        return "PermissionRecord{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", owner=" + owner +
+                ", deleted=" + deleted +
+                ", createdDate=" + createdDate +
+                ", updatedDate=" + updatedDate +
+                ", deletedDate=" + deletedDate +
+                ", fencesRead=" + fencesRead +
+                ", fencesReadWrite=" + fencesReadWrite +
+                ", objectivesRead=" + objectivesRead +
+                ", objectivesReadWrite=" + objectivesReadWrite +
+                ", usersRead=" + usersRead +
+                ", usersReadUpdate=" + usersReadUpdate +
+                ", usersReadCreate=" + usersReadCreate +
+                ", alertRead=" + alertRead +
+                ", alertReadWrite=" + alertReadWrite +
+                ", logsRead=" + logsRead +
+                ", logsReadWrite=" + logsReadWrite +
+                ", statisticsRead=" + statisticsRead +
+                '}';
+    }
 }
