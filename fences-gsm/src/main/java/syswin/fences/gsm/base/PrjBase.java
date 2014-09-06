@@ -8,6 +8,7 @@ import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import syswin.fences.gsm.gsm.GPRSUtilities;
 import syswin.fences.gsm.logging.LoggingUtils;
 
 
@@ -66,10 +67,10 @@ public class PrjBase {
         }
 
         // The GSM GPRS Initialization
-        /*if (!GPRSUtilities.init ()) {
+        if (!GPRSUtilities.init ()) {
             System.err.println ("Error while initializing the GSM GPRS Modem.");
             System.exit (SystemExitCodes.GPRS_INIT.value ());
-        }*/
+        }
     }
 
     /**

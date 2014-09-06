@@ -6,18 +6,14 @@
     <link rel="shortcut icon" href="../../common/favicon.png">
     <link rel="stylesheet" type="text/css" href="../../css/map.css">
     <img src="../../common/syswinBackground.png" class="bg" />
-    <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.css" />
-    <link href="http://demo.bootstraptor.com/contact_bs3/assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
 
-    <style>
-        html, body, #map-canvas {
-            width: 100%;
-            height: 700px;
-            margin: 0px;
-            padding: 0px
-        }
-    </style>
+    <link rel="stylesheet" href="../../../bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="../../../bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../../bower_components/bootstrap-select/bootstrap-select.css" />
+
+    <script src="../../../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../../../bower_components/bootstrap-select/bootstrap-select.js"></script>
+    <script src="../../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 
@@ -25,12 +21,12 @@
         var map;
 
         var stableLocations = [new google.maps.LatLng(44.434278, 26.034482), new google.maps.LatLng(44.467140, 26.078481), new google.maps.LatLng(44.464506, 26.126246)];
-        var alertsLocations = [new google.maps.LatLng(44.426350, 26.091400), new google.maps.LatLng(44.433808, 25.998765)];
-        var vehiclesLocations = [new google.maps.LatLng(44.442421, 26.165643), new google.maps.LatLng(44.405542, 26.062686), new google.maps.LatLng(44.457440, 26.060730), new google.maps.LatLng(44.382212, 26.149736)];
+        var alertLocations = [new google.maps.LatLng(44.426350, 26.091400), new google.maps.LatLng(44.433808, 25.998765)];
+        var vehicleLocations = [new google.maps.LatLng(44.442421, 26.165643), new google.maps.LatLng(44.405542, 26.062686), new google.maps.LatLng(44.457440, 26.060730), new google.maps.LatLng(44.382212, 26.149736)];
 
         var stableMarkers = [];
-        var alertsMarkers = [];
-        var vehiclesMarkers = [];
+        var alertMarkers = [];
+        var vehicleMarkers = [];
 
         var displayStable = true;
         var displayAlarms = true;
@@ -40,120 +36,86 @@
         var pinPointAlerts = "../../common/orange-PinPoint.png";
         var pinPointVehicle = "../../common/pinPoint-Vehicle.png";
 
-        var mapCenter;
+        var locationsArray;
+
+        var STABLE = "stable";
+        var ALARM = "alarm";
+        var VEHICLE = "vehicle";
 
         function initialize() {
-            findCenter();
+            if (!getLocations()){
+                return;
+            }
 
             var mapOptions = {
                 zoom: 12,
-                //center: new google.maps.LatLng(44.434912, 26.103115)
-                center: mapCenter
+                center: new google.maps.LatLng(44.434912, 26.103115)
             };
             map = new google.maps.Map(document.getElementById('map-canvas'),
                     mapOptions);
 
             for (var i = 0; i < stableLocations.length; i++) {
-                addMarker(stableLocations[i], "stable");
+                addMarker(stableLocations[i], STABLE);
             }
 
-            for (var i = 0; i < alertsLocations.length; i++) {
-                addMarker(alertsLocations[i], "alarms");
+            for (var i = 0; i < alertLocations.length; i++) {
+                addMarker(alertLocations[i], ALARM);
             }
 
-            for (var i = 0; i < vehiclesLocations.length; i++) {
-                addMarker(vehiclesLocations[i], "vehicles");
+            for (var i = 0; i < vehicleLocations.length; i++) {
+                addMarker(vehicleLocations[i], VEHICLE);
             }
         }
 
         google.maps.event.addDomListener(window, 'load', initialize);
 
-        function findCenter(){
-            var minLat = 45, maxLat = 45;
-            var minLng = 45, maxLng = 45;
+        function getLocations(){
+            locationsGET();
 
-            if(stableLocations.length > 0){
-                minLat = stableLocations[0].lat();
-                maxLat = stableLocations[0].lat();
-                minLng = stableLocations[0].lng();
-                maxLng = stableLocations[0].lng();
+            if(locationsArray != null){
+                console.log(locationsArray);
+                return true;
             }
-            else if(alertsLocations.length > 0){
-                minLat = alertsLocations[0].lat();
-                maxLat = alertsLocations[0].lat();
-                minLng = alertsLocations[0].lng();
-                maxLng = alertsLocations[0].lng();
+            else{
+                alert("An error occured while retrieving the locations. This feature might be disabled at the moment. Please contact the administrators.");
+                console.log("Error retrieving locations.");
+                return false;
             }
-            else if(vehiclesLocations.length > 0){
-                minLat = vehiclesLocations[0].lat();
-                maxLat = vehiclesLocations[0].lat();
-                minLng = vehiclesLocations[0].lng();
-                maxLng = vehiclesLocations[0].lng();
-            }
+        }
 
-            for (var i = 0; i < stableLocations.length; i++) {
-                if(stableLocations[i].lat() < minLat){
-                    minLat = stableLocations[i].lat();
-                }
-                if(stableLocations[i].lat() > maxLat){
-                    maxLat = stableLocations[i].lat();
-                }
+        function locationsGET(){
+            var urlRequest = "/map/locations";
 
-                if(stableLocations[i].lng() < minLng){
-                    minLng = stableLocations[i].lng();
-                }
-                if(stableLocations[i].lng() > maxLng){
-                    maxLng = stableLocations[i].lng();
-                }
-            }
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: urlRequest,
+                success: okGetLocations,
+                error: failGetLocations,
+                contentType: "application/json"
+            });
 
-            for (var i = 0; i < alertsLocations.length; i++) {
-                if(alertsLocations[i].lat() < minLat){
-                    minLat = alertsLocations[i].lat();
-                }
-                if(stableLocations[i].lat() > maxLat){
-                    maxLat = alertsLocations[i].lat();
-                }
+            return false;
+        }
 
-                if(alertsLocations[i].lng() < minLng){
-                    minLng = alertsLocations[i].lng();
-                }
-                if(alertsLocations[i].lng() > maxLng){
-                    maxLng = alertsLocations[i].lng();
-                }
-            }
+        function okGetLocations(data){
+            locationsArray = data;
+        }
 
-            for (var i = 0; i < vehiclesLocations.length; i++) {
-                if(vehiclesLocations[i].lat() < minLat){
-                    minLat = vehiclesLocations[i].lat();
-                }
-                if(vehiclesLocations[i].lat() > maxLat){
-                    maxLat = vehiclesLocations[i].lat();
-                }
-
-                if(vehiclesLocations[i].lng() < minLng){
-                    minLng = vehiclesLocations[i].lng();
-                }
-                if(vehiclesLocations[i].lng() > maxLng){
-                    maxLng = vehiclesLocations[i].lng();
-                }
-            }
-
-            console.log((maxLat + minLat) / 2);
-            console.log((maxLng + minLng) /2);
-            mapCenter = new google.maps.LatLng((maxLat + minLat) / 2, (maxLng + minLng) /2)
+        function failGetLocations(){
+            alert("An ERROR occurred while retrieving the locations.");
         }
 
         function addMarker(location, type) {
             var image;
 
-            if( type == "stable"){
+            if( type == STABLE){
                 image = pinPointStable;
             }
-            if( type == "alarms"){
+            if( type == ALARM){
                 image = pinPointAlerts;
             }
-            if( type == "vehicles"){
+            if( type == VEHICLE){
                 image = pinPointVehicle;
             }
 
@@ -182,14 +144,14 @@
                 infowindow.open(map, marker);
             });
 
-            if( type == "stable"){
+            if( type == STABLE){
                 stableMarkers.push(marker);
             }
-            if( type == "alarms"){
-                alertsMarkers.push(marker);
+            if( type == ALARM){
+                alertMarkers.push(marker);
             }
-            if( type == "vehicles"){
-                vehiclesMarkers.push(marker);
+            if( type == VEHICLE){
+                vehicleMarkers.push(marker);
             }
         }
 
@@ -197,7 +159,7 @@
             displayStable = element.checked;
             if (displayStable == true) {
                 for (var i = 0; i < stableLocations.length; i++) {
-                    addMarker(stableLocations[i], "stable");
+                    addMarker(stableLocations[i], STABLE);
                 }
             }else{
                 for (var i = 0; i < stableMarkers.length; i++) {
@@ -210,71 +172,41 @@
         function alarmsCheckbox(element){
             displayAlarms = element.checked;
             if (displayAlarms == true) {
-                for (var i = 0; i < alertsLocations.length; i++) {
-                    addMarker(alertsLocations[i], "alarms");
+                for (var i = 0; i < alertLocations.length; i++) {
+                    addMarker(alertLocations[i], ALARM);
                 }
             }else{
-                for (var i = 0; i < alertsMarkers.length; i++) {
-                    alertsMarkers[i].setMap(null);
+                for (var i = 0; i < alertMarkers.length; i++) {
+                    alertMarkers[i].setMap(null);
                 }
-                alertsMarkers = [];
+                alertMarkers = [];
             }
         }
 
         function vehicleCheckbox(element){
             displayVehicles = element.checked;
             if (displayVehicles == true) {
-                for (var i = 0; i < vehiclesLocations.length; i++) {
-                    addMarker(vehiclesLocations[i], "vehicles");
+                for (var i = 0; i < vehicleLocations.length; i++) {
+                    addMarker(vehicleLocations[i], VEHICLE);
                 }
             }else{
-                for (var i = 0; i < vehiclesMarkers.length; i++) {
-                    vehiclesMarkers[i].setMap(null);
+                for (var i = 0; i < vehicleMarkers.length; i++) {
+                    vehicleMarkers[i].setMap(null);
                 }
-                vehiclesMarkers = [];
+                vehicleMarkers = [];
             }
         }
 
         setInterval(function() {
             if (displayVehicles == true) {
-                for (var i = 0; i < vehiclesMarkers.length; i++) {
-                    vehiclesMarkers[i].setPosition(new google.maps.LatLng(vehiclesMarkers[i].getPosition().lat() + 0.0001, vehiclesMarkers[i].getPosition().lng() + 0.0001));
-                    vehiclesMarkers[i].setMap(map);
+                for (var i = 0; i < vehicleMarkers.length; i++) {
+                    vehicleMarkers[i].setPosition(new google.maps.LatLng(vehicleMarkers[i].getPosition().lat() + 0.0001, vehicleMarkers[i].getPosition().lng() + 0.0001));
+                    vehicleMarkers[i].setMap(map);
                 }
             }
         }, 500);
 
     </script>
-
-    <style type="text/css">
-        body {
-            padding-top: 40px;
-            padding-bottom: 40px;
-        }
-
-        header .jumbotron small{
-            color:#fff;
-        }
-        .main-color {
-            color:#358cce;
-        }
-
-        input[type="checkbox"] {
-            display:none;
-        }
-        input[type="checkbox"] + label span {
-            display:inline-block;
-            width:30px;
-            height:30px;
-            margin:-1px 4px 0 0;
-            vertical-align:middle;
-            background:url(../../common/small-unchecked.png) top no-repeat;
-            cursor:pointer;
-        }
-        input[type="checkbox"]:checked + label span {
-            background:url(../../common/small-checked.png) top no-repeat;
-        }
-    </style>
 
 </head>
 <body>
@@ -314,8 +246,6 @@
         </nav>
     </div>
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 </header>
 
     <div class="container">
