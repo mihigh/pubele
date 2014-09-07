@@ -19,5 +19,6 @@
     <!-- Structure -->
     <context:component-scan base-package="org.syswin.fences.webapp.controllers"/>
 
+    <bean id="gsm-service" class="syswin.fences.gsm.base.PrjBase"></bean>
 
 </beans>

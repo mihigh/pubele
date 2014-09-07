@@ -20,12 +20,12 @@
     <script>
         var map;
 
-        var stableLocations = [new google.maps.LatLng(44.434278, 26.034482), new google.maps.LatLng(44.467140, 26.078481), new google.maps.LatLng(44.464506, 26.126246)];
-        var alertLocations = [new google.maps.LatLng(44.426350, 26.091400), new google.maps.LatLng(44.433808, 25.998765)];
-        var vehicleLocations = [new google.maps.LatLng(44.442421, 26.165643), new google.maps.LatLng(44.405542, 26.062686), new google.maps.LatLng(44.457440, 26.060730), new google.maps.LatLng(44.382212, 26.149736)];
+        var stableLocations  = [];
+        var alertLocations   = [];
+        var vehicleLocations = [];
 
-        var stableMarkers = [];
-        var alertMarkers = [];
+        var stableMarkers  = [];
+        var alertMarkers   = [];
         var vehicleMarkers = [];
 
         var displayStable = true;
@@ -41,6 +41,16 @@
         var STABLE = "stable";
         var ALARM = "alarm";
         var VEHICLE = "vehicle";
+
+        var infowindow;
+        $(document).keyup(function(e) {
+
+            if (e.keyCode == 27) {
+                if(infowindow){
+                    infowindow.close();
+                }
+            }
+        });
 
         function initialize() {
             if (!getLocations()){
@@ -73,7 +83,21 @@
             locationsGET();
 
             if(locationsArray != null){
-                console.log(locationsArray);
+                for(var i = 0; i < locationsArray.length; i++){
+                    if (locationsArray[i].state == STABLE){
+                        stableLocations.push(locationsArray[i]);
+                    }
+                    else if (locationsArray[i].state == ALARM){
+                        alertLocations.push(locationsArray[i]);
+                    }
+                    else if (locationsArray[i].state == VEHICLE){
+                        vehicleLocations.push(locationsArray[i]);
+                    }
+                    else {
+                        console.error("Unknown location type !");
+                    }
+                }
+
                 return true;
             }
             else{
@@ -108,14 +132,18 @@
 
         function addMarker(location, type) {
             var image;
+            var stateStr;
 
             if( type == STABLE){
+                stateStr = '<b><font color="009933">STABLE</font></b>'
                 image = pinPointStable;
             }
             if( type == ALARM){
+                stateStr = '<b><font color="CC0000">ALARM</font></b>'
                 image = pinPointAlerts;
             }
             if( type == VEHICLE){
+                stateStr = '<b><font color="6600CC">VEHICLE</font></b>'
                 image = pinPointVehicle;
             }
 
@@ -126,21 +154,29 @@
                 animation: google.maps.Animation.DROP
             });
 
-            var contentString = '<div id="content">'+
-                    '<div id="siteNotice">'+
-                        '</div>'+
-                        '<h2 id="firstHeading" class="firstHeading">Asset</h2>'+
-                        '<div id="bodyContent">'+
-                            '<p>TODO: To complete this HTML page.</p>'+
-                        '</div>'+
-                    '</div>';
-
-            var infowindow = new google.maps.InfoWindow({
-                //content: "TODO: To write the information"
-                content: contentString
-            });
-
             google.maps.event.addListener(marker, 'click', function() {
+                var contentString =
+                        '<div id="content">'+
+                        '<div id="siteNotice">'+
+                        '</div>'+
+                            '<h4><b>UID:</b> ' + location.uid + '</h4>'+
+                            '<div>'+
+                                '<p><b>State:</b> ' + stateStr + '</p>'+
+                                '<p><b>Longitude:</b> ' + location.lng + '</p>'+
+                                '<p><b>Latitude:</b> ' + location.lat + '</p>'+
+                                '<p><b>Last Update:</b> ' + location.lastModifiedStr + '</p>'+
+                            '</div>'+
+                        '</div>';
+
+                if(infowindow){
+                    infowindow.close();
+                }
+
+                infowindow = new google.maps.InfoWindow({
+                    //content: "TODO: To write the information"
+                    content: contentString
+                });
+
                 infowindow.open(map, marker);
             });
 
@@ -198,13 +234,19 @@
         }
 
         setInterval(function() {
-            if (displayVehicles == true) {
-                for (var i = 0; i < vehicleMarkers.length; i++) {
-                    vehicleMarkers[i].setPosition(new google.maps.LatLng(vehicleMarkers[i].getPosition().lat() + 0.0001, vehicleMarkers[i].getPosition().lng() + 0.0001));
-                    vehicleMarkers[i].setMap(map);
-                }
-            }
-        }, 500);
+            stableLocations  = [];
+            alertLocations   = [];
+            vehicleLocations = [];
+
+            stableMarkers  = [];
+            alertMarkers   = [];
+            vehicleMarkers = [];
+            getLocations();
+
+            console.log(stableLocations);
+            console.log(alertLocations);
+            console.log(vehicleLocations);
+        }, 3000);
 
     </script>
 

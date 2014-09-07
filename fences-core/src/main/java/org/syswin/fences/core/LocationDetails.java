@@ -1,6 +1,7 @@
 package org.syswin.fences.core;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class LocationDetails implements Serializable {
@@ -10,6 +11,7 @@ public class LocationDetails implements Serializable {
     private double   lng;
     private String state;
     private Date   lastModified;
+    private String lastModifiedStr;
 
     public LocationDetails () {
     }
@@ -20,6 +22,7 @@ public class LocationDetails implements Serializable {
         this.lng = lng;
         this.state = state.toString ().toLowerCase ();
         this.lastModified = lastModified;
+        this.lastModifiedStr = (new SimpleDateFormat ("hh:mm:ss dd-M-yyyy")).format(lastModified);
     }
 
     public String getUID () {
@@ -60,5 +63,13 @@ public class LocationDetails implements Serializable {
 
     public void setLastModified (Date lastModified) {
         this.lastModified = lastModified;
+    }
+
+    public String getLastModifiedStr () {
+        return lastModifiedStr;
+    }
+
+    public void setLastModifiedStr (String lastModifiedStr) {
+        this.lastModifiedStr = lastModifiedStr;
     }
 }

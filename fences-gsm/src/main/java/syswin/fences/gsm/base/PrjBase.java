@@ -22,7 +22,11 @@ public class PrjBase {
 
     private final static Logger log = LoggerFactory.getLogger(PrjBase.class.getName());
 
-    public static void main(String[] args) {
+    public PrjBase(){
+        //runServer();
+    }
+
+    public static void runServer() {
         init();
 
         doCStartUpCheckUps();
