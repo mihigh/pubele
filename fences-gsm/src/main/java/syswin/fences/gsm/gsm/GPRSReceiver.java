@@ -2,7 +2,11 @@ package syswin.fences.gsm.gsm;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.syswin.fences.core.LocationDetails;
+import org.syswin.fences.core.LocationState;
+import syswin.fences.gsm.base.MessagesList;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -99,7 +103,7 @@ public final class GPRSReceiver {
             case PARENT_MESSAGE:
             case GRANDPARENT_MESSAGE:
                 System.out.println ("Got Parent message: " + newMessage.getMessage ());
-                //incomingMessagesQueue.add (newMessage);
+                incomingMessagesQueue.add (newMessage);
                 System.out.println ("-----------------------------------------------");
                 System.out.println ();
 
@@ -201,7 +205,9 @@ final class ReceiverWorker extends Thread{
             try {
                 Message incMessage = GPRSReceiver.incomingMessagesQueue.take();
 
-                // TODO: To process the incomming message
+                System.out.println ("Received message: " + incMessage);
+
+                MessagesList.addLocation (new LocationDetails ("D-0000-0000-0001", 44.424676, 26.082204 , LocationState.STABLE, new Date ()));
             }
             catch (InterruptedException e) {
                 log.error ("Receiver Worker no. {} was interrupted while receiving a message from the queue.", this.id);

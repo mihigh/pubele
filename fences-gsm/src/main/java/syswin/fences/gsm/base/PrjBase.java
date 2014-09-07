@@ -23,7 +23,11 @@ public class PrjBase {
     private final static Logger log = LoggerFactory.getLogger(PrjBase.class.getName());
 
     public PrjBase(){
-        //runServer();
+        runServer();
+    }
+
+    public static void main (String[] args){
+        runServer();
     }
 
     public static void runServer() {

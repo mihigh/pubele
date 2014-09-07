@@ -25,12 +25,18 @@ public class LocationDetails implements Serializable {
         this.lastModifiedStr = (new SimpleDateFormat ("hh:mm:ss dd-M-yyyy")).format(lastModified);
     }
 
+    private void updateLastModified(){
+        this.lastModified = new Date();
+        this.lastModifiedStr = (new SimpleDateFormat ("hh:mm:ss dd-M-yyyy")).format(lastModified);
+    }
+
     public String getUID () {
         return UID;
     }
 
     public void setUID (String UID) {
         this.UID = UID;
+        updateLastModified();
     }
 
     public double getLat () {
@@ -39,6 +45,7 @@ public class LocationDetails implements Serializable {
 
     public void setLat (double lat) {
         this.lat = lat;
+        updateLastModified();
     }
 
     public double getLng () {
@@ -47,6 +54,7 @@ public class LocationDetails implements Serializable {
 
     public void setLng (double lng) {
         this.lng = lng;
+        updateLastModified();
     }
 
     public String getState () {
@@ -55,6 +63,7 @@ public class LocationDetails implements Serializable {
 
     public void setState (String state) {
         this.state = state;
+        updateLastModified();
     }
 
     public Date getLastModified () {

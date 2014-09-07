@@ -45,6 +45,12 @@ class Message {
     Date serverDate = null;
     String sender = null;
 
+    String statusOfMsg;
+    String senderNumber;
+    String nickName;
+    String date;
+    String hour;
+
     public Message (MessageDirection messageDirection) {
         if (messageDirection == null || MessageDirection.NONE.equals (messageDirection)) {
             log.error ("Invalid message direction.");
@@ -96,22 +102,21 @@ class Message {
         else if(messageStr.startsWith (GPRSCommands.READ_REQUEST_RESPONSE.toString ()) &&
                 messageStr.endsWith (GPRSCommands.OK.toString ())){
             String[] splitMsg = messageStr.replace (GPRSCommands.READ_REQUEST_RESPONSE.toString (), "").split (",");
-            String statusOfMsg = splitMsg[0];
-            String senderNumber = splitMsg[1];
-            String nickName = splitMsg[2];
-            String date = splitMsg[3];
-            String hour = splitMsg[4].split ("\"")[0];
-            String message = splitMsg[4].split ("\"")[1];
-            message = message.substring (0, message.length ()-2);
+            this.statusOfMsg = splitMsg[0];
+            this.senderNumber = splitMsg[1];
+            this.nickName = splitMsg[2];
+            this.date = splitMsg[3];
+            this.hour = splitMsg[4].split ("\"")[0];
 
-            /*System.out.println ("Message Status: " + statusOfMsg);
-            System.out.println ("Sender Number: " + senderNumber);
-            System.out.println ("Nick Name: " +nickName);
-            System.out.println ("Date: " + date);
-            System.out.println ("Hour: " + hour);
-            System.out.println ("Message: "+message);*/
+            this.message = splitMsg[4].split ("\"")[1];
 
-            this.message = message;
+            for(int i=5 ; i<splitMsg.length ; i++){
+                this.message = this.message + splitMsg[i] + "/";
+            }
+
+            this.message = message.substring (0, message.length ()-2);
+            this.message = this.message.replace ("*","");
+
             this.messageType = MessageType.PARENT_MESSAGE;
         }
         else{
@@ -165,6 +170,18 @@ class Message {
         }
 
         this.message = message;
+    }
+
+    public String toString(){
+        StringBuilder sb = new StringBuilder ();
+        sb.append ("Message Status: " + statusOfMsg).append ("\n");
+        sb.append ("Sender Number: " + senderNumber).append ("\n");
+        sb.append ("Nick Name: " +nickName).append ("\n");
+        sb.append ("Date: " + date).append ("\n");
+        sb.append ("Hour: " + hour).append ("\n");
+        sb.append ("Message: "+message);
+
+        return sb.toString ();
     }
 }
 

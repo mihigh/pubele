@@ -64,20 +64,24 @@
             map = new google.maps.Map(document.getElementById('map-canvas'),
                     mapOptions);
 
-            for (var i = 0; i < stableLocations.length; i++) {
-                addMarker(stableLocations[i], STABLE);
-            }
-
-            for (var i = 0; i < alertLocations.length; i++) {
-                addMarker(alertLocations[i], ALARM);
-            }
-
-            for (var i = 0; i < vehicleLocations.length; i++) {
-                addMarker(vehicleLocations[i], VEHICLE);
-            }
+            paintMarkers(true);
         }
 
         google.maps.event.addDomListener(window, 'load', initialize);
+
+        function paintMarkers(withDrop){
+            for (var i = 0; i < stableLocations.length; i++) {
+                addMarker(stableLocations[i], STABLE, withDrop);
+            }
+
+            for (var i = 0; i < alertLocations.length; i++) {
+                addMarker(alertLocations[i], ALARM, withDrop);
+            }
+
+            for (var i = 0; i < vehicleLocations.length; i++) {
+                addMarker(vehicleLocations[i], VEHICLE, withDrop);
+            }
+        }
 
         function getLocations(){
             locationsGET();
@@ -130,7 +134,7 @@
             alert("An ERROR occurred while retrieving the locations.");
         }
 
-        function addMarker(location, type) {
+        function addMarker(location, type, withDrop) {
             var image;
             var stateStr;
 
@@ -151,8 +155,12 @@
                 position: location,
                 map: map,
                 icon: image,
-                animation: google.maps.Animation.DROP
+                //animation: google.maps.Animation.DROP
             });
+
+            if(withDrop){
+                marker.animation = google.maps.Animation.DROP;
+            }
 
             google.maps.event.addListener(marker, 'click', function() {
                 var contentString =
@@ -188,6 +196,16 @@
             }
             if( type == VEHICLE){
                 vehicleMarkers.push(marker);
+            }
+
+            if (displayStable == false && type == STABLE) {
+                marker.setMap(null);
+            }
+            if (displayAlarms == false && type == ALARM) {
+                marker.setMap(null);
+            }
+            if (displayVehicles == false && type == VEHICLE) {
+                marker.setMap(null);
             }
         }
 
@@ -234,6 +252,16 @@
         }
 
         setInterval(function() {
+            for (var i = 0; i < stableMarkers.length; i++) {
+                stableMarkers[i].setMap(null);
+            }
+            for (var i = 0; i < alertMarkers.length; i++) {
+                alertMarkers[i].setMap(null);
+            }
+            for (var i = 0; i < vehicleMarkers.length; i++) {
+                vehicleMarkers[i].setMap(null);
+            }
+
             stableLocations  = [];
             alertLocations   = [];
             vehicleLocations = [];
@@ -241,12 +269,14 @@
             stableMarkers  = [];
             alertMarkers   = [];
             vehicleMarkers = [];
+
             getLocations();
+            paintMarkers(false);
 
             console.log(stableLocations);
             console.log(alertLocations);
             console.log(vehicleLocations);
-        }, 3000);
+        }, 10000);
 
     </script>
 
