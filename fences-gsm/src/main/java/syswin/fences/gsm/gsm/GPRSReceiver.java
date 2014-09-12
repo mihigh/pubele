@@ -207,7 +207,23 @@ final class ReceiverWorker extends Thread{
 
                 System.out.println ("Received message: " + incMessage);
 
-                MessagesList.addLocation (new LocationDetails ("D-0000-0000-0001", 44.424676, 26.082204 , LocationState.STABLE, new Date ()));
+                String n1 = incMessage.getMessage ().split (",")[1];
+                String n2 = incMessage.getMessage ().split (",")[0];
+
+                String nn1  = n1.substring (2);
+                String nn2  = n2.substring (2);
+
+                double nn1d = Double.parseDouble (nn1) / 60;
+                double nn2d = Double.parseDouble (nn2) / 60;
+
+                double NN1d = Double.parseDouble (n1.substring (0,2));
+                double NN2d = Double.parseDouble (n2.substring (0,2));
+
+                NN1d += nn1d;
+                NN2d += nn2d;
+
+                MessagesList.locationsList.clear ();
+                MessagesList.addLocation (new LocationDetails ("D-0000-0000-0001", NN1d, NN2d , LocationState.ALARM, new Date ()));
             }
             catch (InterruptedException e) {
                 log.error ("Receiver Worker no. {} was interrupted while receiving a message from the queue.", this.id);

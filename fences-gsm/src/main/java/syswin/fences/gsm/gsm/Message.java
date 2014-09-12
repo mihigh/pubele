@@ -109,9 +109,11 @@ class Message {
             this.hour = splitMsg[4].split ("\"")[0];
 
             this.message = splitMsg[4].split ("\"")[1];
+            System.out.println (this.message);
 
             for(int i=5 ; i<splitMsg.length ; i++){
-                this.message = this.message + splitMsg[i] + "/";
+                System.out.println (splitMsg[i]);
+                this.message = this.message + "," + splitMsg[i];
             }
 
             this.message = message.substring (0, message.length ()-2);
