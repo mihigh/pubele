@@ -31,13 +31,13 @@ public class PrjBase {
     }
 
     public static void runServer() {
-        init();
+        /*init();
 
         doCStartUpCheckUps();
 
         printStartUp();
 
-        saveStartUpLog();
+        saveStartUpLog();*/
 
         try {
             /*GPRSSender.sendMessageTo ("Server1", "0722481227");

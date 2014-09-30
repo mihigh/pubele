@@ -20,35 +20,65 @@
     <script>
         var map;
 
-        var stableLocations  = [];
-        var alertLocations   = [];
-        var vehicleLocations = [];
+        var stableLocations   = [];
+        var alertLocations    = [];
+        var criticalLocations = [];
+        var vehicleLocations  = [];
 
-        var stableMarkers  = [];
-        var alertMarkers   = [];
-        var vehicleMarkers = [];
+        var stableMarkers   = [];
+        var alertMarkers    = [];
+        var criticalMarkers = [];
+        var vehicleMarkers  = [];
 
-        var displayStable = true;
-        var displayAlarms = true;
-        var displayVehicles = true;
+        var displayStable    = true;
+        var displayAlarms    = true;
+        var displayCriticals = true;
+        var displayVehicles  = true;
 
-        var pinPointStable = "../../common/green-PinPoint.png";
-        var pinPointAlerts = "../../common/orange-PinPoint.png";
-        var pinPointVehicle = "../../common/pinPoint-Vehicle.png";
+        var pinPointStable    = "../../common/green-PinPoint.png";
+        var pinPointAlerts    = "../../common/orange-PinPoint.png";
+        var pinPointCriticals = "../../common/red-PinPoint.png";
+        var pinPointVehicle   = "../../common/pinPoint-Vehicle.png";
 
         var locationsArray;
 
         var STABLE = "stable";
         var ALARM = "alarm";
+        var CRITICAL = "critical";
         var VEHICLE = "vehicle";
 
         var infowindow;
-        $(document).keyup(function(e) {
 
+        var DEMO_CASE = 0;
+        var DEMO_COUNTER = 0;
+
+        $(document).keyup(function(e) {
+            console.log("Key code: " + e.keyCode);
             if (e.keyCode == 27) {
+                console.log("S-a apasat ESC");
                 if(infowindow){
                     infowindow.close();
                 }
+            }
+            else if (e.keyCode == 49){
+                console.log("S-a apasat 1");
+                DEMO_CASE = 1;
+                DEMO_COUNTER = 0;
+            }
+            else if (e.keyCode == 50){
+                console.log("S-a apasat 2");
+                DEMO_CASE = 2;
+                DEMO_COUNTER = 0;
+            }
+            else if (e.keyCode == 51){
+                console.log("S-a apasat 3");
+                DEMO_CASE = 3;
+                DEMO_COUNTER = 0;
+            }
+            else if (e.keyCode == 58){
+                console.log("S-a apasat 3");
+                DEMO_CASE = 0;
+                DEMO_COUNTER = 0;
             }
         });
 
@@ -78,21 +108,32 @@
                 addMarker(alertLocations[i], ALARM, withDrop);
             }
 
+            for (var i = 0; i < criticalLocations.length; i++) {
+                addMarker(criticalLocations[i], CRITICAL, withDrop);
+            }
+
             for (var i = 0; i < vehicleLocations.length; i++) {
                 addMarker(vehicleLocations[i], VEHICLE, withDrop);
             }
         }
 
         function getLocations(){
-            locationsGET();
+            // TODO: To remove this after demo
+            treatCurrentDEMOCase();
+            //locationsGET();
 
+            console.log("locationsArray.length: " + locationsArray.length);
             if(locationsArray != null){
                 for(var i = 0; i < locationsArray.length; i++){
+                    console.log("locationsArray[i]: " + locationsArray[i]);
                     if (locationsArray[i].state == STABLE){
                         stableLocations.push(locationsArray[i]);
                     }
                     else if (locationsArray[i].state == ALARM){
                         alertLocations.push(locationsArray[i]);
+                    }
+                    else if (locationsArray[i].state == CRITICAL){
+                        criticalLocations.push(locationsArray[i]);
                     }
                     else if (locationsArray[i].state == VEHICLE){
                         vehicleLocations.push(locationsArray[i]);
@@ -146,6 +187,10 @@
                 stateStr = '<b><font color="CC0000">ALARM</font></b>'
                 image = pinPointAlerts;
             }
+            if( type == CRITICAL){
+                stateStr = '<b><font color="#b22222">CRITICAL</font></b>'
+                image = pinPointCriticals;
+            }
             if( type == VEHICLE){
                 stateStr = '<b><font color="6600CC">VEHICLE</font></b>'
                 image = pinPointVehicle;
@@ -173,6 +218,7 @@
                                 '<p><b>Longitude:</b> ' + location.lng + '</p>'+
                                 '<p><b>Latitude:</b> ' + location.lat + '</p>'+
                                 '<p><b>Last Update:</b> ' + location.lastModifiedStr + '</p>'+
+                                '<p><b>Composed of: TODO</b></p>'+
                             '</div>'+
                         '</div>';
 
@@ -194,6 +240,9 @@
             if( type == ALARM){
                 alertMarkers.push(marker);
             }
+            if( type == CRITICAL){
+                criticalMarkers.push(marker);
+            }
             if( type == VEHICLE){
                 vehicleMarkers.push(marker);
             }
@@ -202,6 +251,9 @@
                 marker.setMap(null);
             }
             if (displayAlarms == false && type == ALARM) {
+                marker.setMap(null);
+            }
+            if (displayCriticals == false && type == CRITICAL) {
                 marker.setMap(null);
             }
             if (displayVehicles == false && type == VEHICLE) {
@@ -237,6 +289,20 @@
             }
         }
 
+        function criticalsCheckbox(element){
+            displayCriticals = element.checked;
+            if (displayCriticals == true) {
+                for (var i = 0; i < criticalLocations.length; i++) {
+                    addMarker(criticalLocations[i], CRITICAL);
+                }
+            }else{
+                for (var i = 0; i < criticalMarkers.length; i++) {
+                    criticalMarkers[i].setMap(null);
+                }
+                criticalMarkers = [];
+            }
+        }
+
         function vehicleCheckbox(element){
             displayVehicles = element.checked;
             if (displayVehicles == true) {
@@ -251,6 +317,52 @@
             }
         }
 
+        function treatCurrentDEMOCase(){
+            if(DEMO_CASE == 0){
+                locationsArray = [];
+            }
+            else if(DEMO_CASE == 1){
+
+                locationsArray = [{"uid":"1","state":"stable","lat":44.436692,"lng":26.066271,"lastModified":"1412100586844","lastModifiedStr":"11:09:46 30-9-2014"},
+                                  {"uid":"2","state":"stable","lat":44.445547,"lng":26.032410,"lastModified":"1412100586844","lastModifiedStr":"11:09:46 30-9-2014"},
+
+                                  {"uid":"10","state":"vehicle","lat":44.441717,"lng":26.060434,"lastModified":"1412100586844","lastModifiedStr":"11:09:46 30-9-2014"}];
+
+                console.log("locationsArray: " + locationsArray);
+            }
+            else if(DEMO_CASE == 2){
+
+                if(DEMO_COUNTER == 0) {
+                    locationsArray = [{"uid":"1","state":"stable","lat":44.436692,"lng":26.066271,"lastModified":"1412100586844","lastModifiedStr":"11:09:46 30-9-2014"},
+                        {"uid":"2","state":"alarm","lat":44.445547,"lng":26.032410,"lastModified":"1412100586844","lastModifiedStr":"11:09:46 30-9-2014"},
+
+                        {"uid":"10","state":"vehicle","lat":44.441717,"lng":26.060434,"lastModified":"1412100586844","lastModifiedStr":"11:09:46 30-9-2014"}];
+                }
+                if(DEMO_COUNTER == 2) {
+                    locationsArray = [{"uid":"1","state":"stable","lat":44.436692,"lng":26.066271,"lastModified":"1412100586844","lastModifiedStr":"11:09:46 30-9-2014"},
+                        {"uid":"2b","state":"critical","lat":44.445547,"lng":26.032410,"lastModified":"1412100586844","lastModifiedStr":"11:09:46 30-9-2014"},
+                        {"uid":"2","state":"alarm","lat":44.434241,"lng":26.028033,"lastModified":"1412100586844","lastModifiedStr":"11:09:46 30-9-2014"},
+
+                        {"uid":"10","state":"vehicle","lat":44.441717,"lng":26.060434,"lastModified":"1412100586844","lastModifiedStr":"11:09:46 30-9-2014"}];
+                }
+                if(DEMO_COUNTER == 4) {
+                    locationsArray = [{"uid":"1","state":"stable","lat":44.436692,"lng":26.066271,"lastModified":"1412100586844","lastModifiedStr":"11:09:46 30-9-2014"},
+                        {"uid":"2b","state":"critical","lat":44.445547,"lng":26.032410,"lastModified":"1412100586844","lastModifiedStr":"11:09:46 30-9-2014"},
+                        {"uid":"2","state":"alarm","lat":44.427805,"lng":26.027818,"lastModified":"1412100586844","lastModifiedStr":"11:09:46 30-9-2014"},
+
+                        {"uid":"10","state":"vehicle","lat":44.441717,"lng":26.060434,"lastModified":"1412100586844","lastModifiedStr":"11:09:46 30-9-2014"}];
+                }
+
+                DEMO_COUNTER = DEMO_COUNTER+1;
+                console.log("locationsArray: " + locationsArray);
+            }
+            else if(DEMO_CASE == 3){
+                locationsArray = JSON.stringify(
+                    ""
+                );
+            }
+        }
+
         setInterval(function() {
             for (var i = 0; i < stableMarkers.length; i++) {
                 stableMarkers[i].setMap(null);
@@ -258,16 +370,21 @@
             for (var i = 0; i < alertMarkers.length; i++) {
                 alertMarkers[i].setMap(null);
             }
+            for (var i = 0; i < criticalMarkers.length; i++) {
+                criticalMarkers[i].setMap(null);
+            }
             for (var i = 0; i < vehicleMarkers.length; i++) {
                 vehicleMarkers[i].setMap(null);
             }
 
             stableLocations  = [];
             alertLocations   = [];
+            criticalLocations   = [];
             vehicleLocations = [];
 
             stableMarkers  = [];
             alertMarkers   = [];
+            criticalMarkers   = [];
             vehicleMarkers = [];
 
             getLocations();
@@ -275,8 +392,9 @@
 
             console.log(stableLocations);
             console.log(alertLocations);
+            console.log(criticalLocations);
             console.log(vehicleLocations);
-        }, 5000);
+        }, 3000);
 
     </script>
 
@@ -337,6 +455,9 @@
 
                                     <input onchange="alarmsCheckbox(this)" type="checkbox" name="alarmFilter" id="alarms1" checked/>
                                     <label for="alarms1" style="-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; color: #d58512; padding-left: 5px; padding-right: 10px"><span></span>Alarms</label>
+
+                                    <input onchange="criticalsCheckbox(this)" type="checkbox" name="criticalFilter" id="critical1" checked/>
+                                    <label for="critical1" style="-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; color: #cc0000; padding-left: 5px; padding-right: 10px"><span></span>Criticals</label>
 
                                     <input onchange="vehicleCheckbox(this)" type="checkbox" name="vehicleFilter" id="vehicles1" checked/>
                                     <label for="vehicles1" style="-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; color: #5C5CD6; padding-left: 5px; padding-right: 10px"><span></span>Vehicles</label>
